@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.repository.BoardDao;
+import com.kh.siistory.vo.SeqVo;
 
 @Controller
 @RequestMapping("/dashboard")

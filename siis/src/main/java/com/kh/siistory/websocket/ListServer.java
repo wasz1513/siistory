@@ -53,7 +53,7 @@ public class ListServer extends TextWebSocketHandler {
 		log.info("no={}", no);
 		
 		userList.add(session); 
-//		connectList.add(memberDao.get);
+//		connectList.add();
 		
 		log.info("사이즈 {}",userList.size());
 	

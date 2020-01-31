@@ -31,9 +31,7 @@ public class BoardTest {
 	
 	@Test
 	public void write() {
-		log.info("session = {}", session.getAttribute("member_no"));
-		log.info("boardDto = {}", boardDto);
-		sqlSession.insert("board.write", boardDto);
+		log.info("a = {}", boardDto);
 	}
 	
 	
