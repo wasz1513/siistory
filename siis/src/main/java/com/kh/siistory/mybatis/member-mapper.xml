@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="member">
 <!-- 	seq생성 -->
 	<select id="seqno" resultType="seqVo">
-		select member_seq.nextval from daul
+		select member_seq.nextval seq_no from dual
 	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
