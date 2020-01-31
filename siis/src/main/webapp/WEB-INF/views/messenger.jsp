@@ -40,10 +40,18 @@ $(function(){
 			</tr>
 		</thead>
 		<tbody>
+			
+			
+			<c:forEach var="frienddto" items="${friendlist}">
+		
 			<tr>
-				<td>1</td>
+				<td>${frienddto. }</td>
 				<td>2</td>
 			</tr>
+			
+			</c:forEach>
+			
+			
 		</tbody>
 		<tfoot>
 
