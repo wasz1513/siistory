@@ -1,5 +1,7 @@
 package com.kh.siistory;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +24,14 @@ public class BoardTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Autowired
+	private HttpSession session; 
+	
 	BoardDto boardDto = BoardDto.builder().board_content("테스트 입니다").build();
 	
 	@Test
 	public void write() {
+		log.info("session = {}", session.getAttribute("member_no"));
 		log.info("boardDto = {}", boardDto);
 		sqlSession.insert("board.write", boardDto);
 	}

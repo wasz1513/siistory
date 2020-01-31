@@ -28,6 +28,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="board">
 	<insert id="write" parameterType="boardDto">
-		insert into board values(board_seq.nextval, #{board_content}, sysdate, 0, 0, 0, 2)
+		insert into board(board_no, board_content) values(board_seq.nextval, #{board_content})
 	</insert>
 </mapper>
