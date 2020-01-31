@@ -53,8 +53,8 @@ public class MainPageController {
 		if(login != null){
 			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
 			if(correct) {
-				session.setAttribute("email", memberDto.getEmail());
-				session.setAttribute("member_no", memberDto.getMember_no());
+				session.setAttribute("email", login.getEmail());
+				session.setAttribute("member_no", login.getMember_no());
 				return "redirect:/main";				
 			}else {
 				return "redirect:/login";
