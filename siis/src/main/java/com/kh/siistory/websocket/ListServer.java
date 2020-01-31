@@ -1,14 +1,18 @@
 package com.kh.siistory.websocket;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -38,9 +42,7 @@ public class ListServer extends TextWebSocketHandler {
  * 
  * 
  * */
-	@Autowired
-	private MemberDao memberDao;
-	
+
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
@@ -53,13 +55,9 @@ public class ListServer extends TextWebSocketHandler {
 		log.info("no={}", no);
 		
 		userList.add(session); 
-//		connectList.add();
-		
-		log.info("사이즈 {}",userList.size());
-	
-		
-		
-		
+//		connectList.add(memberDao.getMember(no));
+//		
+//		httpSession.setAttribute("connectList", connectList);		
 	}
 	
 	
@@ -82,10 +80,5 @@ public class ListServer extends TextWebSocketHandler {
 	}
 	
 	
-	public Set<WebSocketSession> getUserList() {
-		
-		
-		return userList;
-	}
 	
 }
