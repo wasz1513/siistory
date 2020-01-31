@@ -44,5 +44,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where email=#{email}
 	</select>
 	
+<!-- 	단일조회 -->
+<!-- 	<select id="get" parameterType="string" resultType="memberVo"> -->
+		
+<!-- 	</select> -->
 	
 </mapper>

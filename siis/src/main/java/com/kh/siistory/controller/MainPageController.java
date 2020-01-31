@@ -75,4 +75,19 @@ public class MainPageController {
 	public String main() {
 		return "main/main";
 	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
