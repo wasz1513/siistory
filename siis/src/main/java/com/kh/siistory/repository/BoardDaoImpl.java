@@ -7,23 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.entity.BoardDto;
+import com.kh.siistory.vo.SeqVo;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class BoardDaoImpl implements BoardDao {
 
 	@Autowired
 	private SqlSession sqlsession;
-
+	
 	@Override
-	public int getSequence() {
-		// TODO Auto-generated method stub
-		return 0;
+	public SeqVo getSequence() {
+		SeqVo seqVo = sqlsession.selectOne("board.seqno");
+		return seqVo;
 	}
 
 	@Override
 	public void setWrtie(BoardDto boardDto, HttpSession session) {
-		boardDto = BoardDto.builder().member_no((int) session.getAttribute("member_no")).build();
-		sqlsession.insert("board.wirte", boardDto);
+		boardDto.setMember_no((int)session.getAttribute("member_no"));
+		boardDto.setBoard_no(getSequence().getSeq_no());
+		sqlsession.insert("board.write", boardDto);
 	}
 
 }
