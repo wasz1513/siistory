@@ -53,9 +53,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where member_no=#{member_no}
 	</select>
 	
-<!-- 	단일조회(멤버 전체 정보 / member + member_profile-->
-<!-- 	<select id="get" parameterType="string" resultType="memberVo"> -->
-<!-- 		select * from  -->
-<!-- 	</select> -->
+<!-- 	단일조회(멤버 전체 정보 / member + member_profile)-->
+	<select id="getMemberVo_name" parameterType="string" resultType="memberVo">
+		select * from member_member_profile where member_name = #{member_name}
+	</select>
+	
+<!-- 	단일조회(멤버 전체 정보 / member + member_profile) -->
+	<select id="getMemberVo_no" parameterType="int" resultType="memberVo">
+		select * from member_member_profile where member_no = #{member_no}
+	</select>
 	
 </mapper>
