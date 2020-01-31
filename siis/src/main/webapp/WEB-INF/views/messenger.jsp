@@ -42,11 +42,14 @@ $(function(){
 		<tbody>
 			
 			
-			<c:forEach var="frienddto" items="${friendlist}">
+			<c:forEach var="friendDto" items="${friendlist}">
 		
 			<tr>
-				<td>${frienddto. }</td>
-				<td>2</td>
+				<td>${friendDto.friend}</td>
+				
+				<td>${friendDto.connect_state }</td>
+				
+				<td><a href="#">1:1 접속</a></td>
 			</tr>
 			
 			</c:forEach>
