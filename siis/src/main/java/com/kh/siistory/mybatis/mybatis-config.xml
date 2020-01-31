@@ -13,10 +13,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <!-- 		<typeAlias type="com.kh.sts17.entity.MemoDto" alias="memoDto"/> -->
 <!-- 	</typeAliases> -->
 <configuration>
-
 	<typeAliases>
+		<typeAlias type="com.kh.siistory.entity.BoardDto" alias="boardDto"/>
 		<typeAlias type="com.kh.siistory.entity.MemberDto" alias="memberDto"/>
 	</typeAliases>
-	
-
 </configuration>
