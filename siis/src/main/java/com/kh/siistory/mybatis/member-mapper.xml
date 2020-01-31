@@ -34,9 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 	</select> -->
 
 <mapper namespace="member">
+<!-- 	seq생성 -->
+	<select id="seqno" resultType="seqVo">
+		select member_seq.nextval from daul
+	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
-		insert into member(member_no, email, member_name, member_pw) values(member_seq.nextval, #{email}, #{member_name}, #{member_pw})
+		insert into member(member_no, email, member_name, member_pw) values(#{member_no}, #{email}, #{member_name}, #{member_pw})
 	</insert>
 	
 <!-- 	로그인 -->

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.repository.MemberDao;
+import com.kh.siistory.vo.SeqVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,10 +33,12 @@ public class MainPageController {
 	@PostMapping("/")
 	public String regist(@ModelAttribute MemberDto memberDto,
 			HttpSession session) {
+		SeqVo seqVo = memberDao.seq_no();
+		memberDto.setMember_no(seqVo.getSeq_no());
 		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
 		memberDao.regist(memberDto);
 		session.setAttribute("email", memberDto.getEmail());
-		session.setAttribute("member_no", memberDto.getMember_no());
+		session.setAttribute("member_no", seqVo.getSeq_no());
 		return "redirect:/main";
 	}
 	
