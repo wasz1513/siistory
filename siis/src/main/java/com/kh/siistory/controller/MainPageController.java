@@ -3,6 +3,7 @@ package com.kh.siistory.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +21,9 @@ public class MainPageController {
 	@Autowired
 	private MemberDao memberDao;
 	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@GetMapping("/")
 	public String index() {
 		return "index";
@@ -28,6 +32,7 @@ public class MainPageController {
 	@PostMapping("/")
 	public String regist(@ModelAttribute MemberDto memberDto,
 			HttpSession session) {
+		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
 		memberDao.regist(memberDto);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", memberDto.getMember_no());
@@ -43,10 +48,17 @@ public class MainPageController {
 	public String postLogin(@ModelAttribute MemberDto memberDto,
 			HttpSession session) {
 		MemberDto login = memberDao.login(memberDto);
+		log.info("member_pw = {}", memberDto.getMember_pw());
+		log.info("login = {}", login);
 		if(login != null){
-			session.setAttribute("email", memberDto.getEmail());
-			session.setAttribute("member_no", memberDto.getMember_no());
-			return "redirect:/main";
+			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
+			if(correct) {
+				session.setAttribute("email", memberDto.getEmail());
+				session.setAttribute("member_no", memberDto.getMember_no());
+				return "redirect:/main";				
+			}else {
+				return "redirect:/login";
+			}
 		} else {
 			return "redirect:/login";
 		}
@@ -56,7 +68,7 @@ public class MainPageController {
 	public String logout(HttpSession session) {
 		session.removeAttribute("email");
 		session.removeAttribute("member_no");
-		return "redirect:/main";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/main")
