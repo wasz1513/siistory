@@ -14,7 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <!-- 	</typeAliases> -->
 <configuration>
 
-
+	<typeAliases>
+		<typeAlias type="com.kh.siistory.entity.MemberDto" alias="memberDto"/>
+	</typeAliases>
 	
 
 </configuration>
