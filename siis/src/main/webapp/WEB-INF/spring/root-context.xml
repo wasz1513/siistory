@@ -32,6 +32,9 @@
 		<property name="password" value="${database.password}"></property>
 	</bean>
 	
+	
+	
+	
 	<!-- 
 		DBCP용 연결 도구 설정
 		- common-dbcp2가 필요함 
@@ -93,6 +96,13 @@
 		 bcrypt password encoder 등록
 	-->
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
+	
+	
+	
+
+
+	
 	
 </beans>
 

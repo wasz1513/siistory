@@ -17,7 +17,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.entity.BoardDto" alias="boardDto"/>
 		<typeAlias type="com.kh.siistory.entity.ReplyDto" alias="replyDto"/>
 		<typeAlias type="com.kh.siistory.entity.MemberDto" alias="memberDto"/>
+
+		<typeAlias type="com.kh.siistory.entity.FriendDto" alias="friendDto"/>
+
 		<typeAlias type="com.kh.siistory.vo.MemberVo" alias="memberVo"/>
+
 		<typeAlias type="com.kh.siistory.vo.SeqVo" alias="seqVo"/>
+
 	</typeAliases>
 </configuration>
