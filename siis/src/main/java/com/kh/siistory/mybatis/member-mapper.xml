@@ -34,9 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 	</select> -->
 
 <mapper namespace="member">
+<!-- 	seq생성 -->
+	<select id="seqno" resultType="seqVo">
+		select member_seq.nextval seq_no from dual
+	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
-		insert into member(member_no, email, member_name, member_pw) values(member_seq.nextval, #{email}, #{member_name}, #{member_pw})
+		insert into member(member_no, email, member_name, member_pw) values(#{member_no}, #{email}, #{member_name}, #{member_pw})
 	</insert>
 	
 <!-- 	로그인 -->
@@ -49,9 +53,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where member_no=#{member_no}
 	</select>
 	
-<!-- 	단일조회(멤버 전체 정보 / member + member_profile-->
-<!-- 	<select id="get" parameterType="string" resultType="memberVo"> -->
-<!-- 		select * from  -->
-<!-- 	</select> -->
+<!-- 	단일조회(멤버 전체 정보 / member + member_profile)-->
+	<select id="getMemberVo_name" parameterType="string" resultType="memberVo">
+		select * from member_member_profile where member_name = #{member_name}
+	</select>
+	
+<!-- 	단일조회(멤버 전체 정보 / member + member_profile) -->
+	<select id="getMemberVo_no" parameterType="int" resultType="memberVo">
+		select * from member_member_profile where member_no = #{member_no}
+	</select>
 	
 </mapper>
