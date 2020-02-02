@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -24,24 +25,41 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class ListServer extends TextWebSocketHandler {
 
-// 클라이언트와 연결되면 실행하는 메소드
-	/*
-	 * 접속을 하면 무엇을 할 것인가? 리스트 출력을 위한 유저 정보 저장
-	 * 
-	 * 
-	 */
-
+	
+	//자바 객체 > json 문자열 변환 도구
+	ObjectMapper mapper = new ObjectMapper();
+	
 	@Autowired
 	private FriendDao friendDao;
 
-	// 전체 전송을 위한 메소드
-	private void allSending() {
-
+	
+	
+	// 전체에게 보내는 메소드
+	private void allSending(String msg) {
+		TextMessage message = new TextMessage(msg); 
+		
 	}
+
+	
+	
+	
+	
+	// 친구들에게 보내는 메소드
+		private void friendSending(String msg) {
+			TextMessage message = new TextMessage(msg);
+//			WebSocketSession session = 
+			List<FriendDto> friendList = friendDao.getList();
+			
+			for(FriendDto dto : friendList) {
+				 dto.getFriend();
+			}
+			
+		}
 
 	// 사용자 저장을 위한 set 저장소 생성
 	Set<WebSocketSession> userList = new HashSet<>();
 
+	// 클라이언트와 연결되면 실행하는 메소드
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 
@@ -109,25 +127,28 @@ public class ListServer extends TextWebSocketHandler {
 				} else {
 					friendList.get(i).setConnect_state("미접속");
 				}
-				System.out.println(
-						"no = " + friendList.get(i).getFriend() + "접속상태=" + friendList.get(i).getConnect_state());
-
-				// 상태 변경 완료 클라이언트로 갱신된 친구 리스트 쏜다. 자바 오브젝트 jackson 형태로 변경하여 전송
-				
-				
-
+//				System.out.println(
+//						"no = " + friendList.get(i).getFriend() + "접속상태=" + friendList.get(i).getConnect_state());
 			}
 
 		}
-
-		System.out.println("변환 후 리스트 = " + connectUser.get(0).getAttributes().get("no"));
-
-	}
+		
+		// 상태 변경 완료 클라이언트로 갱신된 친구 리스트 쏜다. 자바 오브젝트 jackson 형태로 변경하여 전송
+		String showFriend = mapper.writeValueAsString(friendList);
+		
+		TextMessage msg= new TextMessage(showFriend);
+		System.out.println(msg.getPayload());
+		session.sendMessage(msg);
+		
+		
+	
+		}
 
 	// 클라이언트가 서버로 메시지 전송했을 때 실행하는 메소드
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
+				
+		// 변환 도구
 		ObjectMapper mapper = new ObjectMapper();
 
 	}
