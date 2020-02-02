@@ -16,9 +16,25 @@ $(function(){
 		var uri = "ws://" + host + context + "/listserver"
 		
 		//연결 코드
-		window.socket = new WebSocket(uri);
-		
+		window.socket = new WebSocket(uri);	
 	}
+	
+	
+	//연결 종료 코드 (윈도우가 닫히기 전에~)
+	$(window).on("beforeunload", function(){
+		window.socket.close();  //종료
+		
+	});
+	
+	//메시지 도착경우
+	window.socket.onmessage = function(e){
+		console.log("메시지 도착");
+		console.log(e.data);
+		
+	};
+	
+	
+	
 	
 });
 </script>
