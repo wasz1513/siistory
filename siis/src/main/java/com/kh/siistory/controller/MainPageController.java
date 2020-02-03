@@ -39,6 +39,7 @@ public class MainPageController {
 		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
 //		log.info("memberDto = {}",memberDto);
 		memberDao.regist(memberDto);
+		memberDao.regist_profile(memberDto);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		return "redirect:/main";
