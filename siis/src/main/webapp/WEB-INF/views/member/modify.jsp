@@ -4,6 +4,26 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script>
+function previewImage(target){
+    
+    if(target.files && target.files[0]){
+        
+        var reader = new FileReader();
+
+        reader.onload = function(data){
+
+            var img = document.querySelector("#preview");
+            img.src = data.target.result;
+            
+        }
+        reader.readAsDataURL(target.files[0]);
+    }
+}
+</script>
+
+
+
 <form action="modify" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="member_no" value="${memberVo.member_no}">
 	<table class="table table-hover">
@@ -12,21 +32,15 @@
 		</thead>
 	 	<tbody>
 	 		<tr class="table-secondary">
-	 			<td rowspan="9">
+	 			<td rowspan="8">
 	 				<div>
-	 					<img src="https://via.placeholder.com/150">
+	 					<img src="https://via.placeholder.com/150" width="300" height="300" id="preview">
 	 				</div>
 	 				<div>
-	 					<input type="file" name="member_file" multiple accept="image/*">
+	 					<input type="file" name="member_file" multiple accept="image/*" onchange="previewImage(this);">
 	 				</div>
 	 			</td>
 	 		</tr>
-		    <tr class="table-secondary">
-		      	<th scope="row">이름</th>
-			    <td>
-			    	<input type="text" name="member_name" value="${memberVo.member_name}">
-			    </td>
-		    </tr>
 		    <tr class="table-secondary">
 				<th scope="row">생일</th>
 				<td>
@@ -60,7 +74,7 @@
 		    <tr class="table-secondary">
 			    <th scope="row">학교</th>
 			    <td>
-			    	<input type="text" name="member_name" value="${memberVo.member_name}">
+			    	<input type="text" name="member_school" value="${memberVo.member_school}">
 			    </td>
 		    </tr>
 		    <tr class="table-secondary">
@@ -71,7 +85,7 @@
 		    </tr>
 		    <tr class="table-dark">
 			    <th scope="row" colspan="3">
-			    	<a href="modify">프로필수정</a>
+			    	<button type="submit">프로필수정</button>
 			    </th>
 		    </tr>
 	  	</tbody>

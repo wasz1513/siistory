@@ -39,8 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 <!-- 	전체수정 -->
 	<update id="change" parameterType="memberVo">
-		update member_member_profile set 
-			member_name=#{member_name},
+		update member_profile set 
 			member_birth=#{member_birth},
 			member_gender=#{member_gender},
 			member_phone=#{member_phone},

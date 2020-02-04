@@ -6,9 +6,16 @@
 
 <table class="table table-hover">
 	<thead>
-		<td colspan="2">${memberVo.member_name} 프로필</td>
+		<td colspan="3">${memberVo.member_name} 프로필</td>
 	</thead>
  	<tbody>
+ 		<tr calss="table-secondary">
+ 			<td rowspan="9">
+				<div>
+					<img src="https://via.placeholder.com/150" >
+				</div>
+	 		</td>
+ 		</tr>
 	    <tr class="table-secondary">
 	      <th scope="row">이름</th>
 	      <td>${memberVo.member_name}</td>
@@ -42,7 +49,7 @@
 	      <td>${memberVo.member_job}</td>
 	    </tr>
 	    <tr class="table-dark">
-	      <th scope="row" colspan="2">
+	      <th scope="row" colspan="3">
 	      	<a href="modify">프로필수정</a>
 	      </th>
 	    </tr>

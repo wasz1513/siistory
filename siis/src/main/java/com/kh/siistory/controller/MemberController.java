@@ -1,5 +1,7 @@
 package com.kh.siistory.controller;
 
+import java.io.IOException;
+
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.siistory.repository.MemberDao;
+import com.kh.siistory.service.FileService;
+import com.kh.siistory.vo.FileVo;
 import com.kh.siistory.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session,
@@ -46,9 +53,15 @@ public class MemberController {
 	
 	@PostMapping("/modify")
 	public String postModify(@ModelAttribute MemberVo memberVo,
-			@RequestParam MultipartFile member_file) {
+			@RequestParam MultipartFile member_file) throws IllegalStateException, IOException {
 		
-		return "redirect:member/mypage";
+		log.info("memberVo = {}", memberVo);
+		log.info("member_file = {}", member_file);
+		
+		fileService.upload(memberVo, member_file);
+		memberDao.update_profile(memberVo);
+		
+		return "redirect:mypage";
 	}
 	
 }
