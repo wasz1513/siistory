@@ -19,4 +19,6 @@ public interface MemberDao {
 	MemberVo getMemberVo_no(int member_no);
 	
 	void regist_profile(MemberDto memberDto);
+	
+	void update_profile(MemberVo memberVo);
 }

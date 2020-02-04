@@ -24,5 +24,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 		<typeAlias type="com.kh.siistory.vo.SeqVo" alias="seqVo"/>
 
+		<typeAlias type="com.kh.siistory.entity.Member_profile_fileDto" alias="memberfileDto"/>
 	</typeAliases>
 </configuration>
