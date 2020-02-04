@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberprofile">
+<!-- 	이름수정 -->
+	<update id="change_name" parameterType="memberVo">
+		update member_member_profile set member_name = #{member_name} where email=#{email}
+	</update>
+<!-- 	생일수정 -->
+	<update id="change_birth" parameterType="memberVo">
+		update member_member_profile set member_birth = #{member_birth} where email=#{email}
+	</update>
+<!-- 	성별 수정 -->
+	<update id="change_gender" parameterType="memberVo">
+		update member_member_profile set member_gender = #{member_gender} where email=#{email}
+	</update>
+<!-- 	전화번호 수정 -->
+	<update id="change_phone" parameterType="memberVo">
+		update member_member_profile set member_phone = #{member_phone} where email=#{email}
+	</update>
+<!-- 	공개설정 -->
+	<update id="change_profile_state" parameterType="memberVo">
+		update member_member_profile set member_profile_state = #{member_profile_state} where email=#{email}
+	</update>
+<!-- 	지역수정 -->
+	<update id="change_home" parameterType="memberVo">
+		update member_member_profile set member_home = #{member_home} where email=#{email}
+	</update>
+<!-- 	학교수정 -->
+	<update id="change_school" parameterType="memberVo">
+		update member_member_profile set member_school = #{member_school} where email=#{email}
+	</update>
+<!-- 	직업수정 -->
+	<update id="change_job" parameterType="memberVo">
+		update member_member_profile set member_name = #{member_name} where email=#{email}
+	</update>
+</mapper>
