@@ -34,4 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="seqno" resultType="seqVo">
 		select reply_seq.nextval seq_no from dual
 	</select>
+	
+	<select id="list" parameterType="int" resultType="replyDto">
+		select * from reply where board_no = #{no}
+	</select>
 </mapper>

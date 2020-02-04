@@ -1,5 +1,7 @@
 package com.kh.siistory.repository;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,6 +31,12 @@ public class BoardDaoImpl implements BoardDao {
 		boardDto.setMember_no((int)session.getAttribute("member_no"));
 		boardDto.setBoard_no(getSequence().getSeq_no());
 		sqlsession.insert("board.write", boardDto);
+	}
+
+	@Override
+	public List<BoardDto> dashboardlist() {
+		List<BoardDto> list = sqlsession.selectList("board.list");
+		return list;
 	}
 
 }
