@@ -13,15 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.repository.BoardDao;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/dashboard")
+@Slf4j
 public class DashBoardController {
 	@Autowired
 	private BoardDao boardDao;
 
 	@GetMapping({ "/", "" })
 	public String dashboard(Model model) {
-		model.addAttribute("list", boardDao.dashboardlist());
+		log.info("list={}", boardDao.dashboardlist());
+		model.addAttribute(boardDao.dashboardlist());
 		return "dashboard/dashboard";
 	}
 
