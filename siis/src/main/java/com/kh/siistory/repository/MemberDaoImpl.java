@@ -49,4 +49,9 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.insert("member.regist_profile", memberDto);
 	}
 
+	@Override
+	public void update_profile(MemberVo memberVo) {
+		sqlSession.update("memberprofile.change", memberVo);
+	}
+
 }
