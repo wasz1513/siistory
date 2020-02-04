@@ -1,7 +1,9 @@
 package com.kh.siistory.repository;
 
-import com.kh.siistory.entity.BoardDto;
+import java.util.List;
+
+import com.kh.siistory.entity.ReplyDto;
 
 public interface ReplyDao {
-	BoardDto replylist(int no);
+	List<ReplyDto> replylist(int no);
 }

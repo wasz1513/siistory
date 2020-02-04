@@ -9,19 +9,18 @@ import org.springframework.stereotype.Repository;
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class ReplyDaoImpl implements ReplyDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Autowired
-	private BoardDto boardDto;
-	
 	@Override
-	public BoardDto replylist(int no) {
-		List<ReplyDto> list = sqlSession.selectList("reply.list");
-		boardDto.setReplylist(list);
-		return boardDto;
+	public List<ReplyDto> replylist(int no) {
+		List<ReplyDto> list = sqlSession.selectList("reply.list", no);
+		return list;
 	}
 
 }
