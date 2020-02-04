@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : 영역을 부르는 별칭 parameterType : 이 명령을 실행하기 위해 필요한 데이터의 형태 resultType 
+	: 결과물의 형태 (반환값) <![CDATA[ sql구문 ]]> : 태그때문에 못쓰는 되는 기호들은 CDATA로 해결이 가능 #{} 
+	: 형태를 추론하여 자동으로 따옴표 설정 및 인코딩 처리를 수행 ${} : 값을 있는 그대로 출력하는 명령이므로 주로 "항목:에 사용 
+	$는 SQL Injection 이라는 해킹공격에 매우 취약하므로 사용에 주의 -->
+
+<!-- <insert id="insert" parameterType="memoDto"> -->
+<!-- <![CDATA[ -->
+<!-- insert into memo values(memo_seq.nextval, #{content}, sysdate) -->
+<!-- ]]> -->
+<!-- </insert> -->
+
+<!-- <select id="getList" resultType="memoDto"> -->
+<!-- select * from memo order by no desc -->
+<!-- </select> -->
+
+<!-- <select id="search" resultType="memoDto" parameterType="map"> -->
+<!-- select * from memo -->
+<!-- <if test="type !=null and keyword !=null"> -->
+<!-- where ${type} like '%'||#{keyword}||'%' -->
+<!-- </if> -->
+<!-- order by no desc -->
+<!-- </select> -->
+
+<mapper namespace="reply">
+	<insert id="write" parameterType="replyDto">
+		insert into reply()
+	</insert>
+	
+	<select id="seqno" resultType="seqVo">
+		select reply_seq.nextval seq_no from dual
+	</select>
+</mapper>

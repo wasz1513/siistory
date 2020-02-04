@@ -34,4 +34,6 @@ public class DashBoardController {
 		boardDao.setWrtie(boardDto, session);
 		return "redirect:/";
 	}
+	
+//	@GetMapping()
 }
