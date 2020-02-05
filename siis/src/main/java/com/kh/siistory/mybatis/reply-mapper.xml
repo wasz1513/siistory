@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- </select> -->
 
 <mapper namespace="reply">
-	<insert id="write" parameterType="replyDto">
+	<insert id="insert" parameterType="replyDto">
 		insert into reply()
 	</insert>
 	
@@ -35,7 +35,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select reply_seq.nextval seq_no from dual
 	</select>
 	
-	<select id="list" parameterType="int" resultType="replyDto">
-		select * from reply where board_no = #{no}
-	</select>
 </mapper>
