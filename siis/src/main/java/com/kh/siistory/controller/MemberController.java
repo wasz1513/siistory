@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
@@ -79,7 +80,9 @@ public class MemberController {
 	@GetMapping("/download")
 	public void download(@RequestParam int member_no,
 			HttpServletResponse resp) throws IOException {
-		Member_profile_fileDto fileDto = fileuploadDao.getFileInfo(member_no);
+		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
+		
+		Member_profile_fileDto fileDto = list_fileDto.get(0);
 		
 		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
 		byte[] data = FileUtils.readFileToByteArray(target);
