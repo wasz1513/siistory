@@ -35,7 +35,7 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public List<BoardDto> dashboardlist() {
-		List<BoardDto> list = sqlsession.selectList("board.list");
+		List<BoardDto> list = sqlsession.selectList("board.dashboardlist");
 		return list;
 	}
 
