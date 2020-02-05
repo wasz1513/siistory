@@ -11,9 +11,9 @@
 	    <p class="card-text">${content.board_content}</p>
 	  </div>
 		  <ul class="list-group list-group-flush">
-		  	<%-- <c:forEach var="reply" items="${list }">
-			    <li class="list-group-item">${reply.reply_content }</li>
-		  	</c:forEach> --%>
+		  	<c:forEach var="reply" items="${content.replylist }">
+				<li class="list-group-item">${reply.reply_content}</li>
+		  	</c:forEach>
 		  </ul>
 	  <div class="card-footer text-muted">
 	    2 days ago

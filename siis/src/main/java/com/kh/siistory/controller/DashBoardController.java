@@ -24,8 +24,7 @@ public class DashBoardController {
 
 	@GetMapping({ "/", "" })
 	public String dashboard(Model model) {
-		log.info("list={}", boardDao.dashboardlist());
-		model.addAttribute(boardDao.dashboardlist());
+		model.addAttribute("list", boardDao.dashboardlist());
 		return "dashboard/dashboard";
 	}
 
