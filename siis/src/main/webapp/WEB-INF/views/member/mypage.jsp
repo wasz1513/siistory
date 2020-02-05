@@ -9,10 +9,10 @@
 		<td colspan="3">${memberVo.member_name} 프로필</td>
 	</thead>
  	<tbody>
- 		<tr calss="table-secondary">
+ 		<tr class="table-secondary">
  			<td rowspan="9">
 				<div>
-					<img src="https://via.placeholder.com/150" >
+					<img src="download?member_no=${memberVo.member_no}" width="300" height="300">
 				</div>
 	 		</td>
  		</tr>
