@@ -13,7 +13,7 @@ public class ReplyDaoImpl implements ReplyDao {
 
 	@Override
 	public void insert(ReplyDto replyDto) {
-		
+		sqlSession.insert("reply.insertreply", replyDto);
 	}
 
 }
