@@ -28,5 +28,10 @@ public class FileuploadDaoImpl implements FileuploadDao{
 		sqlSession.update("memberfile.change", memberfileDto);
 	}
 
+	@Override
+	public Member_profile_fileDto getFileInfo(int member_no) {
+		return sqlSession.selectOne("memberfile.getInfo", member_no);
+	}
+
 	
 }

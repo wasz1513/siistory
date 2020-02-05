@@ -34,7 +34,7 @@ function previewImage(target){
 	 		<tr class="table-secondary">
 	 			<td rowspan="8">
 	 				<div>
-	 					<img src="https://via.placeholder.com/150" width="300" height="300" id="preview">
+	 					<img src="download?member_no=${memberVo.member_no}" width="300" height="300" id="preview">
 	 				</div>
 	 				<div>
 	 					<input type="file" name="member_file" multiple accept="image/*" onchange="previewImage(this);">

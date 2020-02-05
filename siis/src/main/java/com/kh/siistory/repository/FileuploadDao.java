@@ -9,4 +9,6 @@ public interface FileuploadDao {
 	void insert(Member_profile_fileDto memberfileDto);
 	
 	void update(Member_profile_fileDto memberfileDto);
+	
+	Member_profile_fileDto getFileInfo(int member_no);
 }
