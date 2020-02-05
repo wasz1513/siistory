@@ -69,9 +69,11 @@ public class MemberController {
 			@RequestParam MultipartFile member_file) throws IllegalStateException, IOException {
 		
 //		log.info("memberVo = {}", memberVo);
-//		log.info("member_file = {}", member_file);
+//		log.info("member_file = {}", member_file.getSize());
 		
-		fileService.upload(memberVo, member_file);
+		if(member_file.getSize() != 0 ) {
+			fileService.upload(memberVo, member_file);			
+		}
 		memberDao.update_profile(memberVo);
 		
 		return "redirect:mypage";
