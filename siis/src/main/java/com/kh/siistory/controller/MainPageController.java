@@ -62,7 +62,7 @@ public class MainPageController {
 			if(correct) {
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
-				session.setAttribute("member_name", memberDto.getMember_name());
+				session.setAttribute("member_name", login.getMember_name());
 				return "redirect:/main";				
 			}else {
 				return "redirect:/login";
