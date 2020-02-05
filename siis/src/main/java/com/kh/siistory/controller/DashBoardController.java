@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
@@ -45,6 +46,7 @@ public class DashBoardController {
 	}
 
 	@PostMapping("/replyinsert")
+	@ResponseBody
 	public void replywrite(@ModelAttribute ReplyDto replyDto) {
 		replyDao.insert(replyDto);
 	}
