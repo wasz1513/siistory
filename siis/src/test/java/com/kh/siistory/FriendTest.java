@@ -17,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/root-context.xml" })
+@ContextConfiguration(
+		"file:src/main/webapp/WEB-INF/spring/root-context.xml" )
 @Slf4j
 public class FriendTest {
 
@@ -41,8 +41,8 @@ public class FriendTest {
 	
 	@Test
 	public void test() {
-		List<FriendDto> friendlist = friendDao.getList();
-		
+		List<FriendDto> friendlist = friendDao.getList(0);
+	
 		for(FriendDto fdto : friendlist) {
 			
 //			memberDao.  no값으로 member 단일 조회 및 이름값 출력예정  

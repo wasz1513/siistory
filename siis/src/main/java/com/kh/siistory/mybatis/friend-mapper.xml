@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="friend">
 
-	<select id="getlist" resultType="friendDto">
-		select * from friend
+	<select id="getlist" parameterType="int" resultType="friendDto">
+		select * from friend where member_no = ${member_no}
 	</select>
 	
 </mapper>
