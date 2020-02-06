@@ -1,5 +1,6 @@
 package com.kh.siistory.repository;
 
+import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberVo;
 import com.kh.siistory.vo.SeqVo;
@@ -23,4 +24,5 @@ public interface MemberDao {
 	void update_profile(MemberVo memberVo);
 
 	int idcheck(String email);
+	
 }

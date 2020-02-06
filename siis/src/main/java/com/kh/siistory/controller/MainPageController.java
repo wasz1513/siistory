@@ -100,7 +100,7 @@ public class MainPageController {
 	
 	@PostMapping("/findPw")
 	@ResponseBody
-	public String postFindPw() {
+	public String postFindPw(@RequestParam String email) {
 		return "";
 	}
 	
