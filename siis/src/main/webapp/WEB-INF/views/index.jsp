@@ -43,33 +43,41 @@
 <script>       
        
         $(function(){
-           
                 $("#exampleInputEmail1").on("blur", function(){  
-             
-
                 var email = $("#exampleInputEmail1").val();
-                	console.log(email);
                 $.ajax({                                                          
                     url:"idcheck?email="+email,
                     type:"get",
                     success:function(data){ 	
-                       console.log(data);
-                        var result = false;
-               			
-                        if(data==1){
-                        	result = true;
-                        }
-
-                        if(result){
-                            $("#exampleInputEmail1").next().text("이미 사용중인 아이디 입니다");
-                        }
-                        else{
-                            $("#exampleInputEmail1").next().text("사용할 수 있는 아이디 입니다");
-                        }
+                    	var emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                    	if(!emailCheck.test(email)){
+                    		$("#exampleInputEmail1").next().text("이메일 주소를 확인해주세요");
+                    		$("#registSubmit").prop("disabled", true);
+                    	}else{
+                    		if(data==1){
+                                $("#exampleInputEmail1").next().text("이미 사용중인 아이디 입니다");
+                                $("#registSubmit").prop("disabled", true);
+                            }
+                            else{
+                               	$("#exampleInputEmail1").next().text("사용할 수 있는 아이디 입니다");           
+                            }	
+                    	}
                     }
                 });
             });
         });
+        
+        $(function(){
+        	$("#exampleInputPassword1").on("blur", function(){
+				var password = 	$("#exampleInputPassword1").val();
+				var passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+				if(!passwordCheck.test(password)){
+					$("#exampleInputPassword1").next().text("비밀번호를 확인해주세요");
+					$("#registSubmit").prop("disabled", true);
+				}
+        	});
+        });
+
     </script>
 </head>
 <body>
@@ -95,7 +103,7 @@
 	            	<div class="form-group">
 				      <label for="exampleInputEmail1">Email address</label>
 				      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
-				      <span></span>
+				      <small class="form-text text-muted"></small>
 				      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				    </div>
 	                <div class="form-group">
@@ -105,10 +113,11 @@
 	                <div class="form-group">
 				      <label for="exampleInputPassword1">Password</label>
 				      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="member_pw" required>
+				      <small class="form-text text-muted"></small>
 				      <small id="passwordHelp" class="form-text text-muted">최소 8 자, 대문자 하나 이상, 소문자 하나, 숫자 하나 및 특수 문자 하나 이상</small>
 				    </div>
 	                <div class="form-group">
-	                    <button type="submit" class="btn btn-outline-success btn-block">가입</button>
+	                    <button type="submit" class="btn btn-outline-success btn-block" id="registSubmit">가입</button>
 	                </div>
 	                <div class="form-group">
                         <small id="terms" class="form-text text-muted">
