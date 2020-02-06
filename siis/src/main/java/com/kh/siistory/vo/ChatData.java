@@ -1,4 +1,6 @@
-package com.kh.siistory.entity;
+package com.kh.siistory.vo;
+
+import com.kh.siistory.entity.FriendDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,19 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class FriendDto {
+public class ChatData {
 
 	private int member_no;
-	private int friend;
-	private int friend_state;
-	
-	private String connect_state = "미접속";
-	
-	
-	
+	private String text;
+	private int status;
 	
 	
 	

@@ -12,14 +12,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
-import com.kh.siistory.vo.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/root-context.xml" })
+@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml" })
 @Slf4j
 public class BoardListTest {
 	@Autowired
