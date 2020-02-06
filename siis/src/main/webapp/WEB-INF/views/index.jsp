@@ -76,6 +76,7 @@
 					$("#exampleInputPassword1").next().text("비밀번호를 확인해주세요");
 					$("#registSubmit").prop("disabled", true);
 				}else{
+					$("#exampleInputPassword1").next().text("");
 					$("#registSubmit").prop("disabled", false);
 				}
         	});
