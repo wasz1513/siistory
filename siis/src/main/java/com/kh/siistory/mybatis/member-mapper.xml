@@ -68,4 +68,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member_member_profile where member_no = #{member_no}
 	</select>
 	
+<!-- 	아이디중복검사 -->
+	<select id="idcheck" parameterType="string" resultType="int">
+		select count(*) from member where email=#{email}
+	</select>
+	
 </mapper>

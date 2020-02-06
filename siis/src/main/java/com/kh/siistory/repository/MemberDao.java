@@ -21,4 +21,6 @@ public interface MemberDao {
 	void regist_profile(MemberDto memberDto);
 	
 	void update_profile(MemberVo memberVo);
+
+	int idcheck(String email);
 }
