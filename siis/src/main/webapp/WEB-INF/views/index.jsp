@@ -59,7 +59,8 @@
                                 $("#registSubmit").prop("disabled", true);
                             }
                             else{
-                               	$("#exampleInputEmail1").next().text("사용할 수 있는 아이디 입니다");           
+                               	$("#exampleInputEmail1").next().text("사용할 수 있는 아이디 입니다");
+                               	$("#registSubmit").prop("disabled", false);
                             }	
                     	}
                     }
@@ -74,6 +75,8 @@
 				if(!passwordCheck.test(password)){
 					$("#exampleInputPassword1").next().text("비밀번호를 확인해주세요");
 					$("#registSubmit").prop("disabled", true);
+				}else{
+					$("#registSubmit").prop("disabled", false);
 				}
         	});
         });
