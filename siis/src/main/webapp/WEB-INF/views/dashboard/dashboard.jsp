@@ -7,42 +7,31 @@
 
 <script>
 $(function(){
-	if($("textarea[name=reply_content]").val() != null){
+	
+	$("textarea[name=reply_content]").on("input", function(){
 		$(this).parents("form").find(".submit").prop('disabled', false);
-	}
-	
-	
-	$("textarea[name=reply_content]").focus(function(){
-		
-		
-		$("form").submit(function(e){
-			e.preventDefault();
-			
-			$.ajax({
-				url:"dashboard/replyinsert",
-				type:"post",
-				data:$(this).serialize(),
-				success:function(resp){
-					console.log("성공")
-				}
-			})
-		})
-		
-		$(this).blur(function(){
-			$(this).parents("form").find(".submit").prop('disabled', true);
-		})
 	})
-	
-	/* $("textarea[name=reply_content]").focusout(function(){
-		$(this).parents("form").find(".submit").attr('disabled', true);
-		$(this).val("");
-	}) */
 	
 	$(".reply").click(function(){
 		var writer = "@"+$(this).parent().find(".writer").text()+" ";
 		$(this).parents(".mb-3").find("textarea[name=reply_content]").val(writer).focus();
+		
+		var reply_no = $(this).prev().attr('value');
+		
+		
 	})
 	
+	$("form").submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			url:"dashboard/replyinsert",
+			type:"post",
+			data:$(this).serialize(),
+			success:function(resp){
+				$("textarea[name=reply_content]").val("");
+			}
+		})
+	})
 	
 });
 
@@ -66,6 +55,7 @@ margin:auto;
 				<li class="list-group-item">
 					<span class="writer">${reply.reply_writer}</span>
 					<span class="content">${reply.reply_content}</span>
+					<input type="hidden" name="reply_no" value="${reply.reply_no }">
 					<button type="button" class="btn reply">답글달기</button>
 				</li>
 			</c:forEach>
