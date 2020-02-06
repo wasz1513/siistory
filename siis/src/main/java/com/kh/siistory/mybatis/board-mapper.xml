@@ -67,6 +67,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<select id="dashboardlist" resultMap="dashboardlist">
-		select b.*, r.reply_no, r.reply_content, r.reply_writer from (select * from board order by board_no desc) b left outer join (select * from reply order by reply_no desc) r on b.board_no = r.board_no
+		select b.*, r.reply_no, r.reply_content, r.reply_writer from (select * from board order by board_no desc) b left outer join reply r on b.board_no = r.board_no
 	</select> 
 </mapper>
