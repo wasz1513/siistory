@@ -42,6 +42,7 @@ public class MainPageController {
 		memberDao.regist_profile(memberDto);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
+		session.setAttribute("member_name", memberDto.getMember_name());
 		return "redirect:/main";
 	}
 	
@@ -61,6 +62,7 @@ public class MainPageController {
 			if(correct) {
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
+				session.setAttribute("member_name", login.getMember_name());
 				return "redirect:/main";				
 			}else {
 				return "redirect:/login";
@@ -74,6 +76,7 @@ public class MainPageController {
 	public String logout(HttpSession session) {
 		session.removeAttribute("email");
 		session.removeAttribute("member_no");
+		session.removeAttribute("member_name");
 		return "redirect:/";
 	}
 	

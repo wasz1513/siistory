@@ -24,7 +24,6 @@ import com.kh.siistory.vo.WebSocketUser;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Repository
 public class ListServer extends TextWebSocketHandler {
 
 	public static final int enter = 0;

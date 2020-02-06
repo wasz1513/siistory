@@ -9,10 +9,10 @@
 		<td colspan="3">${memberVo.member_name} 프로필</td>
 	</thead>
  	<tbody>
- 		<tr calss="table-secondary">
+ 		<tr class="table-secondary">
  			<td rowspan="9">
 				<div>
-					<img src="https://via.placeholder.com/150" >
+					<img src="download?member_no=${memberVo.member_no}" width="100%" height="100%">
 				</div>
 	 		</td>
  		</tr>
@@ -50,7 +50,7 @@
 	    </tr>
 	    <tr class="table-dark">
 	      <th scope="row" colspan="3">
-	      	<a href="modify">프로필수정</a>
+	      	<a href="modify"><button class="btn btn-outline-info">프로필수정</button></a>
 	      </th>
 	    </tr>
   	</tbody>

@@ -1,5 +1,7 @@
 package com.kh.siistory.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,11 @@ public class FileuploadDaoImpl implements FileuploadDao{
 	@Override
 	public void update(Member_profile_fileDto memberfileDto) {
 		sqlSession.update("memberfile.change", memberfileDto);
+	}
+
+	@Override
+	public List<Member_profile_fileDto> getFileInfo(int member_no) {
+		return sqlSession.selectList("memberfile.getInfo", member_no);
 	}
 
 	
