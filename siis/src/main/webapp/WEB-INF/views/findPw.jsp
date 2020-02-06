@@ -25,7 +25,7 @@
 		<div class="row">
 			<div class="col-md">
 				<div>
-				<form action="login" method="post">
+				<form action="findPw" method="post">
 					<div class="form-group">
 						<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
 					</div>
@@ -34,25 +34,11 @@
 				    	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
 					</div>
 					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="member_pw" required>
-					</div>
-					<div class="form-group">
-		                <button type="submit" class="btn btn-outline-success btn-block">로그인</button>
+		                <button type="submit" class="btn btn-outline-success btn-block">인증번호 전송</button>
 		            </div>
 				</form>
-				</div>
-				<div>
-					<a href="findPw"><button class="btn btn-outline-primary btn-block">비밀번호 찾기</button></a>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </article>
-
-<footer>
-
-	<h1>세션email = ${sessionScope.email }</h1>
-
-</footer>

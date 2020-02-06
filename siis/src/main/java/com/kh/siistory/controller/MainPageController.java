@@ -93,6 +93,17 @@ public class MainPageController {
 		return memberDao.idcheck(email);
 	}
 	
+	@GetMapping("/findPw")
+	public String getFindPw() {
+		return "findPw";
+	}
+	
+	@PostMapping("/findPw")
+	@ResponseBody
+	public String postFindPw() {
+		return "";
+	}
+	
 }
 
 
