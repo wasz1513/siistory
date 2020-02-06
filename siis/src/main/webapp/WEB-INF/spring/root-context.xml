@@ -98,7 +98,22 @@
 	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	
 	
-	
+	 <!-- 
+	 	이메일 전송객체 등록
+	  -->
+	  <bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"></property>
+		<property name="port" value="587"></property>
+		<property name="username" value="khdlguswns@gmail.com"></property>	 
+		<property name="password" value="khwjdqhrydbrdnjs@@"></property>
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	 </bean>
 	
 
 
