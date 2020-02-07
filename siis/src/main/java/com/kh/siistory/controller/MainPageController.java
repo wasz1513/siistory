@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.repository.MemberDao;
+import com.kh.siistory.service.EmailService;
+import com.kh.siistory.service.RandomCertService;
 import com.kh.siistory.vo.SeqVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,12 @@ public class MainPageController {
 	
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private RandomCertService randomCertService;
 	
 	@GetMapping("/")
 	public String index() {
@@ -98,10 +107,40 @@ public class MainPageController {
 		return "findPw";
 	}
 	
-	@PostMapping("/findPw")
+	@GetMapping("/getCert")
 	@ResponseBody
-	public String postFindPw() {
-		return "";
+	public String getCert(@RequestParam String email,
+			HttpSession session) {
+		String cert = randomCertService.RandomCertNumber(6);
+		session.setAttribute("cert", cert);
+		return emailService.sendCertMessage(email, cert);
+	}
+	
+	@GetMapping("/validate")
+	@ResponseBody
+	public String validate(@RequestParam String cert,
+			HttpSession session) {
+		String value = (String)session.getAttribute("cert");
+		if(value.equals(cert)) {
+			session.removeAttribute("cert");
+			return "success";
+		}else {
+			return "fail";			
+		}
+	}
+	
+	@GetMapping("/changePw")
+	public String getChangePw(@RequestParam String email,
+			Model model) {
+		model.addAttribute("email", email);
+		return "changePw";
+	}
+	
+	@PostMapping("/changePw")
+	public String postChangePw(@ModelAttribute MemberDto memberDto) {
+		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
+		memberDao.changePw(memberDto);
+		return "redirect:/login?email="+memberDto.getEmail();
 	}
 	
 }
