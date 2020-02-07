@@ -51,24 +51,24 @@
 
 	<!-- 웹소켓 서버 등록 -->
 
-	<beans:bean id="listserver"
-		class="com.kh.siistory.websocket.ListServer"></beans:bean>
+	<beans:bean id="messengerserver"
+		class="com.kh.siistory.websocket.MessengerServer"></beans:bean>
+
 	<beans:bean id="chatserver"
 		class="com.kh.siistory.websocket.ChatServer"></beans:bean>
-		
-	<beans:bean id="alarmserver" 
-		class="com.kh.siistory.websocket.AlarmServer"></beans:bean>
+			
 	<!-- 1:1 채팅 서버 등록예정 그룹 채팅 서버 등록 예정 -->
 
 	<websocket:handlers>
 
-		<websocket:mapping handler="listserver"
-			path="/listserver" />
+		<websocket:mapping handler="messengerserver"
+			path="/messengerserver" />
+
 		<websocket:mapping handler="chatserver"
 			path="/chatserver" />
+			
+		
 
-		<websocket:mapping handler="alarmserver"
-			path="/alarm" />
 
 		<!-- 인터셉터 등록은 추후 필요에 따라 등록 예정 -->
 		<!-- 인터셉터 등록 : HttpSession 의 정보를 가져오기 위한 도구 -->

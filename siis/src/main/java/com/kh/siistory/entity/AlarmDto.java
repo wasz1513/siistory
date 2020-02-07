@@ -1,6 +1,4 @@
-package com.kh.siistory.vo;
-
-import com.kh.siistory.entity.FriendDto;
+package com.kh.siistory.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,20 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ChatData {
+public class AlarmDto {
 
-	private int member_no;
-	private String text;
-	private int status;
-	
 	int target_no;
 	int pusher_no;
 	int content_no;
 	String content_type;
 	String content_date;
-	String content_play;	
+	String content_play;
+	
 	
 }

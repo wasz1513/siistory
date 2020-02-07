@@ -12,7 +12,7 @@
 		function connect() {
 			var host = location.host;
 			var context = "${pageContext.request.contextPath}";
-			var uri = "ws://" + host + context + "/listserver";
+			var uri = "ws://" + host + context + "/messengerserver";
 
 			//연결 예약 코드
 			window.socket = new WebSocket(uri);
