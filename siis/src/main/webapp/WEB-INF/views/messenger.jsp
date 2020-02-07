@@ -12,7 +12,7 @@
 		function connect() {
 			var host = location.host;
 			var context = "${pageContext.request.contextPath}";
-			var uri = "ws://" + host + context + "/listserver";
+			var uri = "ws://" + host + context + "/messengerserver";
 
 			//연결 예약 코드
 			window.socket = new WebSocket(uri);
@@ -71,7 +71,9 @@
 				;
 				console.log(e.data);
 				
-	
+			};
+		}
+		;
 
 				//메시지 받고 출력하는 코드
 
@@ -93,12 +95,8 @@
 
 				//[2] 각 칸에 text 입력되게끔 구현 (jsp 에서는 jackson 객체에서 뽑아서 넣는다.)
 				//[3] text를 jacson 객체의 원하는 내용 끼워 넣기
-				
+	
 
-
-				};
-		}
-		;
 		
 		function send(text,status){
 			var member_no = ${member_no};
