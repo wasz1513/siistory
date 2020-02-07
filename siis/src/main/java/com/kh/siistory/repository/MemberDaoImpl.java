@@ -54,4 +54,9 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("memberprofile.change", memberVo);
 	}
 
+	@Override
+	public int idcheck(String email) {
+		return sqlSession.selectOne("member.idcheck", email);
+	}
+
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.repository.MemberDao;
@@ -85,6 +87,22 @@ public class MainPageController {
 		return "main/main";
 	}
 	
+	@GetMapping("/idcheck")
+	@ResponseBody
+	public int idcheck(@RequestParam String email) {
+		return memberDao.idcheck(email);
+	}
+	
+	@GetMapping("/findPw")
+	public String getFindPw() {
+		return "findPw";
+	}
+	
+	@PostMapping("/findPw")
+	@ResponseBody
+	public String postFindPw() {
+		return "";
+	}
 	
 }
 

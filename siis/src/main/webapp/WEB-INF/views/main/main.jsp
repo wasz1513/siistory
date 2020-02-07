@@ -11,5 +11,12 @@
 	
 	<a href="logout">로그아웃</a>
 
+<footer>
+	
+		
+	
+</footer>
+
+
 </body>
 </html>
