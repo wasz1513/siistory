@@ -21,13 +21,6 @@ public class BoardTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
-	@Test
-	public void insert() {
-		ReplyDto replyDto = ReplyDto.builder().reply_no(1).board_no(42).member_no(6).reply_content("dfdfdd").reply_writer("dfdf").build();
-		sqlSession.insert("reply.insertreply", replyDto);
-	}
-	
 
 	
 	
