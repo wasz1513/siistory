@@ -4,19 +4,15 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-	<h1>세션email = ${sessionScope.email}</h1>
-	<h1>세션member_no = ${sessionScope.member_no}</h1>
-	
+<article>
+
+
 	<a href="member/mypage">내정보</a>
 	
 	<a href="logout">로그아웃</a>
 
-<footer>
-	
-		
-	
-</footer>
+
+</article>
 
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

@@ -4,6 +4,8 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<article>
+
 <table class="table table-hover">
 	<thead>
 		<td colspan="3">${memberVo.member_name} 프로필</td>
@@ -55,3 +57,7 @@
 	    </tr>
   	</tbody>
 </table> 
+
+</article>
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

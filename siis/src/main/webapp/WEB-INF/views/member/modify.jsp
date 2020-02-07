@@ -22,6 +22,8 @@ function previewImage(target){
 }
 </script>
 
+<article>
+
 
 <form action="modify" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="member_no" value="${memberVo.member_no}">
@@ -114,3 +116,9 @@ function previewImage(target){
 	  	</tbody>
 	</table> 
 </form>
+
+
+</article>
+
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
