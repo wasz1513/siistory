@@ -77,5 +77,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="cert" parameterType="certDto">
 		insert into cert values(cert_seq.nextval, #{email}, #{cert}, sysdate)
 	</insert>
-<!-- 	이메일 인증 삭제 -->
+	
+<!-- 	비밀번호 변경 -->
+	<update id="changePw" parameterType="memberDto">
+		update member set member_pw=#{member_pw} where email=#{email}
+	</update>
+	
 </mapper>

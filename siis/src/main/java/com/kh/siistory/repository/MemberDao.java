@@ -24,5 +24,7 @@ public interface MemberDao {
 	void update_profile(MemberVo memberVo);
 
 	int idcheck(String email);
+
+	void changePw(MemberDto memberDto);
 	
 }

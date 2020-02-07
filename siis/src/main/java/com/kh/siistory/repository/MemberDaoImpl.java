@@ -60,4 +60,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.idcheck", email);
 	}
 
+	@Override
+	public void changePw(MemberDto memberDto) {
+		sqlSession.update("member.changePw", memberDto);
+	}
+
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -120,12 +121,26 @@ public class MainPageController {
 	public String validate(@RequestParam String cert,
 			HttpSession session) {
 		String value = (String)session.getAttribute("cert");
-		session.removeAttribute("cert");
 		if(value.equals(cert)) {
+			session.removeAttribute("cert");
 			return "success";
 		}else {
 			return "fail";			
 		}
+	}
+	
+	@GetMapping("/changePw")
+	public String getChangePw(@RequestParam String email,
+			Model model) {
+		model.addAttribute("email", email);
+		return "changePw";
+	}
+	
+	@PostMapping("/changePw")
+	public String postChangePw(@ModelAttribute MemberDto memberDto) {
+		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
+		memberDao.changePw(memberDto);
+		return "redirect:/login?email="+memberDto.getEmail();
 	}
 	
 }
