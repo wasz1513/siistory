@@ -59,14 +59,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <id property="board_no" column="board_no" />
 	  <result property="board_content" column="board_content"/>
 	  <result property="board_writer" column="board_writer"/>
+	  <result property="board_no" column="board_no"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>
 		    <result property="reply_writer" column="reply_writer"/>
+		    <result property="writer_no" column="writer_no"/>
 		  </collection>
 	</resultMap>
 	
 	<select id="dashboardlist" resultMap="dashboardlist">
-		select b.*, r.reply_no, r.reply_content, r.reply_writer from (select * from board order by board_no desc) b left outer join reply r on b.board_no = r.board_no
+		select b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no from (select * from board order by board_no desc) b left outer join reply r on b.board_no = r.board_no
 	</select> 
 </mapper>

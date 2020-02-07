@@ -47,7 +47,8 @@ public class DashBoardController {
 
 	@PostMapping("/replyinsert")
 	@ResponseBody
-	public void replywrite(@ModelAttribute ReplyDto replyDto) {
+	public int replywrite(@ModelAttribute ReplyDto replyDto) {
 		replyDao.insert(replyDto);
+		return 1;
 	}
 }
