@@ -73,4 +73,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member where email=#{email}
 	</select>
 	
+<!-- 	이메일 인증 입력-->
+	<insert id="cert" parameterType="certDto">
+		insert into cert values(cert_seq.nextval, #{email}, #{cert}, sysdate)
+	</insert>
+	
+<!-- 	비밀번호 변경 -->
+	<update id="changePw" parameterType="memberDto">
+		update member set member_pw=#{member_pw} where email=#{email}
+	</update>
+	
 </mapper>

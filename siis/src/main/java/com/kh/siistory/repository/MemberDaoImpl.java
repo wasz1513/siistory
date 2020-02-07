@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberVo;
 import com.kh.siistory.vo.SeqVo;
@@ -57,6 +58,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public int idcheck(String email) {
 		return sqlSession.selectOne("member.idcheck", email);
+	}
+
+	@Override
+	public void changePw(MemberDto memberDto) {
+		sqlSession.update("member.changePw", memberDto);
 	}
 
 }
