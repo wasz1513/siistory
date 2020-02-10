@@ -102,7 +102,6 @@ public class MemberController {
 	public int changeName(@RequestParam String member_name,
 			HttpSession session) {
 		int member_no = (int) session.getAttribute("member_no");
-		log.info("member_name = {}", member_name);
 		return memberDao.changeName(member_name, member_no);
 	}
 	

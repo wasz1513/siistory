@@ -43,7 +43,6 @@ public class SearchController {
 	@PostMapping("/follow")
 	@ResponseBody
 	public int follow(@ModelAttribute FollowDto followDto) {
-		log.info("followDto = {}" , followDto);
 		if(followDto.getFollowing()==1) {
 			return followDao.following(followDto);			
 		}else {
