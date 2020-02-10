@@ -5,5 +5,5 @@ import javax.servlet.http.HttpSession;
 import com.kh.siistory.entity.ReplyDto;
 
 public interface ReplyDao {
-	void insert(ReplyDto replyDto, HttpSession session);
+	ReplyDto insert(ReplyDto replyDto, HttpSession session);
 }

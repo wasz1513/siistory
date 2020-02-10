@@ -30,7 +30,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertreply" parameterType="replyDto">
 	    <selectKey resultType="int" keyProperty="reply_no" order="BEFORE">
 	        select reply_seq.nextval reply_no from dual       
-	    </selectKey>    
-    	insert into reply(reply_no, board_no, writer_no, group_no, depth, reply_content, reply_writer) values(#{reply_no}, #{board_no}, #{writer_no}, #{reply_no}, 0, #{reply_content}, #{reply_writer})
-	</insert>  
+	    </selectKey>
+	    <choose>
+	    	<when test="super_no != 0">
+	    		insert into reply(reply_no, board_no, writer_no, super_no, group_no, depth, reply_content, reply_writer) values(#{reply_no}, #{board_no}, #{writer_no}, #{super_no}, #{super_no}, 1, #{reply_content}, #{reply_writer})
+	    	</when>
+	    	<otherwise>
+		    	insert into reply(reply_no, board_no, writer_no, group_no, depth, reply_content, reply_writer) values(#{reply_no}, #{board_no}, #{writer_no}, #{reply_no}, 0, #{reply_content}, #{reply_writer})
+	    	</otherwise>
+    	</choose>
+	</insert>
+	
+	<select id="return" resultType="replyDto" parameterType="int">
+		select * from reply where reply_no = #{no}
+	</select>
 </mapper>
