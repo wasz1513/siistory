@@ -27,4 +27,6 @@ public interface MemberDao {
 
 	void changePw(MemberDto memberDto);
 	
+	int changeName(String member_name, int member_no);
+	
 }

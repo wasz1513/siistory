@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="memberprofile">
 <!-- 	이름수정 -->
 	<update id="change_name" parameterType="memberVo">
-		update member_member_profile set member_name = #{member_name} where member_no=#{member_no}
+		update member set member_name = #{member_name} where member_no=#{member_no}
 	</update>
 <!-- 	생일수정 -->
 	<update id="change_birth" parameterType="memberVo">

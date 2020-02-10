@@ -4,18 +4,16 @@
 
 <style>
 	footer{
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		width: 100%;
 	}
 </style>
 
 <footer>
-	<h5>세션email = ${sessionScope.email}</h5>
-	<h5>세션member_no = ${sessionScope.member_no}</h5>
-	<h5>세션member_name = ${sessionScope.memeber_name}</h5>
+	<h5>세션email = ${sessionScope.email}  /  세션member_no = ${sessionScope.member_no}  /  세션member_name = ${sessionScope.member_name}</h5>
+	${pageContext.request.contextPath}
 </footer>
-
 
 </body>
 </html>

@@ -17,6 +17,29 @@
 		width:100px;
 		height:50px;
 	}
+	
+	header{
+		position:fixed;
+		top:0;
+		width:100%;
+	}
+	
+	.left-aside{
+		margin-top:250px;
+		margin-buttom:100px;
+	}
+
+	section{
+		margin-top:250px;
+		margin-buttom:100px;
+	}
+
+	.right-aside{
+		min-height: 600px;
+		margin-top:250px;
+		margin-buttom:100px;
+	}	
+	
 </style>
 
 </head>
@@ -25,7 +48,7 @@
 <header>
 <!-- 상단 네비 부분 -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	  <a class="navbar-brand" href="#">
+	  <a class="navbar-brand" href="${pageContext.request.contextPath}/main">
 	  	<img src="${pageContext.request.contextPath}/resources/image/siis.png" id="siis-main-img">
 	  </a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,16 +58,13 @@
 	  <div class="collapse navbar-collapse" id="navbarColor01">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/main">Home <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Features</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/member/mypage">Mypage</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Pricing</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">About</a>
+	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">logout</a>
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">

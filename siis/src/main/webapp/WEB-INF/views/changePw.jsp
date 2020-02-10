@@ -50,36 +50,39 @@ $(function(){
 
 
 <article>
+	<section>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md">
-				<form class="changePw-form" action="changePw" method="post">
-					<div class="form-group">
-						<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputEmail1">Email address</label>
-				    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="${email}" name="email" required>
-					</div>
-					<div class="form-group">
-						<label for="inputChangePw">New pw</label>
-						<input type="password" class="form-control" id="inputChangePw" name="member_pw" required>
-						<small class="form-text text-muted"></small>
-				      	<small id="passwordHelp" class="form-text text-muted">최소 8 자, 대문자 하나 이상, 소문자 하나, 숫자 하나 및 특수 문자 하나 이상</small>
-					</div>
-					<div class="form-group">
-						<label for="inputChangePwCheck">New pw check</label>
-						<input type="password" class="form-control" id="inputChangePwCheck" required>
-						<small class="form-text text-muted"></small>
-					</div>
-					<div class="form-group">
-						<button type="submit" class="btn btn-outline-success btn-block" id="changePwSubmit">비밀번호 변경하기</button>
-					</div>
-				</form>
+		<div class="container">
+			<div class="row">
+				<div class="col-md">
+					<form class="changePw-form" action="changePw" method="post">
+						<div class="form-group">
+							<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Email address</label>
+					    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="${email}" name="email" required>
+						</div>
+						<div class="form-group">
+							<label for="inputChangePw">New pw</label>
+							<input type="password" class="form-control" id="inputChangePw" name="member_pw" required>
+							<small class="form-text text-muted"></small>
+					      	<small id="passwordHelp" class="form-text text-muted">최소 8 자, 대문자 하나 이상, 소문자 하나, 숫자 하나 및 특수 문자 하나 이상</small>
+						</div>
+						<div class="form-group">
+							<label for="inputChangePwCheck">New pw check</label>
+							<input type="password" class="form-control" id="inputChangePwCheck" required>
+							<small class="form-text text-muted"></small>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-outline-success btn-block" id="changePwSubmit">비밀번호 변경하기</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
+
+	</section>
 </article>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

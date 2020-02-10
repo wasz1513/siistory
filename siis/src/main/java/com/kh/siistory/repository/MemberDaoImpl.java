@@ -65,4 +65,13 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("member.changePw", memberDto);
 	}
 
+	@Override
+	public int changeName(String member_name, int member_no) {
+		MemberVo memberVo = MemberVo.builder()
+										.member_no(member_no)
+										.member_name(member_name)
+									.build();	
+		return sqlSession.update("memberprofile.change_name", memberVo);
+	}
+
 }
