@@ -64,11 +64,17 @@
 	        <a class="nav-link" href="${pageContext.request.contextPath}/member/mypage">Mypage</a>
 	      </li>
 	      <li class="nav-item">
-	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">logout</a>
+	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
 	      </li>
 	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
+	      <select class="form-control" id="exampleSelect1" name="type">
+		    <option value="popular">Popular</option>
+		    <option value="email">Email</option>
+		    <option value="tag">Tag</option>
+		    <option value="location">Location</option>
+	      </select>
+	      <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword">
 	      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 	    </form>
 	  </div>

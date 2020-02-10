@@ -1,5 +1,7 @@
 package com.kh.siistory.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -72,6 +74,11 @@ public class MemberDaoImpl implements MemberDao{
 										.member_name(member_name)
 									.build();	
 		return sqlSession.update("memberprofile.change_name", memberVo);
+	}
+
+	@Override
+	public List<MemberDto> getMember_Email(String keyword) {
+		return sqlSession.selectList("member.getMember_email", keyword);
 	}
 
 }

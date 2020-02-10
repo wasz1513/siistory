@@ -1,5 +1,7 @@
 package com.kh.siistory.repository;
 
+import java.util.List;
+
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberVo;
@@ -29,4 +31,5 @@ public interface MemberDao {
 	
 	int changeName(String member_name, int member_no);
 	
+	List<MemberDto> getMember_Email(String keyword);
 }

@@ -49,4 +49,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			member_job=#{member_job} 
 		where member_no=#{member_no}
 	</update>
+	
+<!-- 	회원목록 불러오기 -->
+	<select id="getList" resultType="memberVo">
+		select * from member_member_profile
+	</select>
 </mapper>
