@@ -25,7 +25,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.entity.CertDto" alias="certDto"/>
 		<typeAlias type="com.kh.siistory.entity.BoardLikeDto" alias="boardlikeDto"/>
 		<typeAlias type="com.kh.siistory.entity.ReplyLikeDto" alias="replylikeDto"/>
-
-
 	</typeAliases>
 </configuration>
