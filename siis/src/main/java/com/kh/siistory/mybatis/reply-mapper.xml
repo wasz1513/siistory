@@ -27,19 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- </select> -->
 
 <mapper namespace="reply">
-	<insert id="insert" parameterType="replyDto">
-		insert into reply()
-	</insert>
-	
-	<select id="seqno" resultType="seqVo">
-		select reply_seq.nextval seq_no from dual
-	</select>
-	
 	<insert id="insertreply" parameterType="replyDto">
 	    <selectKey resultType="int" keyProperty="reply_no" order="BEFORE">
 	        select reply_seq.nextval reply_no from dual       
 	    </selectKey>    
-    	insert into reply(reply_no, board_no, member_no, group_no, depth, reply_content, reply_writer) values(#{reply_no}, #{board_no}, #{member_no}, #{reply_no}, 0, #{reply_content}, #{reply_writer})
+    	insert into reply(reply_no, board_no, writer_no, group_no, depth, reply_content, reply_writer) values(#{reply_no}, #{board_no}, #{writer_no}, #{reply_no}, 0, #{reply_content}, #{reply_writer})
 	</insert>  
-	
 </mapper>

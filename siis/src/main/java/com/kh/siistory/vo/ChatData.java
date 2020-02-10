@@ -17,6 +17,11 @@ public class ChatData {
 	private String text;
 	private int status;
 	
-	
+	int target_no;
+	int pusher_no;
+	int content_no;
+	String content_type;
+	String content_date;
+	String content_play;	
 	
 }

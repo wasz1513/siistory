@@ -6,10 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ReplyDto {
-	int reply_no, board_no, writer_no, super_no, group_no, depth, reply_count;
-	String reply_wdate, reply_content, reply_writer;
+public class AlarmDto {
+
+	int target_no;
+	int pusher_no;
+	int content_no;
+	String content_type;
+	String content_date;
+	String content_play;
+	
+	
 }

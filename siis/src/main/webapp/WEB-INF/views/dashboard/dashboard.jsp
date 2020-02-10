@@ -8,29 +8,66 @@
 <script>
 $(function(){
 	
-	$("textarea[name=reply_content]").on("input", function(){
-		$(this).parents("form").find(".submit").prop('disabled', false);
-	})
-	
-	$(".reply").click(function(){
-		var writer = "@"+$(this).parent().find(".writer").text()+" ";
-		$(this).parents(".mb-3").find("textarea[name=reply_content]").val(writer).focus();
-		
-		var reply_no = $(this).prev().attr('value');
-		
-		
-	})
-	
-	$("form").submit(function(e){
+	$(".submit").click(function(e){
 		e.preventDefault();
+		var content = $(this).prev(".reply_content").val();
+		var boardseq = $(this).parents(".mb-3").find(".b").data("boardseq");
+		var replyseq = $(this).prev(".reply_content").data("replyseq");
+		
+		var alldata = {'board_no':boardseq, 'reply_no':replyseq, 'reply_content':content};
+		console.log(alldata)
+		
 		$.ajax({
 			url:"dashboard/replyinsert",
 			type:"post",
-			data:$(this).serialize(),
+			dataType:"JSON",
+			data:{'board_no':boardseq, 'reply_no':replyseq, 'reply_content':content},
 			success:function(resp){
-				$("textarea[name=reply_content]").val("");
+				console.log("성공")
 			}
 		})
+		
+	})
+	
+	
+	
+	/* $("textarea[name=reply_content]").focus(function(){
+		var check = /^[@*]/;
+		var text = $(this).val();
+		if(!check.test(text)){
+			$(this).parents(".mb-3").find("form").submit(function(e){
+				e.preventDefault();
+					$.ajax({
+					url:"dashboard/replyinsert",
+					type:"post",
+					data:$(this).serialize(),
+					success:function(resp){
+						console.log(resp)
+						$("textarea[name=reply_content]").val("");
+					}
+				})
+			})
+		} else {
+			$(this).parents(".mb-3").find("form").submit(function(e){
+				e.preventDefault();
+					$.ajax({
+					url:"dashboard/replyinsert",
+					type:"post",
+					data:$(this).serialize(),
+					success:function(resp){
+						console.log("@성공")
+						$("textarea[name=reply_content]").val("");
+					}
+				})
+			})
+		}
+	}) */
+	
+	$(".reply").click(function(){
+		var writer = "@"+$(this).parent().find(".writer").text()+" ";
+		$(this).parents(".mb-3").find(".reply_content").val(writer).focus();
+		var replyseq = $(this).parent(".r").data("replyseq");
+		$(this).parents(".mb-3").find(".reply_content").data("replyseq", replyseq);
 	})
 	
 });
@@ -47,15 +84,17 @@ margin:auto;
 <article>
 <c:forEach var="content" items="${list }">
 	<div class="card mb-3">
-		<div class="card-body">
-			<p class="card-text">${content.board_writer} ${content.board_content}</p>
+		<div class="card-body b" data-boardseq="${content.board_no }">
+			<p class="card-text">
+				<span data-writerseq="${content.member_no }">${content.board_writer}</span>
+				<span>${content.board_content}</span>
+			</p>
 		</div>
 		<ul class="list-group list-group-flush">
 			<c:forEach var="reply" items="${content.replylist }">
-				<li class="list-group-item">
-					<span class="writer">${reply.reply_writer}</span>
+				<li class="list-group-item r" data-replyseq="${reply.reply_no }">
+					<span class="writer" data-writerseq="${reply.writer_no }">${reply.reply_writer}</span>
 					<span class="content">${reply.reply_content}</span>
-					<input type="hidden" name="reply_no" value="${reply.reply_no }">
 					<button type="button" class="btn reply">답글달기</button>
 				</li>
 			</c:forEach>
@@ -64,12 +103,9 @@ margin:auto;
 		<form>
 			<fieldset>
 				<div class="form-group">
-      				<textarea class="form-control" rows="1" name="reply_content" placeholder="댓글달기..."></textarea>
+      				<textarea class="form-control reply_content" rows="1" placeholder="댓글달기..."></textarea>
+					<button type="submit" class="btn btn-primary submit">Submit</button>
     			</div>
-    				<input type="hidden" name="member_no" value="${sessionScope.member_no }">
-    				<input type="hidden" name="reply_writer" value="${sessionScope.member_name }">
-    				<input type="hidden" name="board_no" value="${content.board_no }">
-					<button type="submit" class="btn btn-primary submit" disabled="disabled">Submit</button>
 			</fieldset>
 		</form>
 	</div>
