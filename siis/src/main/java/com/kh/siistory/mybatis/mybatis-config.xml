@@ -21,10 +21,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.vo.MemberVo" alias="memberVo"/>
 		<typeAlias type="com.kh.siistory.vo.SeqVo" alias="seqVo"/>
 		<typeAlias type="com.kh.siistory.entity.Member_profile_fileDto" alias="memberfileDto"/>
-<<<<<<< HEAD
 		<typeAlias type="com.kh.siistory.entity.AlarmDto" alias="alarmDto"/>
-=======
 		<typeAlias type="com.kh.siistory.entity.CertDto" alias="certDto"/>
->>>>>>> refs/remotes/origin/master
+		<typeAlias type="com.kh.siistory.entity.BoardLikeDto" alias="boardlikeDto"/>
+		<typeAlias type="com.kh.siistory.entity.ReplyLikeDto" alias="replylikeDto"/>
+
+
 	</typeAliases>
 </configuration>

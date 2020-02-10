@@ -101,8 +101,8 @@ public class MessengerServer extends TextWebSocketHandler {
 		// 접속시 > 알람을 보낸다.
 		// [1]접속하면 나의 알람 목록을 불러온다 . (target_no <<나 기준)
 		// 알람 목록은 alarmData 형식으로 뿌려줘야하므로 가공 먼저 한다.
-		AlarmDto alarmDto = AlarmDto.builder().target_no(no).build();
-		List<AlarmDto> alarmList = alarmDao.getList(alarmDto);
+		
+		List<AlarmDto> alarmList = alarmDao.getList(no);
 		System.out.println(alarmList);
 		// [2]리스트를 나에게 보낸다.
 		alarmSendList(session, alarmList);
@@ -317,8 +317,8 @@ public class MessengerServer extends TextWebSocketHandler {
 	
 	//알람 가공 메소드
 	public void setAlarmData(WebSocketUser user) {
-		AlarmDto alarmDto = AlarmDto.builder().target_no(user.getMember_no()).build();
-		List<AlarmDto> alarmList = alarmDao.getList(alarmDto);
+		int target_no = user.getMember_no();
+		List<AlarmDto> alarmList = alarmDao.getList(target_no);
 		
 		//1차 누구의 게시글인가
 		//2차 게시글의 번호는 무엇인가

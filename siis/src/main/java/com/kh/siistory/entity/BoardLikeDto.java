@@ -9,14 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AlarmDto {
-	int no;
-	int target_no;
-	int pusher_no;
-	int content_no;
-	String content_type;
-	String content_play;
-	String content_date;
+public class BoardLikeDto {
 	
-	
+	int board_no;
+	int member_no;
+
 }

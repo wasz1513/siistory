@@ -150,6 +150,7 @@
 
 	</table>
 	<button class="good-btn">좋아요</button>
+	<button class="cencle-btn">취소</button>
 
 
 </body>
