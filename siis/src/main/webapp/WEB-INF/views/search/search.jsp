@@ -18,6 +18,57 @@
 	}
 </style>
 
+<script>
+
+$(function(){
+	
+	$(".follow-btn").click(function(){
+		
+		var friend_no = $(this).prev().val();
+		var member_no = $(this).prev().prev().val();
+		
+		var url = "follow";
+		var method = "post";
+		
+		var button = $(this);
+		
+		if(button.text()=="팔로우"){
+			$.ajax({
+				url : url,
+				type : method,
+				data : {'member_no':member_no, 'friend_no':friend_no, 'following':1},
+				success:function(resp){
+					if(resp==1){
+						console.log($(this));
+						button.removeClass("btn-primary");
+						button.addClass("btn-outline-success");
+						button.text("팔로잉");
+					}
+				}
+			});			
+		}else{
+			$.ajax({
+				url : url,
+				type : method,
+				data : {'member_no':member_no, 'friend_no':friend_no, 'following':0},
+				success:function(resp){
+					if(resp==1){
+						console.log($(this));
+						button.removeClass("btn-outline-success");
+						button.addClass("btn-primary");
+						button.text("팔로우");
+					}
+				}
+			});			
+		}
+		
+		
+	});
+	
+});
+
+</script>
+
 <article>
 	<section>
 	
@@ -34,16 +85,17 @@
 							</div>
 						</td>
 						<td>
-							<button></button>
+							<c:if test="${memberDto.member_no != sessionScope.member_no}">
+								<input type="hidden" value="${sessionScope.member_no}">
+								<input type="hidden" value="${memberDto.member_no}">
+								<button class="btn btn-primary follow-btn">팔로우</button>
+							</c:if>
 						</td>
 					</tr>				
 				</c:forEach>
 			</tbody>
 		</table>
 	
-
-
-
 	</section>
 </article>
 
