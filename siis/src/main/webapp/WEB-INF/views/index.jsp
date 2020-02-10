@@ -21,7 +21,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/sha256.js"></script>
 <style>
 	header{
-		height:100px;
+		height:200px;
 	}
 	
 	article{

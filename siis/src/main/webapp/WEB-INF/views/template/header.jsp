@@ -13,20 +13,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-	.siis-img{
+	#siis-main-img{
 		width:100px;
 		height:50px;
 	}
+	
+	header{
+		position:fixed;
+		top:0;
+		width:100%;
+	}
+	
+	.left-aside{
+		margin-top:250px;
+		margin-buttom:100px;
+	}
+
+	section{
+		margin-top:250px;
+		margin-buttom:100px;
+	}
+
+	.right-aside{
+		min-height: 600px;
+		margin-top:250px;
+		margin-buttom:100px;
+	}	
+	
 </style>
 
 </head>
 <body>
 
-
+<header>
 <!-- 상단 네비 부분 -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	  <a class="navbar-brand" href="#">
-	  	<img src="${pageContext.request.contextPath}/resources/image/siis.png" class="siis-img">
+	  <a class="navbar-brand" href="${pageContext.request.contextPath}/main">
+	  	<img src="${pageContext.request.contextPath}/resources/image/siis.png" id="siis-main-img">
 	  </a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
@@ -35,21 +58,25 @@
 	  <div class="collapse navbar-collapse" id="navbarColor01">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/main">Home <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Features</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/member/mypage">Mypage</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Pricing</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">About</a>
+	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
 	      </li>
 	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
+	      <select class="form-control" id="exampleSelect1" name="type">
+		    <option value="popular">Popular</option>
+		    <option value="email">Email</option>
+		    <option value="tag">Tag</option>
+		    <option value="location">Location</option>
+	      </select>
+	      <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword">
 	      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 	    </form>
 	  </div>
 	</nav>
+</header>
