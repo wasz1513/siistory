@@ -14,12 +14,13 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.FriendDto;
 import com.kh.siistory.repository.AlarmDao;
 import com.kh.siistory.repository.FriendDao;
+import com.kh.siistory.repository.MemberDao;
+import com.kh.siistory.vo.AlarmData;
 import com.kh.siistory.vo.ChatData;
 import com.kh.siistory.vo.WebSocketUser;
 
@@ -71,6 +72,9 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	@Autowired
 	private AlarmDao alarmDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	// 사용자 저장을 위한 set 저장소 생성
 	//	Set<WebSocketSession> userList = new HashSet<>();
@@ -103,9 +107,11 @@ public class MessengerServer extends TextWebSocketHandler {
 		// 알람 목록은 alarmData 형식으로 뿌려줘야하므로 가공 먼저 한다.
 		
 		List<AlarmDto> alarmList = alarmDao.getList(no);
-		System.out.println(alarmList);
+		log.info("알람 리스트 = {}",alarmList);
 		// [2]리스트를 나에게 보낸다.
 		alarmSendList(session, alarmList);
+		
+		sendAlarmData(user);
 		
 
 	}
@@ -315,17 +321,85 @@ public class MessengerServer extends TextWebSocketHandler {
 		session.sendMessage(msg);
 	}
 	
-	//알람 가공 메소드
-	public void setAlarmData(WebSocketUser user) {
+	//알람 멘트 가공 및 전송 메소드
+	public void sendAlarmData(WebSocketUser user) throws IOException {
 		int target_no = user.getMember_no();
 		List<AlarmDto> alarmList = alarmDao.getList(target_no);
 		
+	
 		//1차 누구의 게시글인가
 		//2차 게시글의 번호는 무엇인가
 		//해당 게시글의 정보
+		// 출력 형식의 글 형식의 스트링 리스트를 만들어야한다.
+		//8 님이 24 님의 3 컨텐츠번호 board컨텐츠 형식 make행동을 좋아합니다!
+		String alarm_ment;
+		String pusher_name;
+		String target_name;
+		String content_name = null;
+		String play_ment = null;
+		
+		List<AlarmData> mentList = new ArrayList<>(); 
+		
+		for(AlarmDto adto : alarmList) {
+			
+			//누구 님이
+			pusher_name = memberDao.getMember(adto.getPusher_no()).getMember_name();
+			// 누구 님의 	
+			target_name = memberDao.getMember(adto.getTarget_no()).getMember_name();
+			
+			// 뭐를
+			if (adto.getContent_type().equals("board")) {
+				content_name = "게시물";			
+			} else if (adto.getContent_type().equals("reply")) {
+				content_name = "댓글";
+			}
+			
+			//행동
+			if(adto.getContent_play().equals("make")) {
+				play_ment = "작성했습니다.";
+				
+				alarm_ment = "["+pusher_name+"] 님이 "+content_name+" 를 "+play_ment;
+				
+				AlarmData alarmData = AlarmData.builder()
+						.status(0).pusher_no(adto.getPusher_no())
+						.text(alarm_ment)
+						.target_no(adto.getTarget_no())
+						.content_no(adto.getContent_no())
+						.content_type(adto.getContent_type())
+						.content_play(adto.getContent_play())
+						.build();
+				
+				mentList.add(alarmData);	
+				
+			} else if (adto.getContent_play().equals("good")) {
+				play_ment = "좋아합니다.";
+				
+				alarm_ment = "["+pusher_name+"] 님이 "+target_name+
+						" 님의 "+content_name+" 를 "+play_ment;
+			
+				AlarmData alarmData = AlarmData.builder()
+						.status(0).pusher_no(adto.getPusher_no())
+						.text(alarm_ment)
+						.target_no(adto.getTarget_no())
+						.content_no(adto.getContent_no())
+						.content_type(adto.getContent_type())
+						.content_play(adto.getContent_play())
+						.build();
+				mentList.add(alarmData);	
+			}
+			
+	
+		}
 		
 		
-		log.info("알람 리스트 == {}", alarmList);
+		log.info("알람 리스트 == {}", mentList);
+		
+		//리스트 만들었으면 보내기 전에 변환 처리 
+		String ment = mapper.writeValueAsString(mentList);
+		
+		TextMessage msg = new TextMessage(ment);
+		log.info("알람 메시지 = {}",msg.getPayload());
+		user.getWs().sendMessage(msg);
 		
 	}
 	

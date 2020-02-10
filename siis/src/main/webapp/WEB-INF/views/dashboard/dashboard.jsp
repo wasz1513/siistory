@@ -15,6 +15,7 @@ $(function(){
 		var replyseq = $(this).prev(".reply_content").data("replyseq");
 		
 		var alldata = {'board_no':boardseq, 'reply_no':replyseq, 'reply_content':content};
+		
 		console.log(alldata)
 		
 		$.ajax({
