@@ -4,19 +4,64 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-	<h1>세션email = ${sessionScope.email}</h1>
-	<h1>세션member_no = ${sessionScope.member_no}</h1>
+<style>
+	article{
+		display: flex; /*바로안에있는것만적용됨*/
+        flex-wrap: wrap;
+		width:80%;
+		margin:auto;
+	}
 	
-	<a href="member/mypage">내정보</a>
-	
-	<a href="logout">로그아웃</a>
+	.left-aside{
+		background-color: rgb(228, 247, 65);
+        width: 20%;
+        margin-top:150px;
+	}
 
-<footer>
+	section{
+		background-color: rgb(38, 233, 184, 0.356);
+		width:60%;
+		margin-top:150px;
+	}
+
+	.right-aside{
+		background-color:red;
+		flex-grow: 1;
+		height:750px;
+		margin-top:150px;
+	}
 	
+	.container{
+		overflow-y:scroll;
+		height:750px;
+	}
+	
+	.container::-webkit-scrollbar{
+		display: none;
+	}
+	
+</style>
+
+<article>
+
+	<aside class="left-aside">
+	
+	</aside>
+
+	<section>
 		
+		<div class="container">
+			
+		</div>
+		
+	</section>
+
+	<aside class="right-aside">
+		<div class="container">
+		</div>
+	</aside>
 	
-</footer>
+</article>
 
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

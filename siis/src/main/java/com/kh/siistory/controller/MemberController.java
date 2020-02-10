@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.siistory.entity.Member_profile_fileDto;
@@ -94,6 +95,15 @@ public class MemberController {
 		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
 
 		resp.getOutputStream().write(data);
+	}
+	
+	@GetMapping("/changeName")
+	@ResponseBody
+	public int changeName(@RequestParam String member_name,
+			HttpSession session) {
+		int member_no = (int) session.getAttribute("member_no");
+		log.info("member_name = {}", member_name);
+		return memberDao.changeName(member_name, member_no);
 	}
 	
 }

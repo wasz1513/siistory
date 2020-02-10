@@ -83,4 +83,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_pw=#{member_pw} where email=#{email}
 	</update>
 	
+<!-- 	회원검색(email) -->
+	<select id="getMember_email" parameterType="string" resultType="memberDto">
+		select * from member where email like '%'||#{keyword}||'%'
+	</select>
+	
 </mapper>
