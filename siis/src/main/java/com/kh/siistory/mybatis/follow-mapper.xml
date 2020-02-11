@@ -13,8 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete friend_test where member_no=#{member_no} and friend_no=#{friend_no}
 	</delete>
 	
-	<select id="search_email_follow" parameterType="string" resultType="memberFollowVo">
-		select * from member_follow where email like '%'||#{keyword}||'%'
+	<select id="myfollowing" parameterType="int" resultType="memberFollowVo">
+		select * from member_follow where member_no=#{member_no}
 	</select>
 		
 </mapper>

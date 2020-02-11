@@ -9,5 +9,5 @@ public interface FollowDao {
 
 	int unfollowing(FollowDto followDto);
 
-	Object search_email_follow(String keyword);
+	List<FollowDto> myfollowing(int member_no);
 }

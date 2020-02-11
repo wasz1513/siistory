@@ -37,10 +37,13 @@ public class SearchController {
 			Model model,
 			HttpSession session) {
 
+		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("myfollowing", followDao.myfollowing(member_no));
+		
 		switch(type) {
 			case "popular": break;
 			case "email":
-				model.addAttribute("list", followDao.search_email_follow(keyword));
+				model.addAttribute("list", memberDao.getMember_Email(keyword));
 				break;
 			case "tag": break;
 			case "location": break;

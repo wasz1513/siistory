@@ -25,8 +25,9 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public Object search_email_follow(String keyword) {
-		return sqlSession.selectList("follow.search_email_follow", keyword);
+	public List<FollowDto> myfollowing(int member_no) {
+		return sqlSession.selectList("follow.myfollowing", member_no);
 	}
+
 
 }
