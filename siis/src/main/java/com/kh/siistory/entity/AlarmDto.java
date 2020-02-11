@@ -17,6 +17,6 @@ public class AlarmDto {
 	String content_type;
 	String content_play;
 	String content_date;
-	
+	String ment;
 	
 }

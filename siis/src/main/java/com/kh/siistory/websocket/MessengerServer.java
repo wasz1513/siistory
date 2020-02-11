@@ -16,31 +16,40 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.siistory.entity.AlarmDto;
+import com.kh.siistory.entity.BoardLikeDto;
 import com.kh.siistory.entity.FriendDto;
+import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
+import com.kh.siistory.repository.BoardLikeDao;
 import com.kh.siistory.repository.FriendDao;
 import com.kh.siistory.repository.MemberDao;
+import com.kh.siistory.repository.ReplyLikeDao;
 import com.kh.siistory.vo.AlarmData;
 import com.kh.siistory.vo.ChatData;
+import com.kh.siistory.vo.FriendListData;
 import com.kh.siistory.vo.WebSocketUser;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MessengerServer extends TextWebSocketHandler {
-	//메신저에서 사용할 메시지 상태값 설정
+	// 메신저에서 사용할 메시지 상태값 설정
 	public static final int enter = 0;
 	public static final int exit = 1;
 	public static final int message = 2;
-	public static final int refresh = 3;
-	
-	//알람에서 사용할 메시지 상태값 설정
+	public static final int Frefresh = 3;
+
+	// 알람에서 사용할 메시지 상태값 설정
 	public static final int checkon = 4;
 	public static final int checkoff = 5;
 	public static final int make = 6;
-	public static final int confirm = 7;
+	public static final int click = 7;
+	public static final int Arefresh = 8;
+	public static final int setting = 9;
 	
-	
+
+	// 친구추가 알람 상태값
+	public static final int addfriend = 10;
 
 	// 계획
 	/*
@@ -72,14 +81,22 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	@Autowired
 	private AlarmDao alarmDao;
-	
+
 	@Autowired
 	private MemberDao memberDao;
 
-	// 사용자 저장을 위한 set 저장소 생성
-	//	Set<WebSocketSession> userList = new HashSet<>();
-	Set<WebSocketUser> userList = new HashSet<>();
+	@Autowired
+	private BoardLikeDao boardlikeDao;
 
+	@Autowired
+	private ReplyLikeDao replylikeDao;
+
+	// 사용자 저장을 위한 set 저장소 생성
+	// Set<WebSocketSession> userList = new HashSet<>();
+	Set<WebSocketUser> userList = new HashSet<>();
+	
+	
+	
 	// 클라이언트와 연결되면 실행하는 메소드
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -93,12 +110,21 @@ public class MessengerServer extends TextWebSocketHandler {
 		// 상태값을 변경한다. > 상태값 변경된 리스트를 받는다.
 		// 목록 리스트 구하는 메소드
 		List<FriendDto> list = Allrefresh(session, no);
-
-		// 나에게 리스트 전송하는 메소드
-		sendList(user, list);
+		
+		// 나에게 리스트 전송하는 메소드 (FriendListData 클래스 형식에 맞춰서 진행)
+		FriendListData fdata = FriendListData.builder()
+		.member_no(no)
+		.status(0)
+		.text("friend_list")
+		.flist_data(list)
+		.build();
+		
+		
+		sendList(user, fdata);
+		
 		// 접속을 하면 친구들에게 갱신 메시지 보낸다 . >> 친구들은 메시지 받으면 갱신처리
 		friendSend(session, 0);
-
+		
 		//////////////////////////////////////////////////////
 		// 여기서부터 알람 기능 진행.
 		//////////////////////////////////////////////////////
@@ -106,39 +132,61 @@ public class MessengerServer extends TextWebSocketHandler {
 		// [1]접속하면 나의 알람 목록을 불러온다 . (target_no <<나 기준)
 		// 알람 목록은 alarmData 형식으로 뿌려줘야하므로 가공 먼저 한다.
 		
-		List<AlarmDto> alarmList = alarmDao.getList(no);
-		log.info("알람 리스트 = {}",alarmList);
-		// [2]리스트를 나에게 보낸다.
-		alarmSendList(session, alarmList);
+		ChatData cdata = ChatData.builder()
+				.status(9)
+				.text("setting")
+				.build();
 		
-		sendAlarmData(user);
+		String text  = mapper.writeValueAsString(cdata);
+		TextMessage msg = new TextMessage(text);
 		
+		
+		session.sendMessage(msg);
+	
+		  
 
 	}
 
-	
-	
-	
-	
-	
-	// 클라이언트가 서버로 메시지 전송했을 때 실행하는 메소드   Smethod
+	// 클라이언트가 서버로 메시지 전송했을 때 실행하는 메소드 Smethod
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
 		String payload = message.getPayload();
+		
+		
 		ChatData data = mapper.readValue(payload, ChatData.class);
-		System.out.println(data);
+		
+		
+		System.out.println("데이타 확인======="+data);
 
 		int no = (int) session.getAttributes().get("member_no");
+		System.out.println("핸들 텍스트 메시지 no 확인 ==== " + no );
+		log.info("메시지좀 확인 하자 = {}", data);
 
-//		log.info("메시지좀 확인 하자 = {}", data);
+		BoardLikeDto boardlikeDto = BoardLikeDto.builder().member_no(data.getPusher_no()).board_no(data.getContent_no())
+				.build();
 
+		ReplyLikeDto replylikeDto = ReplyLikeDto.builder().member_no(data.getPusher_no()).reply_no(data.getContent_no())
+				.build();
+
+		AlarmDto alarmDto = AlarmDto.builder().pusher_no(data.getPusher_no()).target_no(data.getTarget_no())
+				.content_no(data.getContent_no()).content_type(data.getContent_type())
+				.content_play(data.getContent_play()).build();
+
+		
+		System.out.println("========보드 =======");
+		System.out.println(boardlikeDto);
+		System.out.println("========댓글 =======");
+		System.out.println(replylikeDto);
+		System.out.println("========알람 =======");
+		System.out.println(boardlikeDto);
+		
 		// 내 친구 리스트 생성
 		List<FriendDto> friendList = Allrefresh(session, no);
 
 		// 유저가 접속한다 > 메시지가 서버에 전송된다. >내 친구중에 있는지 확인한다 > 있으면 갱신한다 > 갱신이 되었다면 나에게 보낸다.
 
-		if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 2) {
+		if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 3) {
 
 			for (FriendDto fdto : friendList) {
 				// 접속한 사람이 친구 중에 있는가?
@@ -154,33 +202,78 @@ public class MessengerServer extends TextWebSocketHandler {
 					}
 				}
 			}
-			
+
 			// 갱신완료
 			// 나에게 보낸다.
 			// 갱신하여 나에게 리스트 보낸다 .
-			String showFriend = mapper.writeValueAsString(friendList);
+			FriendListData fdata = FriendListData.builder()
+					.member_no(no)
+					.flist_data(friendList)
+					.status(3)
+					.text("refresh")
+					.build();
+			
+			String text = mapper.writeValueAsString(fdata);
 
-			TextMessage msg = new TextMessage(showFriend);
+			TextMessage msg = new TextMessage(text);
 
 			session.sendMessage(msg);
 
+		} else if (data.getStatus() == 4 || data.getStatus() == 5|| 
+				data.getStatus() == 6||data.getStatus() == 7|| data.getStatus() == 8||
+				data.getStatus() == 10) {
+		
 			
-		//좋아요 라면 ? 
-		} else if (data.getStatus()==4 ) {
-			AlarmDto alarmDto = AlarmDto.builder()
-			.pusher_no(data.getMember_no())
-			.target_no(data.getTarget_no())
-			.content_no(data.getContent_no())
-			.content_type(data.getContent_type())
-			.content_play(data.getContent_play())
-			.build();
-			System.out.println(alarmDto.getTarget_no());
-			alarmDao.insert(alarmDto);
-			log.info("알람 등록 완료");
+			// 좋아요 라면 ?
+			if (data.getStatus() == 4) {
+				// 정보를 담았다 .
+				if (data.getContent_type().equals("board")) {
+//					게시글 좋아요 테이블DB + 알람 DB 저장
+					boardlikeDao.insert(boardlikeDto);
+					alarmDao.insert(alarmDto);
+				} else if (data.getContent_type().equals("reply")) {
+					replylikeDao.insert(replylikeDto);
+					alarmDao.insert(alarmDto);
+				}
+				// 좋아요 취소라면 ?
+			} else if (data.getStatus() == 5) {
+
+				if (data.getContent_type().equals("board")) {
+					boardlikeDao.delete(boardlikeDto);
+					alarmDao.delete(alarmDto);
+
+					// 삭제했으니 갱신하도록 다시 메시지 뿌려라
+				} else if (data.getContent_type().equals("reply")) {
+					replylikeDao.delete(replylikeDto);
+					alarmDao.delete(alarmDto);
+				}
+			}
+			else if (data.getStatus()==8) {
+				for (WebSocketUser user1 : userList ) {
+					if (user1.getMember_no()==data.getMember_no()) {
+						sendAlarmData(user1); 
+					}
+				}	
+			}
 			
+			if (data.getStatus() != 8) {
+				
+				ChatData cdata = ChatData.builder()
+						.status(9)
+						.text("setting")
+						.build();
+				
+				String text  = mapper.writeValueAsString(cdata);
+				TextMessage msg = new TextMessage(text);
+				
+				for (WebSocketUser user2: userList) {
+					if (user2.getMember_no()==data.getMember_no()) {
+						user2.getWs().sendMessage(msg);
+					}
+				}
+			}
+
 		}
-
-
 	}
 
 	// 클라이언트와 연결 종료시 실행되는 메소드
@@ -193,7 +286,7 @@ public class MessengerServer extends TextWebSocketHandler {
 	}
 
 	////////////////////////////////////////////////////////
-	//리스트 갱신 메소드 
+	// 리스트 갱신 메소드
 	//////////////////////////////////////////////////////
 
 	public List<FriendDto> Allrefresh(WebSocketSession session, int no) throws IOException {
@@ -300,111 +393,102 @@ public class MessengerServer extends TextWebSocketHandler {
 	}
 
 	// 나에게 친구 리스트 보내는 메소드.
-	public void sendList(WebSocketUser user, List<FriendDto> friendList) throws IOException {
+	public void sendList(WebSocketUser user, FriendListData fdata) throws IOException {
 
-		String showFriend = mapper.writeValueAsString(friendList);
+		String showFriend = mapper.writeValueAsString(fdata);
 
 		TextMessage msg = new TextMessage(showFriend);
 //	System.out.println(msg.getPayload());
 
 		user.getWs().sendMessage(msg);
 	}
-	
+
 	////////////////////////////////////////////////////////
-	//알람 종합 메소드 
+	// 알람 종합 메소드
 	////////////////////////////////////////////////////////
 
 	// 나에게 알람 리스트 보내는 메소드
-	public void alarmSendList(WebSocketSession session, List<AlarmDto> alarmList) throws IOException {
-		String showAlarm = mapper.writeValueAsString(alarmList);
+	public void alarmSendList(WebSocketSession session, AlarmData adata) throws IOException {
+		String showAlarm = mapper.writeValueAsString(adata);
 		TextMessage msg = new TextMessage(showAlarm);
 		session.sendMessage(msg);
 	}
-	
-	//알람 멘트 가공 및 전송 메소드
+
+	// 알람 멘트 가공 및 전송 메소드
 	public void sendAlarmData(WebSocketUser user) throws IOException {
-		int target_no = user.getMember_no();
-		List<AlarmDto> alarmList = alarmDao.getList(target_no);
+		int member_no = user.getMember_no();
+		System.out.println("멘트 가공-----------target_no =  " +member_no);
 		
-	
-		//1차 누구의 게시글인가
-		//2차 게시글의 번호는 무엇인가
-		//해당 게시글의 정보
+		List<AlarmDto> alarmList = alarmDao.getList(member_no);
+		
+		System.out.println(alarmList);
+		
+
+		
+		// 1차 누구의 게시글인가
+		// 2차 게시글의 번호는 무엇인가
+		// 해당 게시글의 정보
 		// 출력 형식의 글 형식의 스트링 리스트를 만들어야한다.
-		//8 님이 24 님의 3 컨텐츠번호 board컨텐츠 형식 make행동을 좋아합니다!
+		// 8 님이 24 님의 3 컨텐츠번호 board컨텐츠 형식 make행동을 좋아합니다!
 		String alarm_ment;
 		String pusher_name;
 		String target_name;
 		String content_name = null;
 		String play_ment = null;
-		
-		List<AlarmData> mentList = new ArrayList<>(); 
-		
-		for(AlarmDto adto : alarmList) {
-			
-			//누구 님이
+
+	
+
+		for (AlarmDto adto : alarmList) {
+//			System.out.println("============aDTO============");
+//			System.out.println(adto);
+//			System.out.println("============aDTO============");
+			// 누구 님이
 			pusher_name = memberDao.getMember(adto.getPusher_no()).getMember_name();
-			// 누구 님의 	
+			// 누구 님의
 			target_name = memberDao.getMember(adto.getTarget_no()).getMember_name();
-			
+
 			// 뭐를
 			if (adto.getContent_type().equals("board")) {
-				content_name = "게시물";			
+				content_name = "게시물";
 			} else if (adto.getContent_type().equals("reply")) {
 				content_name = "댓글";
 			}
-			
-			//행동
-			if(adto.getContent_play().equals("make")) {
+
+			// 행동
+			if (adto.getContent_play().equals("make")) {
 				play_ment = "작성했습니다.";
+
+				alarm_ment = "[" + pusher_name + "] 님이 " + content_name + " 를 " + play_ment;
 				
-				alarm_ment = "["+pusher_name+"] 님이 "+content_name+" 를 "+play_ment;
+				adto.setMent(alarm_ment);
 				
-				AlarmData alarmData = AlarmData.builder()
-						.status(0).pusher_no(adto.getPusher_no())
-						.text(alarm_ment)
-						.target_no(adto.getTarget_no())
-						.content_no(adto.getContent_no())
-						.content_type(adto.getContent_type())
-						.content_play(adto.getContent_play())
-						.build();
-				
-				mentList.add(alarmData);	
 				
 			} else if (adto.getContent_play().equals("good")) {
 				play_ment = "좋아합니다.";
+
+				alarm_ment = "[" + pusher_name + "] 님이 " + target_name + " 님의 " + content_name + " 를 " + play_ment;
 				
-				alarm_ment = "["+pusher_name+"] 님이 "+target_name+
-						" 님의 "+content_name+" 를 "+play_ment;
-			
-				AlarmData alarmData = AlarmData.builder()
-						.status(0).pusher_no(adto.getPusher_no())
-						.text(alarm_ment)
-						.target_no(adto.getTarget_no())
-						.content_no(adto.getContent_no())
-						.content_type(adto.getContent_type())
-						.content_play(adto.getContent_play())
-						.build();
-				mentList.add(alarmData);	
+				adto.setMent(alarm_ment);
 			}
-			
-	
 		}
 		
 		
-		log.info("알람 리스트 == {}", mentList);
+		 AlarmData adata = AlarmData.builder()
+				 .member_no(member_no)
+				 .alarmList(alarmList)
+				 .text("refresh")
+				 .status(8)
+				 .build();
 		
-		//리스트 만들었으면 보내기 전에 변환 처리 
-		String ment = mapper.writeValueAsString(mentList);
-		
-		TextMessage msg = new TextMessage(ment);
-		log.info("알람 메시지 = {}",msg.getPayload());
+		log.info("알람 리스트 == {}", adata.getAlarmList());
+
+		// 리스트 만들었으면 보내기 전에 변환 처리
+		String Atext = mapper.writeValueAsString(adata);
+
+		TextMessage msg = new TextMessage(Atext);
+		log.info("알람 메시지 = {}", msg.getPayload());
 		user.getWs().sendMessage(msg);
 		
+		
 	}
-	
-	
-	
-	
-	
 }

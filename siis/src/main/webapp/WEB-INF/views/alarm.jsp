@@ -2,7 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-rCA2D+D9QXuP2TomtQwd+uP50EHjpafN+wruul0sXZzX/Da7Txn4tB9aLMZV4DZm" crossorigin="anonymous">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-rCA2D+D9QXuP2TomtQwd+uP50EHjpafN+wruul0sXZzX/Da7Txn4tB9aLMZV4DZm"
+	crossorigin="anonymous">
 <script>
 	$(function() {
 
@@ -20,6 +24,7 @@
 			ws = new WebSocket(uri);
 
 			ws.onopen = function() {
+				
 			}
 
 			ws.onclose = function() {
@@ -42,46 +47,54 @@
 				else if (msg.status == 6) {
 				} else if (msg.status == 7) {
 				}
-				//status 없이 왔을 때
-				else if (msg[0].status == 0) {
+				// Arefresh = 8;
+				else if (msg.status ==8){
 					$(".alarmList").empty();
 
 					//누구누구 님이 게시글을 등록했습니다.
 					//누구누구 님이 나의 어떤 게시글을 좋아합니다.
 					//누구누구 님이 나의 글에 댓글을 등록했습니다.
 					//누구누구 님이 나의 댓글을 좋아합니다.
-					for ( var index in msg) {
+					for ( var index in msg.alarmList) {
 						var tr = $("<tr>");
 						var tag = $("<a href='#'>");
-						var btn = $("<button>").attr("type","button")
-						.attr("class","btn btn-primary btn-lg btn-block go-content");
+						var btn = $("<button>").attr("type", "button").attr(
+								"class",
+								"btn btn-primary btn-lg btn-block go-content");
 
-						var alarm_message = $("<td>").append(btn.text(msg[index].text))
-						;
-						
+						var alarm_message = $("<td>").append(
+								btn.text(msg.alarmList[index].ment));
+
 						$(".alarmList").append(tr).append(alarm_message);
 						console.log(msg[index]);
-						
+
 					}
+					
+					
+					
+				}
+				//setting = 9;
+				else if (msg.status == 9) {
+					send(8);
+
 				}//
 
 				// 보내는 메시지  메소드 및 형식 구성
 				// 데이터 보낼 때 필요한 정보 = 
 				// 누른사람, 타겟사람 , 컨텐츠 넘버 , 컨텐츠 형식, 행동표시, 메시지 형태
-				function send(status, target_no, content_no, content_type,
-						content_play) {
-					var member_no = $
-					{
-						member_no
-					}
-					;
+				function send(status, target_no, pusher_no, content_no, content_type,
+						content_play,text) {
+					var member_no = ${member_no};
 
 					var message = {
+						member_no : member_no,
 						status : status,
 						target_no : target_no,
+						pusher_no : pusher_no,
 						content_no : content_no,
 						content_type : content_type,
-						content_play : content_play
+						content_play : content_play,
+						text : text
 					};
 					var value = JSON.stringify(message);
 					ws.send(value);
@@ -95,19 +108,15 @@
 				 send(4,23,1,"board","good");
 				
 				 }); */
+				//좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 				//좋아요 키는버튼
 				$(".good-onbtn").off().click(function() {
-					//DB 확인을 먼저 하고 DB값이 없으면 좋아요 있으면 좋아요 취소
-					if ()
-					send()
-					
+					send(4,24,61,332,"reply","good")
 				});
-				 
-				 
+
 				//좋아요 취소 버튼
-				$(".good-offbtn").off().click(function(){
-					
-					
+				$(".good-offbtn").off().click(function() {
+					send(5,24,61,332,"reply","good")
 				});
 
 			};// on message 
@@ -153,8 +162,8 @@
 		</tfoot>
 
 	</table>
-	<button class="good-btn" id="change-btn">좋아요</button>
-
+	<button class="good-onbtn" id="change-btn">좋아요</button>
+	<button class="good-offbtn" id="change-btn">취소</button>
 
 
 </body>

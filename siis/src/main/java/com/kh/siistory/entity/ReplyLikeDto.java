@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class ReplyLikeDto {
 
 	int reply_no;
-	int board_no;
 	int member_no;
 	
 }
