@@ -24,5 +24,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.entity.AlarmDto" alias="alarmDto"/>
 		<typeAlias type="com.kh.siistory.entity.CertDto" alias="certDto"/>
 		<typeAlias type="com.kh.siistory.entity.FollowDto" alias="followDto"/>
+		<typeAlias type="com.kh.siistory.vo.MemberFollowVo" alias="memberFollowVo"/>
 	</typeAliases>
 </configuration>

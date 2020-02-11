@@ -1,5 +1,9 @@
 package com.kh.siistory.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +34,14 @@ public class SearchController {
 	@GetMapping("/")
 	public String search(@RequestParam String type,
 			@RequestParam String keyword,
-			Model model) {
+			Model model,
+			HttpSession session) {
+
 		switch(type) {
 			case "popular": break;
-			case "email": model.addAttribute("list", memberDao.getMember_Email(keyword)); break;
+			case "email":
+				model.addAttribute("list", followDao.search_email_follow(keyword));
+				break;
 			case "tag": break;
 			case "location": break;
 		}

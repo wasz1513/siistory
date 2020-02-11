@@ -39,7 +39,7 @@ $(function(){
 				data : {'member_no':member_no, 'friend_no':friend_no, 'following':1},
 				success:function(resp){
 					if(resp==1){
-						console.log($(this));
+// 						console.log($(this));
 						button.removeClass("btn-primary");
 						button.addClass("btn-outline-success");
 						button.text("팔로잉");
@@ -53,7 +53,7 @@ $(function(){
 				data : {'member_no':member_no, 'friend_no':friend_no, 'following':0},
 				success:function(resp){
 					if(resp==1){
-						console.log($(this));
+// 						console.log($(this));
 						button.removeClass("btn-outline-success");
 						button.addClass("btn-primary");
 						button.text("팔로우");
@@ -71,27 +71,33 @@ $(function(){
 
 <article>
 	<section>
-	
 		<table class="table table-hover">
 			<tbody>
-				<c:forEach var="memberDto" items="${list}">
-					<tr class="table-active">
-						<td>
-							<div class="card border-light mb-3" style="max-width: 50rem;">
-							  <div class="card-body">
-							  	<p class="card-title">${memberDto.email}</p>
-							    <p class="card-text form-text text-muted">name : ${memberDto.member_name}</p>
-							  </div>
-							</div>
-						</td>
-						<td>
-							<c:if test="${memberDto.member_no != sessionScope.member_no}">
+				<c:forEach var="memberFollowVo" items="${list}">
+					<c:if test="${memberFollowVo.member_no != sessionScope.member_no}">
+						<tr class="table-active">
+							<td>
+								<div class="card border-light mb-3" style="max-width: 50rem;">
+								  <div class="card-body">
+								  	<p class="card-title">${memberFollowVo.email}</p>
+								    <p class="card-text form-text text-muted">name : ${memberFollowVo.member_name}</p>
+								  </div>
+								</div>
+							</td>
+							<td>
 								<input type="hidden" value="${sessionScope.member_no}">
-								<input type="hidden" value="${memberDto.member_no}">
-								<button class="btn btn-primary follow-btn">팔로우</button>
-							</c:if>
-						</td>
-					</tr>				
+								<input type="hidden" value="${memberFollowVo.member_no}">
+								<c:choose>
+									<c:when test="${memberFollowVo.following == 1}">
+										<button class="btn btn-outline-success follow-btn">팔로잉</button>
+									</c:when>
+									<c:otherwise>											
+										<button class="btn btn-primary follow-btn">팔로우</button>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>				
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>
