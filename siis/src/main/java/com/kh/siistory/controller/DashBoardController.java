@@ -1,5 +1,7 @@
 package com.kh.siistory.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.BoardDto;
@@ -49,5 +52,11 @@ public class DashBoardController {
 	@ResponseBody
 	public ReplyDto replywrite(@ModelAttribute ReplyDto replyDto, HttpSession session, Model model) {
 		return replyDao.insert(replyDto, session);
+	}
+	
+	@GetMapping("/replyview")
+	@ResponseBody
+	public List<ReplyDto> replyview(@RequestParam int super_no){
+		return replyDao.replyview(super_no);
 	}
 }
