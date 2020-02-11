@@ -29,9 +29,9 @@ $(function(){
 	})
 	
 	$(".reply").click(function(){
-		var writer = "@"+$(this).parent().find(".writer").text()+" ";
+		var writer = "@"+$(this).parents(".r").data("writer")+" ";
 		$(this).parents(".mb-3").find(".reply_content").val(writer).focus();
-		var replyseq = $(this).parent(".r").data("replyseq");
+		var replyseq = $(this).parents(".r").data("seq");
 		$(this).parents(".mb-3").find(".reply_content").data("replyseq", replyseq);
 	})
 	
@@ -59,7 +59,7 @@ margin:auto;
 			
 			<!-- 여기서부터 댓글 -->
 			<c:forEach var="reply" items="${content.replylist }">
-			<ul class="list-group list-group-flush" data-seq="${reply.reply_no }">
+			<ul class="list-group list-group-flush r" data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
 				<div class="card-body">
 					<div>댓글 프로필 사진</div>
 					<div>
@@ -69,7 +69,7 @@ margin:auto;
 							<div>
 								<time>1시간</time>
 								<button>좋아요 ??개</button>
-								<button>답글달기</button>
+								<button class="reply">답글달기</button>
 							</div>
 						</div>
 					</div>
