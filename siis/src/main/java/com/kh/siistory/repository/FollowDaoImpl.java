@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.entity.FollowDto;
+import com.kh.siistory.vo.MemberFollowVo;
 
 @Repository
 public class FollowDaoImpl implements FollowDao{
@@ -25,7 +26,7 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public List<FollowDto> myfollowing(int member_no) {
+	public List<MemberFollowVo> myfollowing(int member_no) {
 		return sqlSession.selectList("follow.myfollowing", member_no);
 	}
 

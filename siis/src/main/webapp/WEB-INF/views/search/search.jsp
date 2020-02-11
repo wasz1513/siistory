@@ -87,16 +87,7 @@ $(function(){
 							<td>
 								<input type="hidden" value="${sessionScope.member_no}">
 								<input type="hidden" value="${memberDto.member_no}">
-								<c:forEach var="memberFollowVo" items="${myfollowing}">
-								<c:choose>
-									<c:when test="${memberDto.member_no == memberFollowVo.friend_no and memberFollowVo.following == 1}">
-										<button class="btn btn-outline-success follow-btn">팔로잉</button>
-									</c:when>
-									<c:otherwise>
-										<button class="btn btn-primary follow-btn">팔로우</button>
-									</c:otherwise>
-								</c:choose>
-								</c:forEach>
+								<button class="btn btn-primary follow-btn">팔로우</button>
 							</td>
 						</tr>				
 					</c:if>
