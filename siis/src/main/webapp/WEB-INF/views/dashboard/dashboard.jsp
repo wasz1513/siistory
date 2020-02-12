@@ -14,28 +14,96 @@ $(function(){
 		var boardseq = $(this).parents("section").prev(".mb-3").data("seq");
 		var replyseq = $(this).prev(".reply_content").data("replyseq");
 		
-		
 		$.ajax({
 			url:"dashboard/replyinsert",
 			type:"post",
 			data:{'board_no':boardseq, 'super_no':replyseq, 'reply_content':content},
 			dataType:"JSON",
+			context:this,
 			success:function(data){
-				console.log(data.reply_no)
+				if(data.depth == 0){
+					$(this).parents("section").prev(".mb-3").find(".more").before(replyadd(data));
+				} else {
+					$(this).parents("section").prev(".mb-3").find("#"+data.super_no).after(replyadd2(data));
+				}
 			}
 		})
 		$(this).prev(".reply_content").val("");
 		
 	})
 	
-	$(".reply").click(function(){
-		var writer = "@"+$(this).parent().find(".writer").text()+" ";
-		$(this).parents(".mb-3").find(".reply_content").val(writer).focus();
-		var replyseq = $(this).parent(".r").data("replyseq");
-		$(this).parents(".mb-3").find(".reply_content").data("replyseq", replyseq);
+	$(document).on("click", ".replyadd", function(){
+		var writer = "@"+$(this).parents(".r").data("writer")+" ";
+		$(this).parents(".mb-3").next("section").find(".reply_content").val(writer).focus();
+		var replyseq = $(this).parents(".r").data("seq");
+		$(this).parents(".mb-3").next("section").find(".reply_content").data("replyseq", replyseq);
+	})
+	
+	$(document).on("click", ".replyview", function(){
+		var super_no = $(this).parents(".rr").attr("id");
+		console.log(super_no);
+		
+		$.ajax({
+			url:"dashboard/replyview?super_no="+super_no,
+			type:"get",
+			context:this,
+			success:function(data){
+				$.each(data, function(index){
+					var a = data[index];
+					$("#"+a.super_no).after(replyadd2(a));
+				})
+			}
+		})
 	})
 	
 });
+
+function replyadd(data){
+	var html = "";
+	html += '<ul class="list-group list-group-flush r" data-seq="'+data.reply_no+'" data-writer="'+data.reply_writer+'">';
+	html += '<div class="card-body">';
+	html += '<div>댓글 프로필 사진</div>';
+	html += '<div>';
+	html += '<h3>'+data.reply_writer+'</h3>';
+	html += '<span>'+data.reply_content+'</span>';
+	html += '<div>';
+	html += '<div>';
+	html += '<time>1시간</time>';
+	html += '<button>좋아요 ??개</button>';
+	html += '<button class="reply">답글달기</button>';
+	html += '</div>';
+	html += '</div>';
+	html += '</div>';
+	html += '</div>';
+	html += '<li class="list-group-item">';
+	html += '<ul class="list-group list-group-flush">';
+	html += '<li class="list-group-item">대댓글 보기 버튼위치</li>';
+	html += '</ul>';
+	html += '</li>';
+	html += '</ul>';
+	
+	return $.parseHTML(html);
+}
+
+function replyadd2(data){
+	var html = "";
+	html += '<div>';
+	html += '<li class="list-group-item">';
+	html += '<div>대댓글 프로필사진</div>';
+	html += '<div class="card-body">';
+	html += '<h3>'+data.reply_writer+'</h3>';
+	html += '<span>'+data.reply_content+'</span>';
+	html += '<div>';
+	html += '<div>';
+	html += '<button>답글달기</button>';
+	html += '</div>';
+	html += '</div>';
+	html += '</div>';
+	html += '</li>';
+	html += '</div>';
+	
+	return $.parseHTML(html);
+}
 
 </script>
 
@@ -50,7 +118,7 @@ margin:auto;
 <c:forEach var="content" items="${list }">
 <div>
 	<div class="card mb-3" data-seq="${content.board_no }">
-		<ul class="list-group list-group-flush">
+		<ul class="list-group list-group-flush b">
 			<!-- 본문관련 -->
 			<div class="card-body">
 				<h2>${content.board_writer }</h2>
@@ -59,7 +127,7 @@ margin:auto;
 			
 			<!-- 여기서부터 댓글 -->
 			<c:forEach var="reply" items="${content.replylist }">
-			<ul class="list-group list-group-flush" data-seq="${reply.reply_no }">
+			<ul class="list-group list-group-flush r" data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
 				<div class="card-body">
 					<div>댓글 프로필 사진</div>
 					<div>
@@ -68,8 +136,8 @@ margin:auto;
 						<div>
 							<div>
 								<time>1시간</time>
-								<button>좋아요 ??개</button>
-								<button>답글달기</button>
+								<button class="btn">좋아요 ??개</button>
+								<button class="btn replyadd">답글달기</button>
 							</div>
 						</div>
 					</div>
@@ -78,25 +146,19 @@ margin:auto;
 				<!-- 여기서부터 대댓글 -->
 				<li class="list-group-item">
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item">답글보기 버튼위치</li>
+						<li class="list-group-item rr" id="${reply.reply_no }">
+							<div>
+								<button class="btn replyview">답글보기</button>
+							</div>
+						</li>
 						
-					<!-- 	
-						여기서부터 대댓글 추가하면 뜨는 곳
-						<div>
-							<li class="list-group-item">
-								<div>대댓글 프로필사진</div>
-								<div class="card-body">
-									<h3>대댓글 제목</h3>
-									<span>대댓글 내용</span>
-								</div>
-							</li>
-						</div>
-						 -->
+					<!-- 여기서부터 대댓글 추가하면 뜨는 곳 -->
+					
 					</ul>
 				</li>
 			</ul>
 			</c:forEach>
-			<li class="list-group-item">
+			<li class="list-group-item more">
 				<div>
 					<button class="btn btn-primary submit">load more comments</button>
 				</div>
@@ -116,7 +178,6 @@ margin:auto;
 </div>
 </c:forEach>
 </article>
-
 
 
 

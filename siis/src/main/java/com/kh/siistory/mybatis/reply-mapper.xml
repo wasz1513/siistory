@@ -41,7 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	</choose>
 	</insert>
 	
-	<select id="return" resultType="replyDto" parameterType="int">
+	<select id="replyadd" resultType="replyDto" parameterType="int">
 		select * from reply where reply_no = #{no}
+	</select>
+	
+	<select id="replyview" resultType="replyDto" parameterType="map">
+		select * from reply where depth = 1 and super_no = #{no}
 	</select>
 </mapper>
