@@ -21,14 +21,31 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
+	public void follower(FollowDto followDto) {
+		sqlSession.insert("follow.follower", followDto);
+	}
+	
+	@Override
 	public int unfollowing(FollowDto followDto) {
 		return sqlSession.delete("follow.unfollowing", followDto);
 	}
 
 	@Override
+	public void unfollower(FollowDto followDto) {
+		sqlSession.delete("follow.unfollower", followDto);
+	}
+	
+	@Override
 	public List<MemberFollowVo> myfollowing(int member_no) {
 		return sqlSession.selectList("follow.myfollowing", member_no);
 	}
+
+	@Override
+	public List<MemberFollowVo> myfollower(int member_no) {
+		return sqlSession.selectList("follow.myfollower", member_no);
+	}
+
+
 
 
 }

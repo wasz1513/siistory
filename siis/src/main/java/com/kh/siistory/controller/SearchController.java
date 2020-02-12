@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.FollowDto;
+import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 
@@ -36,14 +37,15 @@ public class SearchController {
 			@RequestParam String keyword,
 			Model model,
 			HttpSession session) {
-
 		int member_no = (int) session.getAttribute("member_no");
-		model.addAttribute("myfollowing", followDao.myfollowing(member_no));
-		
+		MemberDto memberDto = MemberDto.builder()
+											.email(keyword)
+											.member_no(member_no)
+										.build();
 		switch(type) {
 			case "popular": break;
 			case "email":
-				model.addAttribute("list", memberDao.getMember_Email(keyword));
+				model.addAttribute("list", memberDao.getMember_Email(memberDto));
 				break;
 			case "tag": break;
 			case "location": break;
@@ -54,9 +56,13 @@ public class SearchController {
 	@PostMapping("/follow")
 	@ResponseBody
 	public int follow(@ModelAttribute FollowDto followDto) {
+		log.info("following = {}", followDto.getFollowing());
 		if(followDto.getFollowing()==1) {
+			followDao.follower(followDto);
 			return followDao.following(followDto);			
 		}else {
+			followDto.setFollowing(1);
+			followDao.unfollower(followDto);
 			return followDao.unfollowing(followDto);
 		}
 	}

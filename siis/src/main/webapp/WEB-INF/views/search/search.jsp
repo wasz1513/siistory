@@ -73,21 +73,28 @@ $(function(){
 	<section>
 		<table class="table table-hover">
 			<tbody>
-				<c:forEach var="memberDto" items="${list}">
-					<c:if test="${memberDto.member_no != sessionScope.member_no}">
+				<c:forEach var="memberFollowVo" items="${list}">
+					<c:if test="${memberFollowVo.member_no != sessionScope.member_no}">
 						<tr class="table-active">
 							<td>
 								<div class="card border-light mb-3" style="max-width: 50rem;">
 								  <div class="card-body">
-								  	<p class="card-title">${memberDto.email}</p>
-								    <p class="card-text form-text text-muted">name : ${memberDto.member_name} //// no : ${memberDto.member_no}</p>
+								  	<p class="card-title">${memberFollowVo.email}</p>
+								    <p class="card-text form-text text-muted">name : ${memberFollowVo.member_name} //// no : ${memberFollowVo.member_no}</p>
 								  </div>
 								</div>
 							</td>
 							<td>
 								<input type="hidden" value="${sessionScope.member_no}">
-								<input type="hidden" value="${memberDto.member_no}">
-								<button class="btn btn-primary follow-btn">팔로우</button>
+								<input type="hidden" value="${memberFollowVo.member_no}">
+								<c:choose>
+									<c:when test="${memberFollowVo.following == 1 }">
+										<button class="btn btn-outline-success follow-btn">팔로잉</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-primary follow-btn">팔로우</button>
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>				
 					</c:if>

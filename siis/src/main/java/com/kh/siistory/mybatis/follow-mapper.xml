@@ -7,14 +7,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="following" parameterType="followDto">
 		insert into friend_test(seq_no, member_no, friend_no, following) values(friend_test_seq.nextval, #{member_no}, #{friend_no}, #{following})
+<!-- 		insert into follow(follow_no, -->
+<!-- 						 following_member_no,  -->
+<!-- 						 following_friend_no,  -->
+<!-- 						 my_following,  -->
+<!-- 						 follower_member_no,  -->
+<!-- 						 follower_friend_no, -->
+<!-- 						 friend_follower)  -->
+<!-- 					values(follow_seq.nextval, -->
+<!-- 						#{member_no}, -->
+<!-- 						#{friend_no}, -->
+<!-- 						1, -->
+<!-- 						#{friend_no}, -->
+<!-- 						#{member_no}, -->
+<!-- 						1) -->
+	</insert>
+	
+	<insert id="follower" parameterType="followDto">
+		insert into friend_test(seq_no, member_no, friend_no, follower) values(friend_test_seq.nextval, #{friend_no}, #{member_no}, #{following})
 	</insert>
 	
 	<delete id="unfollowing" parameterType="followDto">
-		delete friend_test where member_no=#{member_no} and friend_no=#{friend_no}
+		delete friend_test where member_no=#{member_no} and friend_no=#{friend_no} and following=#{following}
+<!-- 		delete follow where following_member_no=#{member_no} and following_friend_no=#{friend_no} -->
 	</delete>
+	
+	<delete id="unfollower" parameterType="followDto">
+		delete friend_test where member_no=#{friend_no} and friend_no=#{member_no} and follower=#{following}
+	</delete>
+	
 	
 	<select id="myfollowing" parameterType="int" resultType="memberFollowVo">
 		select * from member_follow where member_no=#{member_no}
 	</select>
 		
+	<select id="myfollower" parameterType="int" resultType="memberFollowVo">
+		select * from member_follow where friend_no=#{member_no}
+	</select>	
 </mapper>
