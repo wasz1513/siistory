@@ -4,6 +4,13 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
+	article{
+		width:50%;
+        text-align:center;
+        align-items: center;
+        margin:auto;
+        margin-top:100px;
+	}
 	
 	.table .img-td{
 		vertical-align:middle;
@@ -28,7 +35,7 @@ $(function(){
 	$(".change-name-btn").click(function(){
 		if($(this).text()=="이름수정"){
 			var nameCell = $(this).parent().prev();
-			var name = nameCell.text();
+			var name = nameCell.text().trim();
 			
 			nameCell.empty();
 			

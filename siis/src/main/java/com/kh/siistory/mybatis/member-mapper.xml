@@ -84,8 +84,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 <!-- 	회원검색(email) -->
-	<select id="getMember_email" parameterType="string" resultType="memberDto">
-		select * from member where email like '%'||#{keyword}||'%'
+<!-- 	<resultMap id="memberList" type="memberDto"> -->
+<!-- 		<id property="member_no" column="member_no"/> -->
+<!-- 		<result property="email" column="email"/> -->
+<!-- 		<result property="member_name" column="member_name"/> -->
+<!-- 		<result property="member_state" column="member_state"/> -->
+<!-- 			<collection property="followList" ofType="followDto"> -->
+<!-- 				<id property="seq_no" column="seq_no"/> -->
+<!-- 				<result property="friend_no" column="friend_no"/> -->
+<!-- 				<result property="follower" column="follower"/> -->
+<!-- 				<result property="following" column="following"/> -->
+<!-- 				<result property="follow_state" column="follow_state"/> -->
+<!-- 			</collection> -->
+<!-- 	</resultMap> -->
+
+	<select id="getMember_email" parameterType="memberDto" resultType="memberFollowVo">
+		select
+    M.member_no, 
+    M.email, 
+    M.member_name ,
+    F.follower,
+    F.following,
+    F.friend_state
+from 
+    member M
+        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
+where M.email like '%'||#{email}||'%' order by M.member_no
 	</select>
 	
 </mapper>

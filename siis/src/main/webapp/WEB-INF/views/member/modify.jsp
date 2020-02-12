@@ -24,6 +24,13 @@ function previewImage(target){
 </script>
 
 <style>
+	article{
+		width:50%;
+        text-align:center;
+        align-items: center;
+        margin:auto;
+        margin-top:100px;
+	}
 
 	.table .img-td{
 		vertical-align:middle;

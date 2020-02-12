@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
+import com.kh.siistory.vo.MemberFollowVo;
 import com.kh.siistory.vo.MemberVo;
 import com.kh.siistory.vo.SeqVo;
 
@@ -77,8 +78,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public List<MemberDto> getMember_Email(String keyword) {
-		return sqlSession.selectList("member.getMember_email", keyword);
+	public List<MemberFollowVo> getMember_Email(MemberDto memberDto) {
+		return sqlSession.selectList("member.getMember_email", memberDto);
 	}
 
 }
