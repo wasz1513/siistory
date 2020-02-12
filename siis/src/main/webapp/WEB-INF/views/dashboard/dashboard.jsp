@@ -89,7 +89,7 @@ function replyadd2(data){
 	var html = "";
 	html += '<div>';
 	html += '<li class="list-group-item">';
-	html += '<div>대댓글 프로필사진</div>';
+	html += '<div><img src="${pageContext.request.contextPath }/member/download?member_no='+data.writer_no+'" width="20" height="20"></div>';
 	html += '<div class="card-body">';
 	html += '<h3>'+data.reply_writer+'</h3>';
 	html += '<span>'+data.reply_content+'</span>';
@@ -129,7 +129,7 @@ margin:auto;
 			<c:forEach var="reply" items="${content.replylist }">
 			<ul class="list-group list-group-flush r" data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
 				<div class="card-body">
-					<div>댓글 프로필 사진</div>
+					<div><img src="${pageContext.request.contextPath }/member/download?member_no=${reply.writer_no}" width="20" height="20"></div>
 					<div>
 						<h3>${reply.reply_writer }</h3>
 						<span>${reply.reply_content }</span>
