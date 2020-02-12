@@ -32,8 +32,8 @@ public class DashBoardController {
 	private ReplyDao replyDao;
 
 	@GetMapping({ "/", "" })
-	public String dashboard(Model model) {
-		model.addAttribute("list", boardDao.dashboardlist());
+	public String dashboard(Model model, HttpSession session) {
+		model.addAttribute("list", boardDao.dashboardlist(session));
 		return "dashboard/dashboard";
 	}
 
