@@ -39,13 +39,17 @@ public class SearchController {
 			HttpSession session) {
 		int member_no = (int) session.getAttribute("member_no");
 		MemberDto memberDto = MemberDto.builder()
-											.email(keyword)
 											.member_no(member_no)
 										.build();
 		switch(type) {
 			case "popular": break;
 			case "email":
+				memberDto.setEmail(keyword);
 				model.addAttribute("list", memberDao.getMember_Email(memberDto));
+				break;
+			case "member_name":
+				memberDto.setMember_name(keyword);
+				model.addAttribute("list", memberDao.getMember_Name(memberDto));
 				break;
 			case "tag": break;
 			case "location": break;
@@ -53,17 +57,5 @@ public class SearchController {
 		return "search/search";
 	}
 	
-	@PostMapping("/follow")
-	@ResponseBody
-	public int follow(@ModelAttribute FollowDto followDto) {
-		log.info("following = {}", followDto.getFollowing());
-		if(followDto.getFollowing()==1) {
-			followDao.follower(followDto);
-			return followDao.following(followDto);			
-		}else {
-			followDto.setFollowing(1);
-			followDao.unfollower(followDto);
-			return followDao.unfollowing(followDto);
-		}
-	}
+	
 }

@@ -1,6 +1,8 @@
 package com.kh.siistory.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,38 @@ public class FollowDaoImpl implements FollowDao{
 	public List<MemberFollowVo> myfollower(int member_no) {
 		return sqlSession.selectList("follow.myfollower", member_no);
 	}
+
+	@Override
+	public int follower_ok(FollowDto followDto) {
+		return sqlSession.update("follow.follower_ok", followDto);
+	}
+
+	@Override
+	public void following_ok(FollowDto followDto) {
+		sqlSession.update("follow.following_ok", followDto);
+	}
+
+	@Override
+	public int follower_no(FollowDto followDto) {
+		return sqlSession.update("follow.follower_no", followDto);
+	}
+
+	@Override
+	public void following_no(FollowDto followDto) {
+		sqlSession.update("follow.following_no", followDto);
+	}
+
+	@Override
+	public int check_following(FollowDto followDto) {
+		return sqlSession.selectOne("follow.check_following", followDto);
+	}
+
+	@Override
+	public List<MemberFollowVo> myfriend(int member_no) {
+		return sqlSession.selectList("follow.myfriend", member_no);
+	}
+	
+	
 
 
 

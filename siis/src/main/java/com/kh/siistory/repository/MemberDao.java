@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberFollowVo;
+import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.MemberVo;
 import com.kh.siistory.vo.SeqVo;
 
@@ -33,4 +34,8 @@ public interface MemberDao {
 	int changeName(String member_name, int member_no);
 	
 	List<MemberFollowVo> getMember_Email(MemberDto memberDto);
+
+	List<MemberFollowVo> getMember_Name(MemberDto memberDto);
+
+	MemberProfileVo memberInfo(int my_member_no, int member_no);
 }

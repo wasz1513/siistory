@@ -1,6 +1,8 @@
 package com.kh.siistory.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberFollowVo;
+import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.MemberVo;
 import com.kh.siistory.vo.SeqVo;
 
@@ -80,6 +83,19 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public List<MemberFollowVo> getMember_Email(MemberDto memberDto) {
 		return sqlSession.selectList("member.getMember_email", memberDto);
+	}
+
+	@Override
+	public List<MemberFollowVo> getMember_Name(MemberDto memberDto) {
+		return sqlSession.selectList("member.getMember_name", memberDto);
+	}
+
+	@Override
+	public MemberProfileVo memberInfo(int my_member_no, int member_no) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("my_member_no", my_member_no);
+		param.put("member_no", member_no);
+		return sqlSession.selectOne("member.member_info", param);
 	}
 
 }

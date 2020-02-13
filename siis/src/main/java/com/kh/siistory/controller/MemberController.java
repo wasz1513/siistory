@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.siistory.entity.FollowDto;
 import com.kh.siistory.entity.Member_profile_fileDto;
 import com.kh.siistory.repository.FileuploadDao;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
 import com.kh.siistory.vo.FileVo;
@@ -43,6 +45,9 @@ public class MemberController {
 	private MemberDao memberDao;
 	
 	@Autowired
+	private FollowDao followDao;
+	
+	@Autowired
 	private FileService fileService;
 	
 	@Autowired
@@ -55,6 +60,15 @@ public class MemberController {
 		model.addAttribute("memberVo", memberVo);
 //		log.info("memberVo = {}", memberVo);
 		return "member/mypage";
+	}
+	
+	@GetMapping("/info")
+	public String info(HttpSession session,
+			Model model,
+			@RequestParam int member_no) {
+		int my_member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("memberInfo", memberDao.memberInfo(my_member_no, member_no));
+		return "member/info";
 	}
 	
 	@GetMapping("/modify")
@@ -80,22 +94,7 @@ public class MemberController {
 		return "redirect:mypage";
 	}
 	
-	@GetMapping("/download")
-	public void download(@RequestParam int member_no,
-			HttpServletResponse resp) throws IOException {
-		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
-		
-		Member_profile_fileDto fileDto = list_fileDto.get(0);
-		
-		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
-		byte[] data = FileUtils.readFileToByteArray(target);
-		
-		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
-		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(fileDto.getProfile_file_uploadname(), "UTF-8")+"\"");
-		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
 
-		resp.getOutputStream().write(data);
-	}
 	
 	@GetMapping("/changeName")
 	@ResponseBody
@@ -105,5 +104,15 @@ public class MemberController {
 		session.setAttribute("member_name", member_name);
 		return memberDao.changeName(member_name, member_no);
 	}
+	
+	@GetMapping("/follow")
+	public String follow(HttpSession session,
+			Model model) {
+		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("list", followDao.myfollower(member_no));
+		return "member/follow";
+	}
+	
+
 	
 }

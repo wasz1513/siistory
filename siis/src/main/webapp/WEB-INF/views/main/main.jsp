@@ -13,30 +13,30 @@
 	}
 	
 	.left-aside{
-		background-color: rgb(228, 247, 65);
+		background-color: EBFBFF;
         width: 20%;
         margin-top:150px;
 	}
 
 	section{
-		background-color: rgb(38, 233, 184, 0.356);
+		background-color: C8FFFF;
 		width:60%;
 		margin-top:150px;
 	}
 
 	.right-aside{
-		background-color:red;
+		background-color: BEEFFF;
 		flex-grow: 1;
 		height:750px;
 		margin-top:150px;
 	}
 	
-	.container{
+	.scroll-div{
 		overflow-y:scroll;
 		height:750px;
 	}
 	
-	.container::-webkit-scrollbar{
+	.scroll-div::-webkit-scrollbar{
 		display: none;
 	}
 	
@@ -45,19 +45,39 @@
 <article>
 
 	<aside class="left-aside">
-	
+		<div class="row">
+			<a href="member/follow">친구 요청</a>
+		</div>
+		<div class="row">
+			<a href="#">내 게시글</a>
+		</div>
+		<div class="row">
+			<a href="#">내정보</a>
+		</div>
+		<div class="row">
+			<a href="#">친구관리</a>
+		</div>
+		<div class="row">
+			<a href="#">설정</a>
+		</div>
 	</aside>
 
 	<section>
 		
-		<div class="container">
+		<div class="container scroll-div">
 			
 		</div>
 		
 	</section>
 
 	<aside class="right-aside">
-		<div class="container">
+		<div class="container scroll-div">
+			<c:forEach var="myfriend" items="${myfriend}">
+				<div class="row">
+					<a href="#">${myfriend.member_name}</a>
+				</div>
+			</c:forEach>
+		
 		</div>
 	</aside>
 	
