@@ -84,7 +84,7 @@ $(function(){
 		 		<tr class="table-secondary">
 		 			<td rowspan="9" class="img-td">
 						<div class="my-img">
-							<img src="download?member_no=${memberVo.member_no}" width="100%" height="100%">
+							<img src="${pageContext.request.contextPath}/util/download?member_no=${memberVo.member_no}" width="100%" height="100%">
 						</div>
 			 		</td>
 		 		</tr>

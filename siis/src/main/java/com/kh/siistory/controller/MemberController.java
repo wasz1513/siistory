@@ -62,6 +62,15 @@ public class MemberController {
 		return "member/mypage";
 	}
 	
+	@GetMapping("/info")
+	public String info(HttpSession session,
+			Model model,
+			@RequestParam int member_no) {
+		int my_member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("memberInfo", memberDao.memberInfo(my_member_no, member_no));
+		return "member/info";
+	}
+	
 	@GetMapping("/modify")
 	public String getModify(HttpSession session,
 			Model model) {
@@ -85,22 +94,7 @@ public class MemberController {
 		return "redirect:mypage";
 	}
 	
-	@GetMapping("/download")
-	public void download(@RequestParam int member_no,
-			HttpServletResponse resp) throws IOException {
-		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
-		
-		Member_profile_fileDto fileDto = list_fileDto.get(0);
-		
-		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
-		byte[] data = FileUtils.readFileToByteArray(target);
-		
-		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
-		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(fileDto.getProfile_file_uploadname(), "UTF-8")+"\"");
-		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
 
-		resp.getOutputStream().write(data);
-	}
 	
 	@GetMapping("/changeName")
 	@ResponseBody
@@ -119,17 +113,6 @@ public class MemberController {
 		return "member/follow";
 	}
 	
-	@PostMapping("/follow")
-	@ResponseBody
-	public int follow(@ModelAttribute FollowDto followDto) {
-//		log.info("following = {}", followDto.getFollowing());
-		if(followDto.getFollowing()==1) {
-			followDao.following_ok(followDto);
-			return followDao.follower_ok(followDto);			
-		}else {
-			followDao.following_no(followDto);
-			return followDao.follower_no(followDto);
-		}
-	}
+
 	
 }

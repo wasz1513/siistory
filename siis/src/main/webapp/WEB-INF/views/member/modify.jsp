@@ -61,7 +61,7 @@ function previewImage(target){
 			 			<td rowspan="8" class="img-td">
 			 				<div class="my-img">
 				 				<div>
-				 					<img src="download?member_no=${memberVo.member_no}" width="100%" height="100%" id="preview">
+				 					<img src="${pageContext.request.contextPath}/util/download?member_no=${memberVo.member_no}" width="100%" height="100%" id="preview">
 				 				</div>
 				 				<div>
 				 					<input type="file" name="member_file" multiple accept="image/*" onchange="previewImage(this);">

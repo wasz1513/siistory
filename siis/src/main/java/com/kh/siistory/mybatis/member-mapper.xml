@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
-		insert into member(member_no, email, member_name, member_pw) values(#{member_no}, #{email}, #{member_name}, #{member_pw})
+		insert into member(member_no, email, member_name, member_pw, member_state) values(#{member_no}, #{email}, #{member_name}, #{member_pw}, '정상')
 	</insert>
 	
 <!-- 	회원가입시 member_profile table member_no 설정 -->
@@ -125,7 +125,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
-		where M.email like '%'||#{member_name}||'%' order by M.member_no
+		where M.member_name like '%'||#{member_name}||'%' order by M.member_no
 	</select>
 	
+<!-- 	회원정보 검색	 -->
+	<select id="member_info" parameterType="map" resultType="memberProfileVo">
+		select
+		    M.*,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member_member_profile M
+		        left outer join (select * from friend_test where member_no=#{my_member_no}) F on M.member_no = F.friend_no
+        where M.member_no=#{member_no}
+	</select>
 </mapper>

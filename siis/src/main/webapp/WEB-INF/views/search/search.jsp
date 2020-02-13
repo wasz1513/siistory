@@ -32,7 +32,7 @@ $(function(){
 		var friend_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 		
-		var url = "follow";
+		var url = "${pageContext.request.contextPath}/util/follow";
 		var method = "post";
 		
 		var button = $(this);
@@ -83,29 +83,28 @@ $(function(){
 						<tr class="table-active">
 							<td>
 							  	<div class="member-img">
-							  		<img src="${pageContext.request.contextPath}/member/download?member_no=${memberFollowVo.member_no}" id="member-img">
+							  		<img src="${pageContext.request.contextPath}/util/download?member_no=${memberFollowVo.member_no}" id="member-img">
 							  	</div>
 							</td>
 							<td>
-								<table class="table table-hover">
-									<thead>
-										<tr class="table-secondary">
-											<th colspan="2" scope="row">
-												${memberFollowVo.email}
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="table-secondary">
-											<td>
-												${memberFollowVo.member_name}
-											</td>
-											<td>
-												<a class="btn btn-outline-success" href="#" role="button">Learn more</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<a href="${pageContext.request.contextPath}/member/info?member_no=${memberFollowVo.member_no}">
+									<table class="table table-hover">
+										<thead>
+											<tr class="table-secondary">
+												<th scope="row">
+													${memberFollowVo.email}
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="table-secondary">
+												<td>
+													${memberFollowVo.member_name}
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</a>
 							</td>
 							<td>
 								<input type="hidden" value="${sessionScope.member_no}">

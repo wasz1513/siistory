@@ -57,27 +57,5 @@ public class SearchController {
 		return "search/search";
 	}
 	
-	@PostMapping("/follow")
-	@ResponseBody
-	public int follow(@ModelAttribute FollowDto followDto) {
-		if(followDto.getFollowing()==1) {
-//			검색을 진행 ( friend_no 가 이미 나를 팔로잉 했는데 검색을 한다 )
-			log.info("followDto = {} ", followDto);
-			log.info("check = {} " , followDao.check_following(followDto));
-			if(followDao.check_following(followDto)==1) {
-//				이미 팔로잉을 했다면 db를 update
-				followDao.following_ok(followDto);
-				return followDao.follower_ok(followDto);
-			}else {
-//				팔로잉을 안했다면 db를 insert
-				followDao.follower(followDto);
-				return followDao.following(followDto);							
-			}
-			
-		}else {
-			followDto.setFollowing(1);
-			followDao.unfollower(followDto);
-			return followDao.unfollowing(followDto);
-		}
-	}
+	
 }

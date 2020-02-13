@@ -26,7 +26,7 @@ $(function(){
 		var friend_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 		
-		var url = "follow";
+		var url = "${pageContext.request.contextPath}/util/followok";
 		var method = "post";
 		
 		var button = $(this);
