@@ -82,4 +82,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectList("member.getMember_email", memberDto);
 	}
 
+	@Override
+	public List<MemberFollowVo> getMember_Name(MemberDto memberDto) {
+		return sqlSession.selectList("member.getMember_name", memberDto);
+	}
+
 }

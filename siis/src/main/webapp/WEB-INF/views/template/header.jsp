@@ -40,6 +40,10 @@
 		margin-buttom:100px;
 	}	
 	
+	.navbar{
+		z-index: 300px;
+	}
+	
 </style>
 
 </head>
@@ -71,6 +75,7 @@
 	      <select class="form-control" id="exampleSelect1" name="type">
 		    <option value="popular">Popular</option>
 		    <option value="email">Email</option>
+		    <option value="member_name">Name</option>
 		    <option value="tag">Tag</option>
 		    <option value="location">Location</option>
 	      </select>

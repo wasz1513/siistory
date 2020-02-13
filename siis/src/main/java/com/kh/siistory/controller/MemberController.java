@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.siistory.entity.FollowDto;
 import com.kh.siistory.entity.Member_profile_fileDto;
 import com.kh.siistory.repository.FileuploadDao;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
 import com.kh.siistory.vo.FileVo;
@@ -41,6 +43,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private FollowDao followDao;
 	
 	@Autowired
 	private FileService fileService;
@@ -104,6 +109,27 @@ public class MemberController {
 		int member_no = (int) session.getAttribute("member_no");
 		session.setAttribute("member_name", member_name);
 		return memberDao.changeName(member_name, member_no);
+	}
+	
+	@GetMapping("/follow")
+	public String follow(HttpSession session,
+			Model model) {
+		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("list", followDao.myfollower(member_no));
+		return "member/follow";
+	}
+	
+	@PostMapping("/follow")
+	@ResponseBody
+	public int follow(@ModelAttribute FollowDto followDto) {
+//		log.info("following = {}", followDto.getFollowing());
+		if(followDto.getFollowing()==1) {
+			followDao.following_ok(followDto);
+			return followDao.follower_ok(followDto);			
+		}else {
+			followDao.following_no(followDto);
+			return followDao.follower_no(followDto);
+		}
 	}
 	
 }

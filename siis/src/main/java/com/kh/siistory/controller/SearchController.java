@@ -39,13 +39,17 @@ public class SearchController {
 			HttpSession session) {
 		int member_no = (int) session.getAttribute("member_no");
 		MemberDto memberDto = MemberDto.builder()
-											.email(keyword)
 											.member_no(member_no)
 										.build();
 		switch(type) {
 			case "popular": break;
 			case "email":
+				memberDto.setEmail(keyword);
 				model.addAttribute("list", memberDao.getMember_Email(memberDto));
+				break;
+			case "member_name":
+				memberDto.setMember_name(keyword);
+				model.addAttribute("list", memberDao.getMember_Name(memberDto));
 				break;
 			case "tag": break;
 			case "location": break;
@@ -56,10 +60,20 @@ public class SearchController {
 	@PostMapping("/follow")
 	@ResponseBody
 	public int follow(@ModelAttribute FollowDto followDto) {
-		log.info("following = {}", followDto.getFollowing());
 		if(followDto.getFollowing()==1) {
-			followDao.follower(followDto);
-			return followDao.following(followDto);			
+//			검색을 진행 ( friend_no 가 이미 나를 팔로잉 했는데 검색을 한다 )
+			log.info("followDto = {} ", followDto);
+			log.info("check = {} " , followDao.check_following(followDto));
+			if(followDao.check_following(followDto)==1) {
+//				이미 팔로잉을 했다면 db를 update
+				followDao.following_ok(followDto);
+				return followDao.follower_ok(followDto);
+			}else {
+//				팔로잉을 안했다면 db를 insert
+				followDao.follower(followDto);
+				return followDao.following(followDto);							
+			}
+			
 		}else {
 			followDto.setFollowing(1);
 			followDao.unfollower(followDto);

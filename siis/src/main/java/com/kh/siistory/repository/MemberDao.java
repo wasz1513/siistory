@@ -33,4 +33,6 @@ public interface MemberDao {
 	int changeName(String member_name, int member_no);
 	
 	List<MemberFollowVo> getMember_Email(MemberDto memberDto);
+
+	List<MemberFollowVo> getMember_Name(MemberDto memberDto);
 }

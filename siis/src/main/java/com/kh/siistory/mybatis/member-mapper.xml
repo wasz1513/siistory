@@ -98,18 +98,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 			</collection> -->
 <!-- 	</resultMap> -->
 
+<!-- 	회원검색(email) -->
 	<select id="getMember_email" parameterType="memberDto" resultType="memberFollowVo">
 		select
-    M.member_no, 
-    M.email, 
-    M.member_name ,
-    F.follower,
-    F.following,
-    F.friend_state
-from 
-    member M
-        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
-where M.email like '%'||#{email}||'%' order by M.member_no
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
+		where M.email like '%'||#{email}||'%' order by M.member_no
+	</select>
+	
+<!-- 	회원검색(member_name) -->
+	<select id="getMember_name" parameterType="memberDto" resultType="memberFollowVo">
+		select
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
+		where M.email like '%'||#{member_name}||'%' order by M.member_no
 	</select>
 	
 </mapper>

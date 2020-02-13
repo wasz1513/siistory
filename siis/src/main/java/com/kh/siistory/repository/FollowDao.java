@@ -17,4 +17,16 @@ public interface FollowDao {
 	List<MemberFollowVo> myfollowing(int member_no);
 
 	List<MemberFollowVo> myfollower(int member_no);
+	
+	int follower_ok(FollowDto followDto);
+	
+	void following_ok(FollowDto followDto);
+	
+	int follower_no(FollowDto followDto);
+	
+	void following_no(FollowDto followDto);
+	
+	int check_following(FollowDto followDto);
+	
+	List<MemberFollowVo> myfriend(int member_no);
 }
