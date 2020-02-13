@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="board">
 	<insert id="write" parameterType="boardDto">
-		insert into board(board_no, board_content, member_no) values(#{board_no}, #{board_content}, #{member_no})
+		insert into board(board_no, board_content, member_no, board_writer) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer})
 	</insert>
 	
 	<select id="seqno" resultType="seqVo">
@@ -69,7 +69,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  </collection>
 	</resultMap>
 	
-	<select id="dashboardlist" resultMap="dashboardlist">
-		select b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth from board b left outer join (select * from reply where depth = 0) r on b.board_no = r.board_no
+		<!-- select b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth from board b left outer join (select * from reply where depth = 0) r on b.board_no = r.board_no -->
+	<select id="dashboardlist" resultMap="dashboardlist" parameterType="int">
+		select * from 
+			(select f.friend_no from (select * from member where member_no = #{no}) m 
+		inner join 
+			(select * from friend_test where following = 1) f 
+		on 
+			m.member_no = f.member_no where f.following = 1) a 
+		inner join 
+			board b 
+		on 
+			b.member_no = a.friend_no 
+		left outer join 
+			(select * from reply where depth = 0) r 
+		on 
+			b.board_no = r.board_no
 	</select> 
 </mapper>
