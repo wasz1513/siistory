@@ -4,10 +4,11 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <script>
 $(function(){
 	
+	// 댓글 입력 전송 이벤트
 	$(".submit").click(function(e){
 		e.preventDefault();
 		var content = $(this).prev(".reply_content").val();
@@ -24,68 +25,102 @@ $(function(){
 				if(data.depth == 0){
 					$(this).parents("section").prev(".mb-3").find(".more").before(replyadd(data));
 				} else {
-					$(this).parents("section").prev(".mb-3").find("#"+data.super_no).after(replyadd2(data));
+					$(this).parents("section").prev(".mb-3").find("#"+data.super_no).after(commentadd(data));
+					$(this).prev(".reply_content").data("replyseq", 0);
+				}
+				$(this).prev(".reply_content").val("");
+			}
+		});
+		
+	});
+	
+	// 댓글 더보기 버튼 (10개씩 불러옴)
+	$(".replymore").click(function(){
+		
+		var board_no = $(this).parents(".mb-3").data("seq");
+		var count = $(this).data("click");
+		if(count == 0){
+			$(this).parents(".b").find("ul").hide();
+		}
+		
+		$.ajax({
+			url:"dashboard/morereply",
+			type:"get",
+			data:{'board_no':board_no, 'start':(count*10)+1, 'end':(count*10)+10},
+			context:this,
+			success:function(data){
+				for(var i in data){
+					var a = data[i];
+					$(this).parents(".mb-3").find(".more").before(replyadd(a));
+					$(this).data("click", count+1);
 				}
 			}
-		})
-		$(this).prev(".reply_content").val("");
-		
-	})
-	
+		});
+	});
+
+	// 댓글 쓰기 + 답글 쓰기 누르면 정보 세팅 이벤트
 	$(document).on("click", ".replyadd", function(){
 		var writer = "@"+$(this).parents(".r").data("writer")+" ";
 		$(this).parents(".mb-3").next("section").find(".reply_content").val(writer).focus();
 		var replyseq = $(this).parents(".r").data("seq");
 		$(this).parents(".mb-3").next("section").find(".reply_content").data("replyseq", replyseq);
-	})
+	});
 	
-	$(document).on("click", ".replyview", function(){
+	// 답글 더보기 버튼 이벤트
+	$(document).on("click", ".commentview", function(){
 		var super_no = $(this).parents(".rr").attr("id");
+		var board_no = $(this).parents(".mb-3").data("seq");
 		console.log(super_no);
 		
 		$.ajax({
-			url:"dashboard/replyview?super_no="+super_no,
+			url:"dashboard/commentview?super_no="+super_no+"&board_no="+board_no,
 			type:"get",
 			context:this,
 			success:function(data){
-				$.each(data, function(index){
-					var a = data[index];
-					$("#"+a.super_no).after(replyadd2(a));
-				})
+				for(var i in data){
+					var a = data[i];
+					$("#"+a.super_no).after(commentadd(a));
+				}
 			}
-		})
-	})
-	
+		});
+	});
 });
-
+	
+	
+// 댓글 추가하면 jsp에 댓글 생성해주는 태그 함수
 function replyadd(data){
 	var html = "";
 	html += '<ul class="list-group list-group-flush r" data-seq="'+data.reply_no+'" data-writer="'+data.reply_writer+'">';
 	html += '<div class="card-body">';
-	html += '<div>댓글 프로필 사진</div>';
+	html += '<div><img src="${pageContext.request.contextPath }/member/download?member_no='+data.writer_no+'" width="20" height="20"></div>';
 	html += '<div>';
 	html += '<h3>'+data.reply_writer+'</h3>';
 	html += '<span>'+data.reply_content+'</span>';
 	html += '<div>';
 	html += '<div>';
 	html += '<time>1시간</time>';
-	html += '<button>좋아요 ??개</button>';
-	html += '<button class="reply">답글달기</button>';
+	html += '<button class="btn">좋아요 ??개</button>';
+	html += '<button class="btn replyadd">답글달기</button>';
 	html += '</div>';
 	html += '</div>';
 	html += '</div>';
 	html += '</div>';
 	html += '<li class="list-group-item">';
 	html += '<ul class="list-group list-group-flush">';
-	html += '<li class="list-group-item">대댓글 보기 버튼위치</li>';
+	html += '<li class="list-group-item rr" id="'+data.reply_no+'">';
+	html += '<div>';
+	html += '<button class="btn commentview">답글 보기(??개)</button>';
+	html += '</div>';
+	html += '</li>';
 	html += '</ul>';
 	html += '</li>';
 	html += '</ul>';
 	
 	return $.parseHTML(html);
-}
+};
 
-function replyadd2(data){
+// 답글 추가하면 jsp에 답글 생성해주는 태그 함수
+function commentadd(data){
 	var html = "";
 	html += '<div>';
 	html += '<li class="list-group-item">';
@@ -95,7 +130,7 @@ function replyadd2(data){
 	html += '<span>'+data.reply_content+'</span>';
 	html += '<div>';
 	html += '<div>';
-	html += '<button>답글달기</button>';
+	html += '<button class="btn replyadd">답글달기</button>';
 	html += '</div>';
 	html += '</div>';
 	html += '</div>';
@@ -103,7 +138,7 @@ function replyadd2(data){
 	html += '</div>';
 	
 	return $.parseHTML(html);
-}
+};
 
 </script>
 
@@ -115,7 +150,7 @@ margin:auto;
 </style>
 
 <article>
-<c:forEach var="content" items="${list }">
+<c:forEach var="content" items="${dtolist }">
 <div>
 	<div class="card mb-3" data-seq="${content.board_no }">
 		<ul class="list-group list-group-flush b">
@@ -123,6 +158,7 @@ margin:auto;
 			<div class="card-body">
 				<h2>${content.board_writer }</h2>
 				<span>${content.board_content }</span>
+				<i class="fa fa-plus" aria-hidden="true"></i>
 			</div>
 			
 			<!-- 여기서부터 댓글 -->
@@ -148,7 +184,7 @@ margin:auto;
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item rr" id="${reply.reply_no }">
 							<div>
-								<button class="btn replyview">답글보기</button>
+								<button class="btn commentview">답글 보기(??개)</button>
 							</div>
 						</li>
 						
@@ -160,7 +196,7 @@ margin:auto;
 			</c:forEach>
 			<li class="list-group-item more">
 				<div>
-					<button class="btn btn-primary submit">load more comments</button>
+					<button class="btn replymore" data-click="0">댓글 <span>${content.board_reply_count }</span>개 보기</button>
 				</div>
 			</li>
 		</ul>

@@ -3,9 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace : 영역을 부르는 별칭 parameterType : 이 명령을 실행하기 위해 필요한 데이터의 형태 resultType 
-	: 결과물의 형태 (반환값) <![CDATA[ sql구문 ]]> : 태그때문에 못쓰는 되는 기호들은 CDATA로 해결이 가능 #{} 
-	: 형태를 추론하여 자동으로 따옴표 설정 및 인코딩 처리를 수행 ${} : 값을 있는 그대로 출력하는 명령이므로 주로 "항목:에 사용 
+<!-- namespace : 영역을 부르는 별칭 parameterType : 이 명령을 실행하기 위해 필요한 데이터의 형태 
+	resultType : 결과물의 형태 (반환값) 
+	<![CDATA[ sql구문 ]]> : 태그때문에 못쓰는 되는 기호들은 CDATA로 해결이 가능 
+	#{}	: 형태를 추론하여 자동으로 따옴표 설정 및 인코딩 처리를 수행 
+	${} : 값을 있는 그대로 출력하는 명령이므로 주로 "항목:에 사용 
 	$는 SQL Injection 이라는 해킹공격에 매우 취약하므로 사용에 주의 -->
 
 <!-- <insert id="insert" parameterType="memoDto"> -->
@@ -28,38 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="board">
 	<insert id="write" parameterType="boardDto">
-		insert into board(board_no, board_content, member_no, board_writer) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer})
+		insert into board(board_no, board_content, member_no, board_writer) values(board_seq.nextval, #{board_content}, #{member_no}, #{board_writer})
 	</insert>
-	
-	<select id="seqno" resultType="seqVo">
-		select board_seq.nextval seq_no from dual
-	</select>
-	
-	<!-- <resultMap type="boardVO" id="getBoardAndReply">
-		<result column="board_no" property="board_no"/>
-		<result column="member_no" property="member_no"/>
-		<result column="board_like_count" property="board_like_count"/>
-		<result column="board_read_count" property="board_read_count"/>
-		<result column="board_reply_count" property="board_reply_count"/>
-		<result column="board_state" property="board_state"/>
-		<result column="board_content" property="board_content"/>
-		<result column="board_wdate" property="board_wdate"/>
-		<collection column="board_no" property="replylist" javaType="list" ofType="replyDto" select="getReplyListByBoard"></collection>
-	</resultMap>
-	
-	<select id="getBoardList" resultMap="getBoardAndReply">
-		select * from board order by board_no desc
-	</select>
-	
-	<select id="getReplyListByBoard" resultType="replyDto" parameterType="int">
-		select * from reply where board_no=#{board_no} order by reply_no asc
-	</select> -->
 	
  	<resultMap id="dashboardlist" type="boardDto"> 
 	  <id property="board_no" column="board_no" />
 	  <result property="board_content" column="board_content"/>
 	  <result property="board_writer" column="board_writer"/>
 	  <result property="member_no" column="member_no"/>
+	  <result property="board_reply_count" column="board_reply_count"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>
@@ -69,14 +48,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  </collection>
 	</resultMap>
 	
-		<!-- select b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth from board b left outer join (select * from reply where depth = 0) r on b.board_no = r.board_no -->
 	<select id="dashboardlist" resultMap="dashboardlist" parameterType="int">
-		select * from 
-			(select f.friend_no from (select * from member where member_no = #{no}) m 
+		select 
+			* 
+		from (
+			select 
+				b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth, 
+				(select count(*) from reply where b.board_no = reply.board_no) as board_reply_count, 
+				row_number() OVER (PARTITION BY b.board_no ORDER BY b.board_no) as rk
+			from 
+				board b 
+			left outer join 
+				(select * from reply where depth = 0) r 
+			on 
+				b.board_no = r.board_no
+			)
+        where 
+        	rk <![CDATA[<]]> 3
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- select * from (
+			select f.friend_no from (select * from member where member_no = #{no}) m 
 		inner join 
 			(select * from friend_test where following = 1) f 
 		on 
-			m.member_no = f.member_no where f.following = 1) a 
+			m.member_no = f.member_no where f.following = 1
+			) a 
 		inner join 
 			board b 
 		on 
@@ -84,6 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left outer join 
 			(select * from reply where depth = 0) r 
 		on 
-			b.board_no = r.board_no
-	</select> 
+			b.board_no = r.board_no -->
+	</select>
+	
 </mapper>
