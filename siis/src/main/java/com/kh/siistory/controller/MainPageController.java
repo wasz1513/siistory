@@ -1,5 +1,7 @@
 package com.kh.siistory.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.MemberDto;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
+import com.kh.siistory.vo.MemberFollowVo;
 import com.kh.siistory.vo.SeqVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,9 @@ public class MainPageController {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private FollowDao followDao;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -92,7 +99,10 @@ public class MainPageController {
 	}
 	
 	@GetMapping("/main")
-	public String main() {
+	public String main(HttpSession session,
+			Model model) {
+		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		return "main/main";
 	}
 	

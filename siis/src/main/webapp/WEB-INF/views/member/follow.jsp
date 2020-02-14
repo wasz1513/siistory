@@ -16,23 +16,17 @@
 	.table td{
 		vertical-align:middle;
 	}
-	
-	#member-img{
-		width:100px;
-		height:100px;
-	}
 </style>
 
 <script>
 
 $(function(){
-	
 	$(".follow-btn").click(function(){
 		
 		var friend_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 		
-		var url = "${pageContext.request.contextPath}/util/follow";
+		var url = "${pageContext.request.contextPath}/util/followok";
 		var method = "post";
 		
 		var button = $(this);
@@ -67,9 +61,7 @@ $(function(){
 			});			
 		}
 		
-		
 	});
-	
 });
 
 </script>
@@ -79,47 +71,28 @@ $(function(){
 		<table class="table table-hover">
 			<tbody>
 				<c:forEach var="memberFollowVo" items="${list}">
-					<c:if test="${memberFollowVo.member_no != sessionScope.member_no}">
 						<tr class="table-active">
 							<td>
 							  	<div class="member-img">
-							  		<img src="${pageContext.request.contextPath}/util/download?member_no=${memberFollowVo.member_no}" id="member-img">
+							  		<img src="${pageContext.request.contextPath}/member/download?member_no=${memberFollowVo.member_no}" id="member-img">
 							  	</div>
 							</td>
 							<td>
-								<a href="${pageContext.request.contextPath}/member/info?member_no=${memberFollowVo.member_no}">
-									<table class="table table-hover">
-										<thead>
-											<tr class="table-secondary">
-												<th scope="row">
-													${memberFollowVo.email}
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="table-secondary">
-												<td>
-													${memberFollowVo.member_name}
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</a>
+								<div class="card border-light mb-3" style="max-width: 50rem;">
+								  <div class="card-body">
+								  	<p class="card-title">${memberFollowVo.email}</p>
+								    <p class="card-text form-text text-muted">name : ${memberFollowVo.member_name} //// no : ${memberFollowVo.member_no}</p>
+								  </div>
+								</div>
 							</td>
 							<td>
 								<input type="hidden" value="${sessionScope.member_no}">
 								<input type="hidden" value="${memberFollowVo.member_no}">
-								<c:choose>
-									<c:when test="${memberFollowVo.following == 1}">
-										<button class="btn btn-outline-success follow-btn">팔로잉</button>
-									</c:when>
-									<c:otherwise>
-										<button class="btn btn-primary follow-btn">팔로우</button>
-									</c:otherwise>
-								</c:choose>
+								<c:if test="${memberFollowVo.follower == 1 }">
+									<button class="btn btn-primary follow-btn">팔로우</button>								
+								</c:if>
 							</td>
 						</tr>				
-					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>
