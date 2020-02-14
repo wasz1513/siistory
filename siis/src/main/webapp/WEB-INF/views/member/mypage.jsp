@@ -94,7 +94,7 @@ $(function(){
 			      ${memberVo.member_name}
 			      </td>
 			      <td class="change-name">
-			      	<button class="btn btn-outline-info change-name-btn">이름수정</button>			      	
+			      	<button class="btn btn-outline-info change-name-btn">이름변경</button>			      	
 			      </td>
 			    </tr>
 			    <tr class="table-secondary">

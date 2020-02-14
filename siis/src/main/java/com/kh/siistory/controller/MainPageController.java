@@ -78,15 +78,22 @@ public class MainPageController {
 		if(login != null){
 			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
 			if(correct) {
+				String url = "";
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
 				session.setAttribute("member_name", login.getMember_name());
-				return "redirect:/main";				
+				switch(login.getMember_state()) {
+					case "정상" : url="redirect:/main"; break;
+					case "탈퇴" : url="redirect:/withdraw"; break;
+					case "휴면" : url="redirect:/dormant"; break;
+					case "정지" : url="redirect:/suspend"; break;
+				}
+				return url;
 			}else {
-				return "redirect:/login";
+				return "redirect:/login?error=false";
 			}
 		} else {
-			return "redirect:/login";
+			return "redirect:/login?error=false";
 		}
 	}
 	
@@ -103,7 +110,34 @@ public class MainPageController {
 			Model model) {
 		int member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
-		return "main/main";
+		return "login/main";
+	}
+	
+	@GetMapping("/suspend")
+	public String suspend() {
+		return "login/suspend";
+	}
+	
+	@GetMapping("/withdraw")
+	public String withdraw() {
+		return "login/withdraw";
+	}
+	
+	@GetMapping("/dormant")
+	public String getDormant() {
+		return "login/dormant";
+	}
+	
+	@PostMapping("/dormant")
+	public String postDormant(@ModelAttribute MemberDto memberDto) {
+		MemberDto login = memberDao.login(memberDto);
+		boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
+		if(correct) {
+			memberDao.dormant(memberDto);
+			return "redirect:main";
+		}else {
+			return "redirect:dormant?error=false";
+		}
 	}
 	
 	@GetMapping("/idcheck")

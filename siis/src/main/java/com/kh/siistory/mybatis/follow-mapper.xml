@@ -89,6 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        inner join (select * from friend_test where member_no=#{member_no} and friend_state=1) F on M.member_no = F.friend_no
-		order by F.seq_no desc
+		where M.member_state='정상' order by F.seq_no desc
 	</select>	
 </mapper>

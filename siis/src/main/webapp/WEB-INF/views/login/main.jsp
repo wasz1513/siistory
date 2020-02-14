@@ -74,7 +74,7 @@
 		<div class="container scroll-div">
 			<c:forEach var="myfriend" items="${myfriend}">
 				<div class="row">
-					<a href="#">${myfriend.member_name}</a>
+					<a href="#"><button class="btn btn-secondary btn-sm">${myfriend.member_name}</button></a>
 				</div>
 			</c:forEach>
 		

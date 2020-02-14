@@ -98,4 +98,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.member_info", param);
 	}
 
+	@Override
+	public void dormant(MemberDto memberDto) {
+		sqlSession.update("member.dormant", memberDto);
+	}	
+
 }

@@ -68,7 +68,14 @@
 	        <a class="nav-link" href="${pageContext.request.contextPath}/member/mypage">Mypage</a>
 	      </li>
 	      <li class="nav-item">
-	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
+	      	<c:choose>
+	      		<c:when test="${empty sessionScope.email}">
+			      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Login</a>
+	      		</c:when>
+	      		<c:otherwise>
+			      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
+	      		</c:otherwise>
+	      	</c:choose>
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">

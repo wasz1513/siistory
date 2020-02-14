@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="login" parameterType="memberDto" resultType="memberDto">
 		select * from member where email=#{email}
 	</select>
-	
+		
 <!-- 	단일조회 -->
 	<select id="getMember" parameterType="int" resultType="memberDto">
 		select * from member where member_no=#{member_no}
@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
-		where M.email like '%'||#{email}||'%' order by M.member_no
+		where M.email like '%'||#{email}||'%' and M.member_state='정상' order by M.member_no
 	</select>
 	
 <!-- 	회원검색(member_name) -->
@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
-		where M.member_name like '%'||#{member_name}||'%' order by M.member_no
+		where M.member_name like '%'||#{member_name}||'%' and M.member_state='정상' order by M.member_no
 	</select>
 	
 <!-- 	회원정보 검색	 -->
@@ -140,4 +140,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		        left outer join (select * from friend_test where member_no=#{my_member_no}) F on M.member_no = F.friend_no
         where M.member_no=#{member_no}
 	</select>
+	
+	<!-- 휴면계정 정상계정으로 전환 -->
+	<update id="dormant" parameterType="memberDto">
+		update member set member_state='정상' where email=#{email}
+	</update>
+	
 </mapper>
