@@ -1,11 +1,11 @@
 package com.kh.siistory.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,11 +24,16 @@ public class ReplyDaoImpl implements ReplyDao {
 		replyDto.setReply_writer((String) session.getAttribute("member_name"));
 		replyDto.setWriter_no((int) session.getAttribute("member_no"));
 		sqlSession.insert("reply.insertreply", replyDto);
-		return sqlSession.selectOne("reply.replyadd", replyDto.getReply_no());
+		return sqlSession.selectOne("reply.replyviewadd", replyDto.getReply_no());
 	}
 
 	@Override
-	public List<ReplyDto> replyview(int super_no) {
-		return sqlSession.selectList("reply.replyview", super_no);
+	public List<ReplyDto> commentview(Map<String, Integer> obj) {
+		return sqlSession.selectList("reply.commentview", obj);
+	}
+
+	@Override
+	public List<ReplyDto> morereply(Map<String, Integer> obj) {
+		return sqlSession.selectList("reply.morereply", obj);
 	}
 }
