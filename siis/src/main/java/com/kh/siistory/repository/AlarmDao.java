@@ -12,6 +12,6 @@ public interface AlarmDao {
 	
 	public AlarmDto get(int no);
 	
-	public List<AlarmDto> getList(AlarmDto alarmDto);
+	public List<AlarmDto> getList(int target_no);
 	
 }

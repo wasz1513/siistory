@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="boardlike">
+
+<insert id="insert" parameterType="boardlikeDto">
+ insert into board_like values (
+ #{board_no},
+ #{member_no}
+ )
+</insert>
+
+
+<delete id="delete" parameterType="boardlikeDto">
+delete board_like where 
+member_no = #{member_no} and
+board_no = #{board_no}
+</delete>
+
+
+
+
+</mapper>

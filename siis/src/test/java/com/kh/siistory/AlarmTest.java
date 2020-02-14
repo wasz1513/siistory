@@ -59,7 +59,8 @@ public class AlarmTest {
 	
 //	@Test
 	public void getList() {
-		List <AlarmDto>list = alarmDao.getList(alarmDto);
+		int target_no = alarmDto.getTarget_no();
+		List <AlarmDto>list = alarmDao.getList(target_no);
 
 		log.info("dddd{}", list);
 	}
