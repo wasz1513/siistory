@@ -78,11 +78,13 @@
 					send(8);
 
 				}//
+				
+				
 
 				// 보내는 메시지  메소드 및 형식 구성
 				// 데이터 보낼 때 필요한 정보 = 
 				// 누른사람, 타겟사람 , 컨텐츠 넘버 , 컨텐츠 형식, 행동표시, 메시지 형태
-				function send(status, target_no, pusher_no, content_no, content_type,
+				function send(status, target_no,content_no, content_type,
 						content_play,text) {
 					var member_no = ${member_no};
 
@@ -90,7 +92,7 @@
 						member_no : member_no,
 						status : status,
 						target_no : target_no,
-						pusher_no : pusher_no,
+						pusher_no : member_no,
 						content_no : content_no,
 						content_type : content_type,
 						content_play : content_play,
@@ -111,14 +113,20 @@
 				//좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 				//좋아요 키는버튼
 				$(".good-onbtn").off().click(function() {
-					send(4,24,61,332,"reply","good")
+					send(4,23,60,"board","good")
 				});
 
 				//좋아요 취소 버튼
 				$(".good-offbtn").off().click(function() {
-					send(5,24,61,332,"reply","good")
+					send(5,23,60,"board","good")
 				});
-
+				
+				//친구 요청 버튼
+				$(".friend-add").off().click(function(){
+					send(10,24,0,"friend","add")
+				});
+				
+				
 			};// on message 
 		}
 		; //connect
@@ -164,6 +172,7 @@
 	</table>
 	<button class="good-onbtn" id="change-btn">좋아요</button>
 	<button class="good-offbtn" id="change-btn">취소</button>
+		<button class="friend-add" id="change-btn">친구요청 </button>
 
 
 </body>

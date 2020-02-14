@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 	$(function() {
@@ -19,7 +21,7 @@
 
 			//시작시 예약 코드 
 			window.socket.onopen = function() {
-				
+
 			}
 
 			//종료 예약 코드
@@ -31,44 +33,84 @@
 			window.socket.onmessage = function(e) {
 
 				var Friend = JSON.parse(e.data)
-				
-				if(Friend.status == 0){
-					
+
+				if (Friend.status == 0) {
+
 					send(0)
 				}
-				
-				else if (Friend.status == 1){
+
+				else if (Friend.status == 1) {
 					send(1)
 				}
-				
-				
+
 				else if (Friend.status == 3) {
-			
-					
-					$(".showList").empty();
+
+					/* 					$(".showList").empty();
+					 for ( var index in Friend.flist_data) {
+
+					 var tr = $("<tr>");
+					 var Fno = $("<td>").text(
+					 "no = " + Friend.member_no);
+					 var Fname = $("<td>").text(
+					 "Fno = " + Friend.flist_data[index].friend);
+					 var Fstate = $("<td>").text(
+					 "state = " + Friend.flist_data[index].connect_state);
+
+					 $(".showList").append(tr).append(Fno).append(Fname)
+					 .append(Fstate);
+
+					 }
+					 ; */
+					$(".testList").empty();
+					var room_no = 0;
+					var ul = $("<ul>").addClass("set-list");
+					$(".testList").append(ul);
+				
 					for ( var index in Friend.flist_data) {
+						var http = "http://" + host + context
+								+ "/messenger/chat?room_no=" + room_no
+								+ "&friend_no="
+								+ Friend.flist_data[index].friend;
 
-						var tr = $("<tr>");
-						var Fno = $("<td>").text(
-								"no = " + Friend.member_no);
-						var Fname = $("<td>").text(
-								"Fno = " + Friend.flist_data[index].friend);
-						var Fstate = $("<td>").text(
-								"state = " + Friend.flist_data[index].connect_state);
+						var text = "  no = " + Friend.member_no + "  fno = "
+								+ Friend.flist_data[index].friend
+								+ "  state = "
+								+ Friend.flist_data[index].connect_state
+								
+						var room = $("<a>").addClass("room_no-data").hide().text(room_no);
+						
+						var friend = $("<a>").addClass("friend_no-data").hide().text(Friend.flist_data[index].friend);
+							
+							
+							
+							
+								
+						var li = $("<li>");
+								
+						var tag = $(
+								"<a href="+http+">")
+								.addClass("invite-chat").text(text);
 
-						$(".showList").append(tr).append(Fno).append(Fname)
-								.append(Fstate);
+						li.append(tag).append(room).append(friend).appendTo(".set-list");
 
+						room_no++;
 					}
 					;
 
-				}
-
-
+				}  //3 일 때 
+				// 새 창을 띄운다 > 해당 창에 로케이션을 정해진 주소로 변경시킨다 . 
+				else if (Friend.status == 20 ) {
+				    window.open("http://" + host + context+ 
+				    "/messenger/chat?room_no="+Friend.room_no,
+				    "1:1 채팅", "width=300, height=450, toolbar=no, menubar=no,scrollbars=yes, resizable=no, location=no, left=1400px,top=1300px");  
+				}  
+		
+				
+				
 				console.log(e.data);
-
 			};
-		}
+
+		}//connect 
 		;
 
 		//메시지 받고 출력하는 코드
@@ -91,8 +133,7 @@
 
 		//[2] 각 칸에 text 입력되게끔 구현 (jsp 에서는 jackson 객체에서 뽑아서 넣는다.)
 		//[3] text를 jacson 객체의 원하는 내용 끼워 넣기
-
-		function send(text, status) {
+		function send(text, status, target_no, room_no) {
 			var member_no = $
 			{
 				member_no
@@ -101,7 +142,9 @@
 			var message = {
 				member_no : member_no,
 				text : text,
-				status : status
+				status : status,
+				target_no : target_no,
+				room_no : room_no
 			};
 			var value = JSON.stringify(message);
 			window.socket.send(value)
@@ -116,22 +159,34 @@
 
 		});
 
-		/* 		//리스트  출력하는 구문  (일단은 p로 진행)
-		 function appendMessage(message) {
+		//채팅을 상대방이 접속하게 하려면 필요한 것 .
 
-		 $("<p>").attr("id","target").text(message).appendTo(".chat-content")
-		 }
-		 ; */
+		//접속 주소 , 방번호 , 상대방 넘버 
+		//1:1 채팅을 시도하면 상대방에게 주소를 보낸다.
+		$(document).on("click",".invite-chat",function(event){
+			console.log("채팅 초대")
+			event.preventDefault();
+			var location  = $(this).attr("href");
+			var room_no = $(this).next().text();
+			var target_no = $(this).next().next().text();
+			
+			console.log (target_no);
+			
+			console.log (room_no);
+			
+			send(location, 20, target_no , room_no);
+			
+		})
 
-		//item-connect 이벤트 설정
-		$(".refresh-btn").click(function() {
 
-			window.socket.send("restart")
 
-		});
 
 	});
+	
+
 </script>
+
+
 
 
 <!DOCTYPE html>
@@ -164,7 +219,13 @@
 		</tfoot>
 
 	</table>
-	<button class="refresh-btn">갱신</button>
+
+
+	<div class="testList"></div>
+	
+	
+	<a href="#" role="button" class="invite-chat">  no = 24  fno = 8  state = 테스트</a>
+
 
 </body>
 </html>
