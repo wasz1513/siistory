@@ -70,16 +70,18 @@
 						var http = "http://" + host + context
 								+ "/messenger/chat?room_no=" + room_no
 								+ "&friend_no="
-								+ Friend.flist_data[index].friend;
+								+ Friend.flist_data[index].member_no;
 
 						var text = "  no = " + Friend.member_no + "  fno = "
-								+ Friend.flist_data[index].friend
+								+ Friend.flist_data[index].member_no
 								+ "  state = "
 								+ Friend.flist_data[index].connect_state
+								+ "  이름 = "
+								+ Friend.flist_data[index].member_name
 								
 						var room = $("<a>").addClass("room_no-data").hide().text(room_no);
 						
-						var friend = $("<a>").addClass("friend_no-data").hide().text(Friend.flist_data[index].friend);
+						var friend = $("<a>").addClass("friend_no-data").hide().text(Friend.flist_data[index].member_no);
 							
 							
 							
