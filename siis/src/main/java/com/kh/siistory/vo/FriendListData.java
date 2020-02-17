@@ -17,7 +17,7 @@ public class FriendListData {
 	
 	private int member_no;
 	private String text;
-	private List <FriendDto> flist_data;
+	private List <MemberFollowVo> flist_data;
 	private int status;
 	
 	
