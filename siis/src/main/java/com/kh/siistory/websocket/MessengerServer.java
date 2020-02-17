@@ -52,6 +52,7 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 친구추가 알람 상태값
 	public static final int addfriend = 10;
 	
+	
 	// 채팅 요청이 들어왔을 때 
 	public static final int chatconnect = 20;
 
@@ -237,19 +238,15 @@ public class MessengerServer extends TextWebSocketHandler {
 			} else if (data.getStatus() == 6) {
 				alarmDao.insert(alarmDto);
 			}
-			// 알람 확인 시
+			// 알람 확인 시 (좋아요 , 보드 , 친구 , 댓글 전부 alarmDto 에 정보 들어가있음)
 			else if (data.getStatus() == 7) {
-				replylikeDao.delete(replylikeDto);
 				alarmDao.delete(alarmDto);
+				
 			}
 
 			// 갱신 요청이 들어왔다면?
 			else if (data.getStatus() == 8) {
 				for (WebSocketUser user1 : userList) {
-					System.out.println("=========================");
-					System.out.println(user1.getMember_no());
-					System.out.println("=========================");
-					System.out.println(data.getMember_no());
 					if (user1.getMember_no() == data.getMember_no()) {
 						sendAlarmData(user1);
 					}
