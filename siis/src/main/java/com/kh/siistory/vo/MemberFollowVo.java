@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 public class MemberFollowVo {
 	private int member_no, friend_no, follower, following, friend_state;
 	private String email, member_name;
+	
+	private String connect_state = "미접속";
 }

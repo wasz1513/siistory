@@ -101,6 +101,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void dormant(MemberDto memberDto) {
 		sqlSession.update("member.dormant", memberDto);
+	}
+
+	@Override
+	public int checkFile(int member_no) {
+		return sqlSession.selectOne("memberfile.check", member_no);
 	}	
 
 }

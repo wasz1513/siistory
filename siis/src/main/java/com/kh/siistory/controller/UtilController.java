@@ -41,14 +41,20 @@ public class UtilController {
 			HttpServletResponse resp) throws IOException {
 		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
 		
+		log.info("list_fileDto = {}",list_fileDto==null);
+		
 		Member_profile_fileDto fileDto = list_fileDto.get(0);
 		
-		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
-		byte[] data = FileUtils.readFileToByteArray(target);
+		log.info("fileDto = {}",fileDto);
+		
+		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename()); 			
 		
 		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
 		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(fileDto.getProfile_file_uploadname(), "UTF-8")+"\"");
 		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);
+		
 
 		resp.getOutputStream().write(data);
 	}

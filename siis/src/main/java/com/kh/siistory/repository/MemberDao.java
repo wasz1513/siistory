@@ -40,4 +40,6 @@ public interface MemberDao {
 	MemberProfileVo memberInfo(int my_member_no, int member_no);
 	
 	void dormant(MemberDto memberDto);
+	
+	int checkFile(int member_no);
 }

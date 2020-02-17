@@ -11,6 +11,8 @@ import com.kh.siistory.vo.MemberVo;
 public interface FileService {
 
 	void upload(MemberVo memberVo, MultipartFile member_file) throws IllegalStateException, IOException;
+	
+	void change(MemberVo memberVo, MultipartFile member_file) throws IllegalStateException, IOException;
 
 	
 }

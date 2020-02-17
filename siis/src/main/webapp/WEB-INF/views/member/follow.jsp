@@ -16,6 +16,11 @@
 	.table td{
 		vertical-align:middle;
 	}
+	
+	#member-img{
+		width:100px;
+		height:100px;
+	}
 </style>
 
 <script>
@@ -74,7 +79,7 @@ $(function(){
 						<tr class="table-active">
 							<td>
 							  	<div class="member-img">
-							  		<img src="${pageContext.request.contextPath}/member/download?member_no=${memberFollowVo.member_no}" id="member-img">
+							  		<img src="${pageContext.request.contextPath}/util/download?member_no=${memberFollowVo.member_no}" id="member-img">
 							  	</div>
 							</td>
 							<td>

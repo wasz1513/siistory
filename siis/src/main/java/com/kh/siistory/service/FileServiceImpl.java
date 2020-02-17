@@ -40,6 +40,25 @@ public class FileServiceImpl implements FileService{
 		fileuploadDao.insert(memberfileDto);
 	}
 
+	@Override
+	public void change(MemberVo memberVo, MultipartFile member_file) throws IllegalStateException, IOException {
+		File dir = new File("D:/upload/kh2f/member");
+		dir.mkdirs();
+		File target = new File(dir, String.valueOf(memberVo.getMember_no()));
+		member_file.transferTo(target);
+		
+		SeqVo seqVo = fileuploadDao.createSeq();
+		
+		Member_profile_fileDto memberfileDto = Member_profile_fileDto.builder()
+										.profile_file_no(seqVo.getSeq_no())
+										.profile_file_uploadname(member_file.getOriginalFilename())
+										.profile_file_savename(String.valueOf(memberVo.getMember_no()))
+										.profile_file_size(member_file.getSize())
+										.member_no(memberVo.getMember_no())
+																	.build();
+		fileuploadDao.update(memberfileDto);
+	}
+
 
 	
 	
