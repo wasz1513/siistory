@@ -55,9 +55,12 @@ $(function(){
 			$.ajax({
 				url : url,
 				type : method,
-				data : {'member_no':member_no, 'friend_no':friend_no},
+				data : {'member_no':member_no, 'friend_no':friend_no, 'following':0},
 				success:function(resp){
-					
+					console.log($(this));
+					button.removeClass("btn-outline-success");
+					button.addClass("btn-primary");
+					button.text("팔로우");
 				}
 			});			
 		}
