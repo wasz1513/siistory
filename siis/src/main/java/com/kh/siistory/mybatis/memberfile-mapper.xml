@@ -32,6 +32,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 <!-- 	프로필사진 정보 -->
 	<select id="getInfo" parameterType="int" resultType="memberfileDto">
-		select * from member_profile_file where member_no=#{member_no} order by profile_no desc
+		select * from member_profile_file where member_no=#{member_no}
 	</select>
 </mapper>

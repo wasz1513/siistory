@@ -12,5 +12,5 @@ public interface FileuploadDao {
 	
 	void update(Member_profile_fileDto memberfileDto);
 	
-	List<Member_profile_fileDto> getFileInfo(int member_no);
+	Member_profile_fileDto getFileInfo(int member_no);
 }
