@@ -1,6 +1,7 @@
 package com.kh.siistory.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,7 +34,7 @@ public class DashBoardController {
 
 	@GetMapping({ "/", "" })
 	public String dashboard(Model model, HttpSession session) {
-		model.addAttribute("list", boardDao.dashboardlist(session));
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
 		return "dashboard/dashboard";
 	}
 
@@ -54,9 +55,16 @@ public class DashBoardController {
 		return replyDao.insert(replyDto, session);
 	}
 	
-	@GetMapping("/replyview")
+	@GetMapping("/commentview")
 	@ResponseBody
-	public List<ReplyDto> replyview(@RequestParam int super_no){
-		return replyDao.replyview(super_no);
+	public List<ReplyDto> commentview(@RequestParam Map<String, Integer> obj){
+		return replyDao.commentview(obj);
+	}
+	
+	@GetMapping("/morereply")
+	@ResponseBody
+	public List<ReplyDto> morereply(@RequestParam Map<String, Integer> obj){
+		log.info("obj = {}", obj);
+		return replyDao.morereply(obj);
 	}
 }

@@ -18,15 +18,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
 import com.kh.siistory.entity.FriendDto;
-import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
 import com.kh.siistory.repository.BoardLikeDao;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.FriendDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.repository.ReplyLikeDao;
 import com.kh.siistory.vo.AlarmData;
 import com.kh.siistory.vo.FriendListData;
+import com.kh.siistory.vo.MemberFollowVo;
 import com.kh.siistory.vo.MessengerData;
 import com.kh.siistory.vo.WebSocketUser;
 
@@ -79,8 +80,11 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 자바 객체 > json 문자열 변환 도구
 	ObjectMapper mapper = new ObjectMapper();
 
+//	@Autowired
+//	private FriendDao friendDao;
+	
 	@Autowired
-	private FriendDao friendDao;
+	private FollowDao followDao;
 
 	@Autowired
 	private AlarmDao alarmDao;
@@ -110,7 +114,8 @@ public class MessengerServer extends TextWebSocketHandler {
 		// 접속 or 종료를 한다 > 전체 조회 (기본) , 나 접속했다 정보 메시지를 친구들에게 뿌려준다 > 친구들은 해당 정보를 받아서 리스트에서
 		// 상태값을 변경한다. > 상태값 변경된 리스트를 받는다.
 		// 목록 리스트 구하는 메소드
-		List<FriendDto> list = Allrefresh(session, no);
+//		List<FriendDto> list = Allrefresh(session, no);
+		List<MemberFollowVo> list = Allrefresh(session, no);
 
 		// 나에게 리스트 전송하는 메소드 (FriendListData 클래스 형식에 맞춰서 진행)
 		FriendListData fdata = FriendListData.builder().member_no(no).status(0).text("friend_list").flist_data(list)
@@ -169,15 +174,15 @@ public class MessengerServer extends TextWebSocketHandler {
 		System.out.println(boardlikeDto);
 
 		// 내 친구 리스트 생성
-		List<FriendDto> friendList = Allrefresh(session, no);
+		List<MemberFollowVo> friendList = Allrefresh(session, no);
 
 		// 유저가 접속한다 > 메시지가 서버에 전송된다. >내 친구중에 있는지 확인한다 > 있으면 갱신한다 > 갱신이 되었다면 나에게 보낸다.
 
 		if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 3) {
 
-			for (FriendDto fdto : friendList) {
+			for (MemberFollowVo fdto : friendList) {
 				// 접속한 사람이 친구 중에 있는가?
-				if (fdto.getFriend() == data.getMember_no()) {
+				if (fdto.getMember_no() == data.getMember_no()) {
 					// 있다면? 상태 값에 따라 갱신해라
 					// 접속이면
 					if (data.getStatus() == 0) {
@@ -241,6 +246,10 @@ public class MessengerServer extends TextWebSocketHandler {
 			// 갱신 요청이 들어왔다면?
 			else if (data.getStatus() == 8) {
 				for (WebSocketUser user1 : userList) {
+					System.out.println("=========================");
+					System.out.println(user1.getMember_no());
+					System.out.println("=========================");
+					System.out.println(data.getMember_no());
 					if (user1.getMember_no() == data.getMember_no()) {
 						sendAlarmData(user1);
 					}
@@ -248,7 +257,8 @@ public class MessengerServer extends TextWebSocketHandler {
 			}
 			// 친구 추가 요청을 했다면?
 			else if (data.getStatus() == 10) {
-
+				System.out.println( alarmDto );
+				alarmDao.insert(alarmDto);
 			}
 
 			// 갱신처리를 제외한 모든 조건의 경우 갱신처리 요청을 보낸다. (9 메시지를 클라이언트로 보낸다 .)
@@ -330,14 +340,14 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 리스트 갱신 메소드
 	//////////////////////////////////////////////////////
 
-	public List<FriendDto> Allrefresh(WebSocketSession session, int no) throws IOException {
+	public List<MemberFollowVo> Allrefresh(WebSocketSession session, int no) throws IOException {
 		// [1]친구 리스트 생성 및 정렬 (친구번호 순) 코드 >> 추후 이름순으로 바꿀 예정
 
-		List<FriendDto> friendList = friendDao.getList(no);
-		Collections.sort(friendList, new Comparator<FriendDto>() {
+		List<MemberFollowVo> friendList = followDao.myfriend(no);
+		Collections.sort(friendList, new Comparator<MemberFollowVo>() {
 			@Override
-			public int compare(FriendDto o1, FriendDto o2) {
-				return o1.getFriend() - o2.getFriend();
+			public int compare(MemberFollowVo o1, MemberFollowVo o2) {
+				return o1.getMember_name().charAt(0) - o2.getMember_name().charAt(0);
 			}
 		});
 
@@ -364,7 +374,8 @@ public class MessengerServer extends TextWebSocketHandler {
 			int getno = (connectUser.get(v).getMember_no());
 
 			for (int i = 0; i < friendList.size(); i++) {
-				int getfno = friendList.get(i).getFriend();
+				int getfno = friendList.get(i).getMember_no();
+								
 				if (getno == getfno) {
 
 					friendList.get(i).setConnect_state("접속중");
@@ -383,7 +394,7 @@ public class MessengerServer extends TextWebSocketHandler {
 		// 세션 집합에서 친구만 뺀다 .
 		int no = (int) session.getAttributes().get("member_no");
 		// [1]이미 정렬 및 갱신된 친구 리스트
-		List<FriendDto> friendList = Allrefresh(session, no);
+		List<MemberFollowVo> friendList = Allrefresh(session, no);
 		// [2]전체 유저 저장시 항시 정렬 (일단 저장소를 Array리스트로 변환 ) >> 추후 이름순으로 바꿀 예정
 		List<WebSocketUser> connectFriend = new ArrayList<WebSocketUser>(userList);
 		// 정렬
@@ -405,13 +416,13 @@ public class MessengerServer extends TextWebSocketHandler {
 		if (friendList != null && !friendList.isEmpty()) {
 			// 내 친구 리스트를 불러온다.
 			for (int i = 0; i < friendList.size(); i++) {
-				FriendDto dto = friendList.get(i);
+				MemberFollowVo dto = friendList.get(i);
 
 				// 전체목록에서 dto랑 같은 번호를 찾는다(찾으면 신규 목록에 추가)
 				for (int v = 0; v < connectFriend.size(); v++) {
 					WebSocketUser ws = connectFriend.get(v);
 
-					if (dto.getFriend() == ws.getMember_no()) {
+					if (dto.getMember_no() == ws.getMember_no()) {
 						find.add(ws);
 					}
 
@@ -515,6 +526,8 @@ public class MessengerServer extends TextWebSocketHandler {
 				play_ment = "요청 했습니다.";
 
 				alarm_ment = "[" + pusher_name + "] 님이 " + target_name + " 에게 " + content_name + " 을(를)" + play_ment;
+				
+				adto.setMent(alarm_ment);
 			}
 		}
 

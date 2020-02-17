@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.entity.BoardDto;
-import com.kh.siistory.vo.SeqVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,23 +20,24 @@ public class BoardDaoImpl implements BoardDao {
 	private SqlSession sqlsession;
 
 	@Override
-	public SeqVo getSequence() {
-		SeqVo seqVo = sqlsession.selectOne("board.seqno");
-		return seqVo;
-	}
-
-	@Override
 	public void setWrtie(BoardDto boardDto, HttpSession session) {
 		boardDto.setMember_no((int)session.getAttribute("member_no"));
 		boardDto.setBoard_writer((String)session.getAttribute("member_name"));
-		boardDto.setBoard_no(getSequence().getSeq_no());
 		sqlsession.insert("board.write", boardDto);
 	}
 
 	@Override
 	public List<BoardDto> dashboardlist(HttpSession session) {
-		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
-		return list;
+//		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
+//		
+//		List<BoardDto> dtolist = new ArrayList<>();
+//		for(BoardDto dto : list) {
+//			int count = dto.getReplylist().size();
+//			dto.setBoard_reply_count(count);
+//			dtolist.add(dto);
+//		}
+//		
+		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
 
 }

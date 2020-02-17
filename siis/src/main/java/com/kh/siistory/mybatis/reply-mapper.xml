@@ -27,6 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- </select> -->
 
 <mapper namespace="reply">
+
+	<!-- 댓글 입력-->
 	<insert id="insertreply" parameterType="replyDto">
 	    <selectKey resultType="int" keyProperty="reply_no" order="BEFORE">
 	        select reply_seq.nextval reply_no from dual       
@@ -41,11 +43,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	</choose>
 	</insert>
 	
-	<select id="replyadd" resultType="replyDto" parameterType="int">
+	<!-- 댓글 추가하고 방금 추가한 댓글 불러와서 넘겨주기 -->
+	<select id="replyviewadd" resultType="replyDto" parameterType="int">
 		select * from reply where reply_no = #{no}
 	</select>
 	
-	<select id="replyview" resultType="replyDto" parameterType="map">
-		select * from reply where depth = 1 and super_no = #{no}
+	<!-- 해당 댓글의 답글전체 불러오기 -->
+	<select id="commentview" resultType="replyDto" parameterType="map">
+		select * from reply where board_no = #{board_no} and depth = 1 and super_no = #{super_no}
+	</select>
+	
+	<!-- 해당 게시물의 댓글 5개씩 불러오기 -->
+	<select id="morereply" resultType="replyDto" parameterType="map">
+		select * from (select r.*, row_number() OVER (ORDER BY r.reply_no) as rk from (select * from reply where board_no = #{board_no} and depth = 0) r) where rk between #{start} and #{end}
 	</select>
 </mapper>
