@@ -260,9 +260,6 @@ $(function() {
 		var target_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 		
-		console.log("클라이언트 페이지 타겟 넘버 : = " + target_no)
-		console.log("클라이언트 페이지 타겟 넘버 : = " + member_no)
-		
 		send_alarm(member_no, 10, target_no, 0, "friend", "add")
 	});
 
