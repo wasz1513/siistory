@@ -4,6 +4,13 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+
+
 <style>
 	article{
 		display: flex; /*바로안에있는것만적용됨*/
@@ -66,6 +73,31 @@
 		
 		<div class="container scroll-div">
 			
+				<table>
+		<thead>
+			<tr>
+				<th>1test</th>
+				<th>2test</th>
+			</tr>
+
+		</thead>
+		<tbody class=alarmList>
+			<tr class=item-list>
+
+
+			</tr>
+		</tbody>
+		<tfoot>
+
+		</tfoot>
+
+	</table>
+	<button class="good-onbtn" id="change-btn">좋아요</button>
+	<button class="good-offbtn" id="change-btn">취소</button>
+		<button class="friend-add" id="change-btn">친구요청 </button>
+			
+			
+			
 		</div>
 		
 	</section>
@@ -77,6 +109,8 @@
 					<a href="#">${myfriend.member_name}</a>
 				</div>
 			</c:forEach>
+			<div class="testList"></div>
+			
 		
 		</div>
 	</aside>

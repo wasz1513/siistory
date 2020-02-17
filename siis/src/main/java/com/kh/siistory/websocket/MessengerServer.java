@@ -246,6 +246,10 @@ public class MessengerServer extends TextWebSocketHandler {
 			// 갱신 요청이 들어왔다면?
 			else if (data.getStatus() == 8) {
 				for (WebSocketUser user1 : userList) {
+					System.out.println("=========================");
+					System.out.println(user1.getMember_no());
+					System.out.println("=========================");
+					System.out.println(data.getMember_no());
 					if (user1.getMember_no() == data.getMember_no()) {
 						sendAlarmData(user1);
 					}
@@ -253,7 +257,8 @@ public class MessengerServer extends TextWebSocketHandler {
 			}
 			// 친구 추가 요청을 했다면?
 			else if (data.getStatus() == 10) {
-
+				System.out.println( alarmDto );
+				alarmDao.insert(alarmDto);
 			}
 
 			// 갱신처리를 제외한 모든 조건의 경우 갱신처리 요청을 보낸다. (9 메시지를 클라이언트로 보낸다 .)
@@ -370,11 +375,7 @@ public class MessengerServer extends TextWebSocketHandler {
 
 			for (int i = 0; i < friendList.size(); i++) {
 				int getfno = friendList.get(i).getMember_no();
-				
-				System.out.println("===========================");
-				System.out.println("get fno = "+ getfno + "  get no = "+getno);
-				System.out.println("===========================");
-				
+								
 				if (getno == getfno) {
 
 					friendList.get(i).setConnect_state("접속중");
@@ -525,6 +526,8 @@ public class MessengerServer extends TextWebSocketHandler {
 				play_ment = "요청 했습니다.";
 
 				alarm_ment = "[" + pusher_name + "] 님이 " + target_name + " 에게 " + content_name + " 을(를)" + play_ment;
+				
+				adto.setMent(alarm_ment);
 			}
 		}
 
