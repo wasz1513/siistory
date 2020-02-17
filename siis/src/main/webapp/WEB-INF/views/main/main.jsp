@@ -104,15 +104,9 @@
 
 	<aside class="right-aside">
 		<div class="container scroll-div">
-			<c:forEach var="myfriend" items="${myfriend}">
-				<div class="row">
-					<a href="#">${myfriend.member_name}</a>
-				</div>
-			</c:forEach>
 			<div class="testList"></div>
-			
-		
-		</div>
+
+				</div>
 	</aside>
 	
 </article>
