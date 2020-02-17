@@ -1,7 +1,5 @@
 package com.kh.siistory.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.entity.MemberDto;
+import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
-import com.kh.siistory.vo.MemberFollowVo;
 import com.kh.siistory.vo.SeqVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +31,9 @@ public class MainPageController {
 	
 	@Autowired
 	private FollowDao followDao;
+	
+	@Autowired
+	private BoardDao boardDao;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -61,7 +62,7 @@ public class MainPageController {
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());
-		return "redirect:/main";
+		return "redirect:/main2";
 	}
 	
 	@GetMapping("/login")
@@ -81,7 +82,7 @@ public class MainPageController {
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
 				session.setAttribute("member_name", login.getMember_name());
-				return "redirect:/main";				
+				return "redirect:/main2";				
 			}else {
 				return "redirect:/login";
 			}
@@ -98,12 +99,16 @@ public class MainPageController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/main")
-	public String main(HttpSession session,
-			Model model) {
+	@GetMapping("/main2")
+	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
-		return "main/main";
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
+		return "main/main2";
+	}
+	
+	public String dashboard(Model model, HttpSession session) {
+		return "dashboard/dashboard";
 	}
 	
 	@GetMapping("/idcheck")
