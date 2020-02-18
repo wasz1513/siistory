@@ -40,4 +40,10 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
 
+	@Override
+	public List<BoardDto> myboardList(HttpSession session) {
+		
+		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
+	}
+
 }

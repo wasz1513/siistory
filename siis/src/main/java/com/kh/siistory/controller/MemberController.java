@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.FileuploadDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
@@ -39,6 +40,9 @@ public class MemberController {
 	
 	@Autowired
 	private FileuploadDao fileuploadDao;
+	
+	@Autowired
+	private BoardDao boardDao;
 	
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session,
@@ -104,6 +108,15 @@ public class MemberController {
 		model.addAttribute("list", followDao.myfollower(member_no));
 		return "member/follow";
 	}
+	
+	
+	@GetMapping("/myboard")
+	public String boardInfo(Model model, HttpSession session) {
+		model.addAttribute("dtolist", boardDao.myboardList(session));
+		
+		return "member/myboard";
+	}
+	
 	
 
 	
