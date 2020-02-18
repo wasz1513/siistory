@@ -29,4 +29,8 @@ public interface FollowDao {
 	int check_following(FollowDto followDto);
 	
 	List<MemberFollowVo> myfriend(int member_no);
+	
+	void refuse_following(FollowDto followDto);
+	
+	int refuse_follower(FollowDto followDto);
 }

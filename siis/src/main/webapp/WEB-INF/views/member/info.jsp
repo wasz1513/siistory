@@ -107,31 +107,69 @@ $(function(){
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">생일</th>
-			      <td >${memberInfo.member_birth}</td>
+			      <td>
+				      <c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_birth}</c:when>
+			      		<c:otherwise>${memberInfo.member_birth}</c:otherwise>
+				      </c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">성별</th>
-			      <td >${memberInfo.member_gender}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_gender}</c:when>
+			      		<c:otherwise>${memberInfo.member_gender}</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">전화번호</th>
-			      <td >${memberInfo.member_phone}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_phone}</c:when>
+			      		<c:otherwise>${memberInfo.member_phone}</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">공개설정</th>
-			      <td >${memberInfo.member_profile_state}</td>
+			      <td>
+			      ${memberInfo.member_profile_state}
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">지역</th>
-			      <td >${memberInfo.member_home}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_home}</c:when>
+			      		<c:otherwise>${memberInfo.member_home}</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">학교</th>
-			      <td >${memberInfo.member_school}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_school}</c:when>
+			      		<c:otherwise>${memberInfo.member_school}</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-secondary">
 			      <th scope="row">직업</th>
-			      <td >${memberInfo.member_job}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${memberInfo.member_profile_state == '비공개'}">비공개</c:when>
+			      		<c:when test="${memberInfo.member_profile_state == '친구공개' and memberInfo.friend_state == 1}">${memberInfo.member_job}</c:when>
+			      		<c:otherwise>${memberInfo.member_job}</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>
 			    <tr class="table-dark">
 			      <th scope="row" colspan="3">

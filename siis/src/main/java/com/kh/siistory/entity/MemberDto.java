@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class MemberDto {
 	private int member_no; 
-	private String email, member_name, member_pw, member_joindate, member_outdate, member_state;
+	private String email, member_name, member_pw, member_joindate, member_outdate, member_state, last_login;
 	private List<FollowDto> followList;
 }

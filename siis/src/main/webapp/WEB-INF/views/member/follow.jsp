@@ -16,6 +16,11 @@
 	.table td{
 		vertical-align:middle;
 	}
+	
+	#member-img{
+		width:100px;
+		height:100px;
+	}
 </style>
 
 <script>
@@ -62,6 +67,26 @@ $(function(){
 		}
 		
 	});
+	
+	$(".follow-refuse-btn").click(function(){
+		var friend_no = $(this).prev().val();
+		var member_no = $(this).prev().prev().val();
+		var url = "${pageContext.request.contextPath}/util/followno";
+		var method = "post";
+		
+		$.ajax({
+			url : url,
+			type : method,
+			data : {'member_no':member_no, 'friend_no':friend_no, 'following':1},
+			success:function(resp){
+				if(resp==1){
+					$(".follow-refuse-btn").parent().parent().hide();
+				}
+			}
+			
+		});
+		
+	});
 });
 
 </script>
@@ -74,7 +99,7 @@ $(function(){
 						<tr class="table-active">
 							<td>
 							  	<div class="member-img">
-							  		<img src="${pageContext.request.contextPath}/member/download?member_no=${memberFollowVo.member_no}" id="member-img">
+							  		<img src="${pageContext.request.contextPath}/util/download?member_no=${memberFollowVo.member_no}" id="member-img">
 							  	</div>
 							</td>
 							<td>
@@ -91,6 +116,11 @@ $(function(){
 								<c:if test="${memberFollowVo.follower == 1 }">
 									<button class="btn btn-primary follow-btn">팔로우</button>								
 								</c:if>
+							</td>
+							<td>
+								<input type="hidden" value="${sessionScope.member_no}">
+								<input type="hidden" value="${memberFollowVo.member_no}">
+								<button class="btn btn-primary follow-refuse-btn">거절</button>
 							</td>
 						</tr>				
 				</c:forEach>

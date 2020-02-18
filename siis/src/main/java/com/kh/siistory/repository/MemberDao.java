@@ -15,6 +15,8 @@ public interface MemberDao {
 
 	MemberDto login(MemberDto memberDto);
 	
+	void last_login(MemberDto memberDto);
+	
 	SeqVo seq_no();
 	
 	MemberDto getMember(int member_no);
@@ -38,4 +40,8 @@ public interface MemberDao {
 	List<MemberFollowVo> getMember_Name(MemberDto memberDto);
 
 	MemberProfileVo memberInfo(int my_member_no, int member_no);
+	
+	void dormant(MemberDto memberDto);
+	
+	int checkFile(int member_no);
 }

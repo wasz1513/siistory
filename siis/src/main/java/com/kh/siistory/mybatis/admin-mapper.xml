@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="admin">
+	
+<!-- 	로그인 6개월 넘으면 휴면계정전환 -->
+	<update id="dormant">
+		<![CDATA[
+		update member set member_state='휴면' where last_login < sysdate-180
+		]]>
+	</update>
+
+</mapper>
