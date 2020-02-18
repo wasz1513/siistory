@@ -13,4 +13,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</update>
 
+<!-- 	회원 검색 -->
+	<select id="search-member" parameterType="adminSearchVo" resultType="memberProfileVo">
+		select * from(
+			select rownum rn, M.* from
+			(
+				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+				<if test="member_state!=''">
+				and member_state=#{member_state}
+				</if>
+				<if test="member_gender!=''">
+				and member_gender=#{member_gender}
+				</if>
+				<if test="member_birth!=null">
+				and member_birth=#{member_birth}
+				</if>
+				<if test="member_phone!=null">
+				and member_phone=#{member_phone}			
+				</if>
+				order by member_no desc) M
+			)
+		where rn between 1 and 10
+	</select>
 </mapper>

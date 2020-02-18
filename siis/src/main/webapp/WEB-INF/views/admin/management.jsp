@@ -144,8 +144,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="memeber" items="${list}">
+							<c:forEach var="member" items="${list}">
 								<tr>
+									<td>${member.email}</td>
+									<td>${member.member_name}</td>
+									<td>${member.member_state}</td>
+									<td>${member.member_profile_state}</td>
+									<td>${member.member_gender}</td>
+									<td>${member.member_phone}</td>
+									<td>${member.member_home}</td>
+									<td>${member.member_job}</td>
+									<td>
+									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
+									[정지] 
+									[???]
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>					
