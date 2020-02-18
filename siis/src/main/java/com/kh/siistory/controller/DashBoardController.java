@@ -67,4 +67,13 @@ public class DashBoardController {
 		log.info("obj = {}", obj);
 		return replyDao.morereply(obj);
 	}
+	
+	@PostMapping("/private")
+	public void boardPrivate(@ModelAttribute BoardDto boardDto, HttpSession session) {
+		
+		boardDao.setPrivate(boardDto);
+		
+	}
+	
+	
 }

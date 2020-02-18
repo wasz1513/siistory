@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result property="board_writer" column="board_writer"/>
 	  <result property="member_no" column="member_no"/>
 	  <result property="board_reply_count" column="board_reply_count"/>
+	  <result property="board_state" column="board_state"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>
@@ -41,6 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			) where member_no= #{member_no} order by board_wdate desc
 
 	</select>
+	
+	
+		<update id="setprivate" parameterType="boardDto">
+		update board set board_state=#{board_state} where board_no=#{board_no}	
+	</update>
 
 
 </mapper>
