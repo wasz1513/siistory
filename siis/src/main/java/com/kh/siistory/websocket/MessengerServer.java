@@ -151,10 +151,10 @@ public class MessengerServer extends TextWebSocketHandler {
 
 		MessengerData data = mapper.readValue(payload, MessengerData.class);
 
-		System.out.println("데이타 확인=======" + data);
+		
 
 		int no = (int) session.getAttributes().get("member_no");
-		System.out.println("핸들 텍스트 메시지 no 확인 ==== " + no);
+	
 		log.info("메시지좀 확인 하자 = {}", data);
 
 		BoardLikeDto boardlikeDto = BoardLikeDto.builder().member_no(data.getPusher_no()).board_no(data.getContent_no())

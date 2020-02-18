@@ -159,27 +159,7 @@ $(function() {
 		};
 		
 		
-		$(document).off().on("click", ".go-content", function(event) {
-			console.log("컨텐츠 이동")
 			
-//			send_alarm(member_no,7,target_no,content_no,content_type,content_play);
-						
-			var target_no = $(this).next().next().val();
-			console.log (target_no)
-			var pusher_no = $(this).next().next().next().val();
-			var content_no = $(this).next().next().next().next().val();
-			var content_type = $(this).next().next().next().next().next().val();
-			var content_play = $(this).next().next().next().next().next().next().val();
-			
-//			
-//			  window.location.href = "http://" + host + context
-//							+ "/member/follow";
-
-		});
-		
-		
-		
-		
 
 	}// connect
 	;
@@ -215,18 +195,45 @@ $(function() {
 		window.socket.send(value)
 
 	}
+	
+	
+	$(document).off().on("click", ".go-content", function(event) {
+		console.log("컨텐츠 이동")
+		
+					
+		var target_no = $(this).next().next().text();
+		console.log (target_no)
+		var pusher_no = $(this).next().next().next().text();
+		console.log (pusher_no)
+		var content_no = $(this).next().next().next().next().text();
+		console.log (content_no)
+		var content_type = $(this).next().next().next().next().next().text();
+		console.log (content_type)
+		var content_play = $(this).next().next().next().next().next().next().text();
+		console.log (content_play)
+		
+		send_alarm(member_no,7,target_no,pusher_no,content_no,content_type,content_play);
+		
+		  window.location.href = "http://" + host + context
+						+ "/member/follow";
+
+	});
+	
+	
+	
+	
 
 	// 보내는 메시지 메소드 및 형식 구성
 	// 데이터 보낼 때 필요한 정보 =
 	// 누른사람, 타겟사람 , 컨텐츠 넘버 , 컨텐츠 형식, 행동표시, 메시지 형태
-	function send_alarm(member_no, status, target_no, content_no, content_type,
+	function send_alarm(member_no, status, target_no, pusher_no, content_no, content_type,
 			content_play, text) {
 
 		var message = {
 			member_no : member_no,
 			status : status,
 			target_no : target_no,
-			pusher_no : member_no,
+			pusher_no : pusher_no,
 			content_no : content_no,
 			content_type : content_type,
 			content_play : content_play,
@@ -277,12 +284,12 @@ $(function() {
 	// 좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 	// 좋아요 키는버튼
 	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, 86, "board", "good")
+		send_alarm(member_no, 4, 24, member_no ,86, "board", "good")
 	});
 
 	// 좋아요 취소 버튼
 	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, 86, "board", "good")
+		send_alarm(member_no, 5, 24 , member_no, 86, "board", "good")
 	});
 
 	// 친구 요청 버튼
@@ -295,7 +302,7 @@ $(function() {
 		var target_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 
-		send_alarm(member_no, 10, target_no, 0, "friend", "add")
+		send_alarm(member_no, 10, target_no , member_no, 0, "friend", "add")
 	});
 
 });
