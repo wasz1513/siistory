@@ -1,5 +1,7 @@
 package com.kh.siistory.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BoardFileDto {
+public class BoardPicDto {
 	int board_pic_no, board_no, board_pic_size;
-	String board_pic_origin, board_pic_store;
+	String board_pic_store;
+	MultipartFile file;
 }
