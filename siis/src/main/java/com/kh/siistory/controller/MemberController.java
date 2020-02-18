@@ -1,37 +1,24 @@
 package com.kh.siistory.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.siistory.entity.FollowDto;
-import com.kh.siistory.entity.Member_profile_fileDto;
 import com.kh.siistory.repository.FileuploadDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
-import com.kh.siistory.vo.FileVo;
 import com.kh.siistory.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
