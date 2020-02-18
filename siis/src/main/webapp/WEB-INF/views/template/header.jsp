@@ -60,7 +60,7 @@
 <!-- 상단 네비 부분 -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	  <a class="navbar-brand" href="${pageContext.request.contextPath}/main">
-	  	<img src="${pageContext.request.contextPath}/resources/image/siis.png" id="siis-main-img">
+	  	<img src="${pageContext.request.contextPath}/resources/image/logo2.png" id="siis-main-img">
 	  </a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
@@ -75,7 +75,14 @@
 	        <a class="nav-link" href="${pageContext.request.contextPath}/member/mypage">Mypage</a>
 	      </li>
 	      <li class="nav-item">
-	      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
+	      	<c:choose>
+	      		<c:when test="${empty sessionScope.email}">
+			      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Login</a>
+	      		</c:when>
+	      		<c:otherwise>
+			      	<a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
+	      		</c:otherwise>
+	      	</c:choose>
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">

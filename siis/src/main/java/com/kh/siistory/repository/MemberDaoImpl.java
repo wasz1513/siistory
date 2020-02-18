@@ -30,6 +30,11 @@ public class MemberDaoImpl implements MemberDao{
 	public MemberDto login(MemberDto memberDto) {
 		return sqlSession.selectOne("member.login", memberDto);
 	}
+	
+	@Override
+	public void last_login(MemberDto memberDto) {
+		sqlSession.update("member.last-login", memberDto);
+	}
 
 	@Override
 	public SeqVo seq_no() {
@@ -97,5 +102,15 @@ public class MemberDaoImpl implements MemberDao{
 		param.put("member_no", member_no);
 		return sqlSession.selectOne("member.member_info", param);
 	}
+
+	@Override
+	public void dormant(MemberDto memberDto) {
+		sqlSession.update("member.dormant", memberDto);
+	}
+
+	@Override
+	public int checkFile(int member_no) {
+		return sqlSession.selectOne("memberfile.check", member_no);
+	}	
 
 }

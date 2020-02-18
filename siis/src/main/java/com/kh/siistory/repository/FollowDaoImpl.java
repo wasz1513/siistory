@@ -76,6 +76,16 @@ public class FollowDaoImpl implements FollowDao{
 	public List<MemberFollowVo> myfriend(int member_no) {
 		return sqlSession.selectList("follow.myfriend", member_no);
 	}
+
+	@Override
+	public void refuse_following(FollowDto followDto) {
+		sqlSession.delete("follow.refuse-following", followDto);
+	}
+
+	@Override
+	public int refuse_follower(FollowDto followDto) {
+		return sqlSession.delete("follow.refuse-follower", followDto);
+	}
 	
 	
 

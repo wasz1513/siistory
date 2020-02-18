@@ -74,9 +74,14 @@ public class MemberController {
 //		log.info("member_file = {}", member_file.getSize());
 		
 		if(member_file.getSize() != 0 ) {
-			fileService.upload(memberVo, member_file);			
+			if(memberDao.checkFile(memberVo.getMember_no())>=1) {
+				fileService.change(memberVo, member_file);
+			}else {				
+				fileService.upload(memberVo, member_file);			
+			}
+		}else {
+			memberDao.update_profile(memberVo);
 		}
-		memberDao.update_profile(memberVo);
 		
 		return "redirect:mypage";
 	}

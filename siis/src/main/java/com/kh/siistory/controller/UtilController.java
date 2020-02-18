@@ -39,16 +39,23 @@ public class UtilController {
 	@GetMapping("/download")
 	public void download(@RequestParam int member_no,
 			HttpServletResponse resp) throws IOException {
-		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
+		Member_profile_fileDto fileDto = fileuploadDao.getFileInfo(1);
+
+		File target;
+		if(fileuploadDao.getFileInfo(member_no)!=null) {
+			fileDto = fileuploadDao.getFileInfo(member_no);
+			target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename()); 						
+		} else {
+			target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
+		}
 		
-		Member_profile_fileDto fileDto = list_fileDto.get(0);
-		
-		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
-		byte[] data = FileUtils.readFileToByteArray(target);
 		
 		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
 		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(fileDto.getProfile_file_uploadname(), "UTF-8")+"\"");
 		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);
+		
 
 		resp.getOutputStream().write(data);
 	}
@@ -59,8 +66,8 @@ public class UtilController {
 	public int follow(@ModelAttribute FollowDto followDto) {
 		if(followDto.getFollowing()==1) {
 //			검색을 진행 ( friend_no 가 이미 나를 팔로잉 했는데 검색을 한다 )
-			log.info("followDto = {} ", followDto);
-			log.info("check = {} " , followDao.check_following(followDto));
+//			log.info("followDto = {} ", followDto);
+//			log.info("check = {} " , followDao.check_following(followDto));
 			if(followDao.check_following(followDto)==1) {
 //				이미 팔로잉을 했다면 db를 update
 				followDao.following_ok(followDto);
@@ -91,4 +98,13 @@ public class UtilController {
 			return followDao.follower_no(followDto);
 		}
 	}
+	
+	// 친구요청 거절
+	@PostMapping("/followno")
+	@ResponseBody
+	public int followno(@ModelAttribute FollowDto followDto) {
+		followDao.refuse_following(followDto);
+		return followDao.refuse_follower(followDto);
+	}
+	
 }
