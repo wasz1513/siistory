@@ -114,6 +114,7 @@ public class MemberController {
 	public String boardInfo(Model model, HttpSession session) {
 		model.addAttribute("dtolist", boardDao.myboardList(session));
 		
+		
 		return "member/myboard";
 	}
 	

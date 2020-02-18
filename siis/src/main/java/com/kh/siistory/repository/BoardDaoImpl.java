@@ -46,4 +46,12 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
 	}
 
+	@Override
+	public void setPrivate(BoardDto boardDto) {
+		
+		
+		sqlsession.update("myboard.setprivate", boardDto);
+		
+	}
+
 }

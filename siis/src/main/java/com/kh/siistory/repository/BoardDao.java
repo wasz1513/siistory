@@ -13,5 +13,8 @@ public interface BoardDao {
 	List<BoardDto> dashboardlist(HttpSession session);
 	
 	List<BoardDto> myboardList(HttpSession session);
+	
+	void setPrivate(BoardDto boardDto);
+	
 }
 
