@@ -158,6 +158,31 @@ $(function() {
 			console.log(e.data);
 		};
 		
+	
+		$(document).off().on("click", ".go-content", function(event) {
+			console.log("컨텐츠 이동")
+			
+						
+			var target_no = $(this).next().next().text();
+			console.log (target_no)
+			var pusher_no = $(this).next().next().next().text();
+			console.log (pusher_no)
+			var content_no = $(this).next().next().next().next().text();
+			console.log (content_no)
+			var content_type = $(this).next().next().next().next().next().text();
+			console.log (content_type)
+			var content_play = $(this).next().next().next().next().next().next().text();
+			console.log (content_play)
+			
+			
+			send_alarm(member_no,7,target_no,pusher_no,content_no,content_type,content_play);
+			
+			
+			  window.location.href = "http://" + host + context
+							+ "/member/follow";
+
+		});
+		
 		
 			
 
@@ -197,27 +222,7 @@ $(function() {
 	}
 	
 	
-	$(document).off().on("click", ".go-content", function(event) {
-		console.log("컨텐츠 이동")
-		
-					
-		var target_no = $(this).next().next().text();
-		console.log (target_no)
-		var pusher_no = $(this).next().next().next().text();
-		console.log (pusher_no)
-		var content_no = $(this).next().next().next().next().text();
-		console.log (content_no)
-		var content_type = $(this).next().next().next().next().next().text();
-		console.log (content_type)
-		var content_play = $(this).next().next().next().next().next().next().text();
-		console.log (content_play)
-		
-		send_alarm(member_no,7,target_no,pusher_no,content_no,content_type,content_play);
-		
-		  window.location.href = "http://" + host + context
-						+ "/member/follow";
 
-	});
 	
 	
 	
@@ -296,13 +301,15 @@ $(function() {
 	// $(".friend-add").off().click(function(){
 	// send_alarm(member_no,10,24,0,"friend","add")
 	// });
-
+	
+//	if($(".follow-btn").text()=="팔로우"){
 	$(".follow-btn").off().click(function() {
-
+		console.log ($(".follow-btn").text());	
 		var target_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
-
+		if($(".follow-btn").text()=="팔로우"){
 		send_alarm(member_no, 10, target_no , member_no, 0, "friend", "add")
+		}
 	});
-
+//	}
 });
