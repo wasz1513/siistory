@@ -62,7 +62,7 @@ public class MainPageController {
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());
-		return "redirect:/main2";
+		return "redirect:/main";
 	}
 	
 	@GetMapping("/login")
@@ -82,7 +82,7 @@ public class MainPageController {
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
 				session.setAttribute("member_name", login.getMember_name());
-				return "redirect:/main2";				
+				return "redirect:/main";				
 			}else {
 				return "redirect:/login";
 			}
@@ -99,12 +99,12 @@ public class MainPageController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/main2")
+	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
-		return "main/main2";
+		return "main/main";
 	}
 	
 	public String dashboard(Model model, HttpSession session) {

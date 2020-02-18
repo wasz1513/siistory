@@ -11,4 +11,7 @@ import com.kh.siistory.vo.SeqVo;
 public interface BoardDao {
 	void setWrtie(BoardDto boardDto, HttpSession session);
 	List<BoardDto> dashboardlist(HttpSession session);
+	
+	List<BoardDto> myboardList(HttpSession session);
 }
+

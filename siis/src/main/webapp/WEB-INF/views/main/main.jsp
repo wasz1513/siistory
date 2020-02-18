@@ -56,7 +56,7 @@
 			<a href="member/follow">친구 요청</a>
 		</div>
 		<div class="row">
-			<a href="#">내 게시글</a>
+			<a href="member/myboard">내 게시글</a>
 		</div>
 		<div class="row">
 			<a href="#">내정보</a>
