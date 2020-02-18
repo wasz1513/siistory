@@ -62,7 +62,7 @@ public class MainPageController {
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());
-		return "redirect:/main2";
+		return "redirect:/main";
 	}
 	
 	@GetMapping("/login")
@@ -83,14 +83,18 @@ public class MainPageController {
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
 				session.setAttribute("member_name", login.getMember_name());
-				switch(login.getMember_state()) {
+				if(login.getEmail().equals("admin")) {
+					return "redirect:/admin/management";
+				}else {
+					switch(login.getMember_state()) {
 					case "정상" : url="redirect:/main"; break;
 					case "탈퇴" : url="redirect:/withdraw"; break;
 					case "휴면" : url="redirect:/dormant"; break;
 					case "정지" : url="redirect:/suspend"; break;
+					}
+					memberDao.last_login(memberDto);
+					return url;
 				}
-				memberDao.last_login(memberDto);
-				return url;
 			}else {
 				return "redirect:/login?error=false";
 			}
@@ -107,7 +111,7 @@ public class MainPageController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/main2")
+	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
