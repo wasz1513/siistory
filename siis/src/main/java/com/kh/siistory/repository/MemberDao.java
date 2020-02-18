@@ -15,6 +15,8 @@ public interface MemberDao {
 
 	MemberDto login(MemberDto memberDto);
 	
+	void last_login(MemberDto memberDto);
+	
 	SeqVo seq_no();
 	
 	MemberDto getMember(int member_no);

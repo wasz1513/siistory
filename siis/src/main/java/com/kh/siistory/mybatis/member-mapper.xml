@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
-		insert into member(member_no, email, member_name, member_pw, member_state) values(#{member_no}, #{email}, #{member_name}, #{member_pw}, '정상')
+		insert into member(member_no, email, member_name, member_pw, member_state, last_login) values(#{member_no}, #{email}, #{member_name}, #{member_pw}, '정상', sysdate)
 	</insert>
 	
 <!-- 	회원가입시 member_profile table member_no 설정 -->
@@ -52,6 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="login" parameterType="memberDto" resultType="memberDto">
 		select * from member where email=#{email}
 	</select>
+	
+<!-- 	마지막 로그인 시간 업데이트 -->
+	<update id="last-login" parameterType="memberDto">
+		update member set last_login = sysdate where email=#{email}
+	</update>
 		
 <!-- 	단일조회 -->
 	<select id="getMember" parameterType="int" resultType="memberDto">

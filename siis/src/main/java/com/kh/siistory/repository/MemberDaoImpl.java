@@ -30,6 +30,11 @@ public class MemberDaoImpl implements MemberDao{
 	public MemberDto login(MemberDto memberDto) {
 		return sqlSession.selectOne("member.login", memberDto);
 	}
+	
+	@Override
+	public void last_login(MemberDto memberDto) {
+		sqlSession.update("member.last-login", memberDto);
+	}
 
 	@Override
 	public SeqVo seq_no() {

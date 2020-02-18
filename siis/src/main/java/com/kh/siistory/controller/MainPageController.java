@@ -88,6 +88,7 @@ public class MainPageController {
 					case "휴면" : url="redirect:/dormant"; break;
 					case "정지" : url="redirect:/suspend"; break;
 				}
+				memberDao.last_login(memberDto);
 				return url;
 			}else {
 				return "redirect:/login?error=false";
