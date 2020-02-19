@@ -170,6 +170,7 @@
 							</c:forEach>
 						</tbody>	
 						<tfoot>
+							<c:if test="${not empty pno}">
 							<tr>
 								<td colspan="9">
 									<div>
@@ -207,6 +208,7 @@
 									</div>
 								</td>
 							</tr>
+							</c:if>
 						</tfoot>				
 					</table>
 				</div>
