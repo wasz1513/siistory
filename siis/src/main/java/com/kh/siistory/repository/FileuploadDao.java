@@ -1,7 +1,5 @@
 package com.kh.siistory.repository;
 
-import java.util.List;
-
 import com.kh.siistory.entity.Member_profile_fileDto;
 import com.kh.siistory.vo.SeqVo;
 

@@ -15,14 +15,12 @@ public class BoardLikeDaoImpl implements BoardLikeDao {
 	
 	@Override
 	public void insert(BoardLikeDto boardlikeDto) {
-		
 		sqlSession.insert("boardlike.insert", boardlikeDto);
 		
 	}
 
 	@Override
 	public void delete(BoardLikeDto boardlikeDto) {
-		
 		sqlSession.delete("boardlike.delete", boardlikeDto);
 		
 	}
