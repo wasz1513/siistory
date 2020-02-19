@@ -20,12 +20,20 @@
 
 </script>
 
+<style>
+	.pagination{
+		width:220px;
+		margin:auto;
+	}
+</style>
+
 <article>
 	<section>
 	
 		<div class="container">
 			<div class="row">
 				<div class="col-md">
+				
 					<form action="management" method="post">
 						<table class="table table-hover">
 							<thead>
@@ -125,7 +133,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="container">
 			<div class="row">
 				<div class="col-md">
@@ -161,7 +168,46 @@
 									</td>
 								</tr>
 							</c:forEach>
-						</tbody>					
+						</tbody>	
+						<tfoot>
+							<tr>
+								<td colspan="9">
+									<div>
+										<ul class="pagination">
+									
+											<c:if test="${startBlock > 1}">
+												<li class="page-item">
+												<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${startBlock-1}&count=${count}
+												&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">&laquo;</a>
+												</li>
+											</c:if>
+										    
+										    <c:forEach var="i" begin="${startBlock}" end="${finishBlock}">
+										    	<c:choose>
+										    		<c:when test="${i == pno}">
+														<li class="page-item active"><a class="page-link" href="#">${i}</a></li>
+													</c:when>
+													<c:otherwise>
+														<li class="page-item">
+															<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${i}&count=${count}
+															&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">${i}</a>
+														</li>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										    
+										
+										    <c:if test="${finishBlock < pageCount}">
+												<li class="page-item">
+													<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${finishBlock+1}&count=${count}
+													&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">&raquo;</a>
+												</li>
+											</c:if>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tfoot>				
 					</table>
 				</div>
 			</div>

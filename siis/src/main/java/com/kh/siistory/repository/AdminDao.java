@@ -11,4 +11,8 @@ public interface AdminDao {
 
 	List<MemberProfileVo> search_Member(AdminSearchVo adminSearchVo);
 
+	int search_member_count(AdminSearchVo adminSearchVo);
+	
+	List<MemberProfileVo> search_member_nav(AdminSearchVo adminSearchVo);
+
 }

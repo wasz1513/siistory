@@ -25,4 +25,14 @@ public class AdminDaoImpl implements AdminDao{
 		return sqlSession.selectList("admin.search-member", adminSearchVo);
 	}
 
+	@Override
+	public int search_member_count(AdminSearchVo adminSearchVo) {
+		return sqlSession.selectOne("admin.search-member-count", adminSearchVo);
+	}
+
+	@Override
+	public List<MemberProfileVo> search_member_nav(AdminSearchVo adminSearchVo) {
+		return sqlSession.selectList("admin.search-member-nav", adminSearchVo);
+	}
+
 }
