@@ -24,19 +24,16 @@
 		});
 		
 		// 이미지 업로드 관련
-		var sel_files = {};
 		$("#input_imgs").on("change", handleImgFileSelect);
 		
+		// textarea 전송
 		$(".upload").click(function(e){
-			e.preventDefault();
+			var data = [];
 			
 			$.ajax({
 				url:'write',
 				type:'post',
-				data : sel_files,
-				enctype:"multipart/form-data",
-		        contentType : false,
-		        processData : false,
+				data : data,
 		        success:function(data){
 		        	console.log("성공")
 		        }
@@ -74,6 +71,21 @@
             reader.readAsDataURL(f);
             
         });
+        
+        var form = $("form")[0];
+        var data = new FormData(form);
+        
+        $.ajax({
+			url:'uploadimage',
+			type:'post',
+			data : data,
+	        contentType : false,
+	        processData : false,
+	        success:function(data){
+	        	console.log("성공")
+	        }
+
+		});
     }
 
 	function fileUploadAction() {
@@ -88,14 +100,15 @@
     }
 	
 </script>
-
-<form method="post" enctype="multipart/form-data">
+<div>
 	<textarea id="summernote" name="editordata"></textarea>
+</div>
+<form method="post" enctype="multipart/form-data">
 	<div>
         <h2><b>이미지 미리보기</b></h2>
         <div class="input_wrap">
             <a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
-            <input type="file" id="input_imgs" multiple/>
+            <input type="file" id="input_imgs" name="sel_files" multiple/>
         </div>
     </div>
 
@@ -105,6 +118,8 @@
         </div>
     </div>
 </form>
+<div>
+	<button type="click" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
+</div>
 
-        <button type="button" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
 
