@@ -121,7 +121,10 @@ public class AdminController {
 		return "admin/management";
 	}
 	
-	
+	@GetMapping("/threeout")
+	public String getThreeout() {
+		return "admin/threeout";
+	}
 	
 	
 	

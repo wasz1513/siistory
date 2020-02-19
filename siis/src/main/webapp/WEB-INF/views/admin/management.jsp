@@ -4,23 +4,46 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-	$(function(){
-		$(".view-detail").hide();
-		
-		
-		$("#view-details").on("change", function(){
+$(function(){
+	$(".view-detail").hide();
+	
+	
+	$("#view-details").on("change", function(){
 
-			if($("#view-details").is(':checked')){
-				$(".view-detail").slideDown();
-			}else{
-				$(".view-detail").hide();
-			}
-		});
+		if($("#view-details").is(':checked')){
+			$(".view-detail").slideDown();
+		}else{
+			$(".view-detail").hide();
+		}
 	});
+	
+	
+	
+});
 
+	
 </script>
 
 <style>
+	article{
+		display: flex; /*바로안에있는것만적용됨*/
+        flex-wrap: wrap;
+		width:80%;
+		margin:auto;
+	}
+	
+	.left-aside{
+		background-color: EBFBFF;
+        width: 20%;
+        margin-top:150px;
+	}
+
+	section{
+		background-color: C8FFFF;
+		flex-grow:1;
+		margin-top:150px;
+	}
+
 	.pagination{
 		width:220px;
 		margin:auto;
@@ -28,6 +51,10 @@
 </style>
 
 <article>
+	<aside class="left-aside">	
+		<jsp:include page="/WEB-INF/views/template/adminmenu.jsp"></jsp:include>
+	</aside>
+	
 	<section>
 	
 		<div class="container">
@@ -196,8 +223,7 @@
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
-										    
-										
+
 										    <c:if test="${finishBlock < pageCount}">
 												<li class="page-item">
 													<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${finishBlock+1}&count=${count}
