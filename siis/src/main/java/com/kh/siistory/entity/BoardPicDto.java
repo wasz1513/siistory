@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BoardFileDto {
-	int board_pic_no, board_no, board_pic_size;
-	String board_pic_origin, board_pic_store;
+public class BoardPicDto {
+	int board_pic_no, board_no, success;
+	String board_pic_store;
+	long board_pic_size;
 }
