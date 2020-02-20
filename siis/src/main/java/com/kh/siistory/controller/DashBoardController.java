@@ -21,7 +21,7 @@ import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
 import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.ReplyDao;
-import com.kh.siistory.service.BoardService;
+import com.kh.siistory.service.FileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DashBoardController {
 	@Autowired
-	private BoardService boardService;
-	
-	@Autowired
 	private BoardDao boardDao;
 
 	@Autowired
 	private ReplyDao replyDao;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping({ "/", "" })
 	public String dashboard(Model model, HttpSession session) {
@@ -52,7 +52,7 @@ public class DashBoardController {
 	@PostMapping("/uploadimage")
 	@ResponseBody
 	public void uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
-		boardService.Boarduploadimage(sel_files, session);
+		fileService.Boarduploadimage(sel_files, session);
 	}
 
 	@PostMapping("/addcontent")
