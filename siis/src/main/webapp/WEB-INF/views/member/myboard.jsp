@@ -163,7 +163,38 @@
 // 				}; */				
 // 			}			
 		});				
-	});	
+	});
+	
+	
+	//신고 버튼 클릭시 새창 이벤트(warning 페이지 )
+	$(document).on("click",".warningadd", function(event){
+		
+		var host = location.host;
+		var context = "${pageContext.request.contextPath}";
+		var popupX=(window.screen.width) /2-(200/2);
+		var popupY=(window.screen.height) /2-(300/2);  
+ 		
+		var target_no = $(this).data(target_no).target_no;
+		var pusher_no =$(this).data(pusher_no).pusher_no;
+		var board_no = $(this).data(board_no).board_no;
+		var board_writer=$(this).data(board_writer).board_writer;
+		
+		console.log = (target_no);
+		console.log = (pusher_no);
+		console.log = (board_no);
+		console.log = (board_writer);
+	
+		
+		
+		
+ 		 window.open(
+		"http://"+host+context+"/member/warning?target_no="+target_no+"&pusher_no="+pusher_no+"&board_no="+board_no+"&board_writer="+board_writer+"",
+		"신고 페이지",
+		"width=300, height=450, toolbar=no, menubar=no,scrollbars=yes, resizable=no, location=no, left="+popupX+",top="+popupY
+		); 
+		
+	});
+	
 
 
 
@@ -256,16 +287,13 @@ article {
 						<span>${content.board_content }</span>
 						<!-- 공개여부 설정 option 칸  -->
 						<span>
-						${content.board_state}
-						
+												
 						<select class="private_option" data-board_no="${content.board_no}" >
 								<option value="0" <c:if test="${content.board_state==0}">selected</c:if>>전체공개</option>
 								<option value="1" <c:if test="${content.board_state==1}">selected</c:if>>친구공개</option>
 								<option value="2" <c:if test="${content.board_state==2}">selected</c:if>>비공개</option>
 
 						</select>
-
-
 
 						</span> <i class="fa fa-plus" aria-hidden="true"></i>
 					</div>
@@ -289,6 +317,9 @@ article {
 											<time>1시간</time>
 											<button class="btn">좋아요 ??개</button>
 											<button class="btn replyadd">답글달기</button>
+											<button class="btn warningadd" data-target_no="${content.member_no}"
+											data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">신고하기	</button>
+											
 										</div>
 									</div>
 								</div>
