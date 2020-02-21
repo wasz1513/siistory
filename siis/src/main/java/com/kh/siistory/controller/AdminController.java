@@ -197,4 +197,6 @@ public class AdminController {
 		model.addAttribute("pno", pno);
 		return "admin/threeout";
 	}
+	
+	
 }

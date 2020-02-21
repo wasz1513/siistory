@@ -135,4 +135,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		        <if test="state=='보류'">and state = '보류'</if>
 		)
 	</select>
+	
+<!-- 	신고접수(warning_count table 신규) -->
+	<insert id="warning-count-newreceipt" parameterType="int">
+		insert into warning_count values(#{member_no}, 1)
+	</insert>
+	
+<!-- 	신고접수(warning_count table 추가) -->
+	<update id="warning-count-addreceipt">
+		update warning_count set w_count = w_count+1 where member_no=#{member_no}
+	</update> 	
+	
+<!-- 	신고접수(warning table 처리) -->
+	<update id="warning-receipt" parameterType="int">
+		update warning set state='접수' where warning_no = #{warning_no}
+	</update>
+	
+<!-- 	신고보류 -->
+	<update id="warning-hold" parameterType="int">
+		update warning set state='보류' where warning_no = #{warning_no}
+	</update>
+	
+<!-- 	warning_count member_no 신규인지 아닌지 확인 -->
+	<select id="warning-check" parameterType="int" resultType="int">
+		select count(*) warning_count where member_no = #{member_no}
+	</select>
+	
 </mapper>

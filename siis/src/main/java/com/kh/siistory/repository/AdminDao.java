@@ -20,4 +20,14 @@ public interface AdminDao {
 	
 	int warning_list_count(WarningVo warningVo);
 	
+	void warning_count_newreceipt(int member_no);
+	
+	void warning_count_addreceipt(int member_no);
+	
+	void warning_receipt(int warning_no);
+	
+	void warning_hold(int warning_no);
+	
+	int warning_check(int member_no);
+	
 }
