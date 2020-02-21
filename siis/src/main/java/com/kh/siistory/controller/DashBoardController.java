@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,8 @@ import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
 import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.ReplyDao;
-import com.kh.siistory.service.BoardService;
+import com.kh.siistory.service.FileService;
+import com.kh.siistory.vo.ContentVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +32,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DashBoardController {
 	@Autowired
-	private BoardService boardService;
-	
-	@Autowired
 	private BoardDao boardDao;
 
 	@Autowired
 	private ReplyDao replyDao;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping({ "/", "" })
 	public String dashboard(Model model, HttpSession session) {
@@ -51,13 +53,15 @@ public class DashBoardController {
 
 	@PostMapping("/uploadimage")
 	@ResponseBody
-	public void uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
-		boardService.Boarduploadimage(sel_files, session);
+	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
+		return fileService.Boarduploadimage(sel_files, session);
 	}
 
 	@PostMapping("/addcontent")
-	public void addcontent(HttpSession session, BoardDto boardDto) {
-		boardDao.addcontent(boardDto, session);
+	@ResponseBody
+	public void addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
+		log.info("vo = {}", contentVo);
+		boardDao.addcontent(contentVo, session);
 	}
 
 	@PostMapping("/replyinsert")
@@ -81,9 +85,7 @@ public class DashBoardController {
 
 	@PostMapping("/private")
 	public void boardPrivate(@ModelAttribute BoardDto boardDto, HttpSession session) {
-
 		boardDao.setPrivate(boardDto);
-
 	}
 
 }

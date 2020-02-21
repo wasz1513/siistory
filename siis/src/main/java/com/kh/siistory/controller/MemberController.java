@@ -66,6 +66,9 @@ public class MemberController {
 			@RequestParam int member_no) {
 		int my_member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("memberInfo", memberDao.memberInfo(my_member_no, member_no));
+		log.info("my = {}",my_member_no);
+		log.info("you = {}", member_no);
+		log.info("dto = {}",memberDao.memberInfo(my_member_no, member_no));
 		return "member/info";
 	}
 	

@@ -21,6 +21,10 @@ public class BoardPicDaoImpl implements BoardPicDao {
 		Map<String, Object> map = new HashMap<>();
 		map.put("boardpicDto", boardpicDto);
 		sqlSession.insert("boardpic.uploadimage", map);
-		log.info("map={}", map.toString());
+	}
+
+	@Override
+	public int getpicseq() {
+		return sqlSession.selectOne("boardpic.getpicseq");
 	}
 }

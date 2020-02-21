@@ -5,12 +5,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="board">
 	
-	<select id="getseq" resultType="int">
-		select board_seq.nextval from dual
-	</select>
-
 	<insert id="write" parameterType="boardDto">
 		insert into board(board_no, board_content, member_no, board_writer) values(board_seq.nextval, #{board_content}, #{member_no}, #{board_writer})
+		<selectKey resultType="int" keyProperty="board_no" order="AFTER">
+			select board_seq.currval as board_no from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="bpinsert" parameterType="hashmap">
+		<foreach collection="list" item="pic" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			into bpconnect(bpconnect_seq, board_no, board_pic_no) values(bpconnect_seq.nextval, #{board_no}, #{pic.board_pic_no})
+		</foreach>	
 	</insert>
 	
  	<resultMap id="dashboardlist" type="boardDto"> 
@@ -71,5 +76,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on 
 			b.board_no = r.board_no -->
 	</select>
+	
+	<!-- <resultMap type="com.kh.siistory.vo.MyFriendsBoardReplyVO" id="mfbrVO">
+		<result column="member_no" property="member_no"/>
+		<result column="email" property="email"/>
+		
+		<collection column="member_no" javaType="java.util.List" ofType="com.kh.siistory.entity.BoardDto" property="boardList" select="getBoardAndReplyList"></collection>
+	</resultMap>
+	
+	<resultMap type="com.kh.siistory.entity.BoardDto" id="brVO">
+		<result column="board_no" property="board_no"/>
+		
+		<collection column="board_no" javaType="java.util.List" ofType="com.kh.siistory.entity.ReplyDto" property="replylist" select="getReplyList"></collection>
+	</resultMap>
+	
+	<select id="getMyFriendsBoardAndReplyList" parameterType="int" resultMap="mfbrVO">
+		select * from friend_test where member_no = #{member_no}
+	</select>
+	
+	<select id="getBoardAndReplyList" parameterType="int" resultMap="brVO">
+		select * from board where member_no=#{member_no}
+	</select>
+	
+	<select id="getReplyList" parameterType="int" resultType="com.kh.siistory.entity.ReplyDto">
+		select * from reply where board_no=#{board_no}
+	</select> -->
 	
 </mapper>
