@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="connect">
 
-	<update id="newsession" parameterType="">
+<!-- 	<update id="newsession" parameterType="">
 	
 	merge into connect_table
 using dual on (connect_table.DT =:new.connect_table.DT)
@@ -36,7 +36,7 @@ when not matched then
 	
 	<update id="exitsession" parameterType="connecttableDto">
 	
-	</update>
+	</update> -->
 	
 	
 	

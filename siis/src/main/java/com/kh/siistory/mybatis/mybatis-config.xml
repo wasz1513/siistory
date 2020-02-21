@@ -31,5 +31,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.entity.WarningDto" alias="warningDto"/>
 		<typeAlias type="com.kh.siistory.entity.ConnectTableDto" alias="connecttableDto"/>
 		<typeAlias type="com.kh.siistory.entity.BoardPicDto" alias="boardpicDto"/>
+		<typeAlias type="com.kh.siistory.vo.ContentVo" alias="contentVo"/>
 	</typeAliases>
 </configuration>
