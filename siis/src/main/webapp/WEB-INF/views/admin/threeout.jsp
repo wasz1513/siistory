@@ -36,8 +36,16 @@
 	</aside>
 	
 	<section>
-		
-	
+		<div class="container">
+			<div class="row">
+				<div class="col-md">
+				
+					<table>
+					</table>
+				
+				</div>
+			</div>
+		</div>
 	</section>
 	
 </article>

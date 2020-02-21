@@ -80,4 +80,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				order by member_no desc) M
 			)
 	</select>
+	
+	<select id="warning-list">
+		select 
+		    w.warning_no,
+		    w.target_email,
+		    w.target_name,
+		    w.target_no,
+		    wm.email pusher_email,
+		    wm.member_name pusher_name,
+		    w.pusher_no,
+		    w.board_no,
+		    w.content,
+		    w.state
+		from member WM
+		            inner join(
+		        select 
+		            tw.warning_no,
+		            tm.email target_email,
+		            tm.member_name target_name,
+		            tw.target_no,
+		            tw.pusher_no,
+		            tw.board_no,
+		            tw.content,
+		            tw.state
+		        from warning TW inner join member TM on TW.target_no = TM.member_no) W on W.pusher_no = WM.member_no
+		where state is null
+		order by warning_no desc;
+	</select>
 </mapper>
