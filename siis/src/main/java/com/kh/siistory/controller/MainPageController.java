@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.repository.BoardDao;
+import com.kh.siistory.repository.ConnectTableDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
@@ -44,9 +46,27 @@ public class MainPageController {
 	@Autowired
 	private RandomCertService randomCertService;
 	
+	@Autowired
+	private ConnectTableDao connecttableDao;
+	
+	@Autowired
+	private ConnectTableDto connectDto;
+		
+	
 	@GetMapping("/")
-	public String index() {
-		return "index";
+	public String index(HttpSession session) {
+		
+	
+		//신규 세션이면
+		if(session.isNew()) {
+			connecttableDao.true_session(connectDto);
+			SessionListener.getInstance().setSession(session);
+		//기존 세션이면
+		} else if (!session.isNew()) {
+			connecttableDao.false_session(connectDto);
+		} 
+				
+		return "index";		
 	}
 	
 	@PostMapping("/")
