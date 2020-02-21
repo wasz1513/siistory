@@ -177,6 +177,7 @@ $(function(){
 					<table class="table table-hover">
 						<thead>
 							<tr>
+								<th>처리상태</th>
 								<th>피신고인</th>
 								<th>신고자</th>
 								<th>신고내용</th>
@@ -187,18 +188,29 @@ $(function(){
 						<tbody>
 							<c:forEach var="warning" items="${list}">
 								<tr>
+									<td>${warning.state}</td>
 									<td>${warning.target_email}[${warning.target_name}]</td>
 									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
 									<td>${warning.content}</td>
 									<td>${warning.board_no}</td>
-									<td>접수 / 보류</td>						
+									<td>
+										<c:if test="${empty warning.state}">
+											<a href="receipt?warning_no=${warning.warning_no}">접수</a> 
+											/ 
+											<a href="hold?warning_no=${warning.warning_no}">보류</a>
+										</c:if>
+										<c:if test="${warning.state == '접수' }"></c:if>
+										<c:if test="${warning.state == '보류' }">
+											<a href="receipt?warning_no=${warning.warning_no}">접수</a>
+										</c:if>
+									</td>						
 								</tr>
 							</c:forEach>
 						</tbody>
 						<tfoot>
 							<c:if test="${not empty pno}">
 							<tr>
-								<td colspan="5">
+								<td colspan="6">
 									<div>
 										<ul class="pagination">
 									

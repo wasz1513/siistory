@@ -46,4 +46,29 @@ public class AdminDaoImpl implements AdminDao{
 		return sqlSession.selectOne("admin.warning-list-count", warningVo);
 	}
 
+	@Override
+	public void warning_count_newreceipt(int member_no) {
+		sqlSession.insert("admin.warning-count-newreceipt", member_no);
+	}
+
+	@Override
+	public void warning_count_addreceipt(int member_no) {
+		sqlSession.update("admin.warning-count-addreceipt", member_no);
+	}
+
+	@Override
+	public void warning_receipt(int warning_no) {
+		sqlSession.update("admin.warning-receipt", warning_no);
+	}
+
+	@Override
+	public void warning_hold(int warning_no) {
+		sqlSession.update("admin.warning-hold", warning_no);
+	}
+
+	@Override
+	public int warning_check(int member_no) {
+		return sqlSession.selectOne("admin.warning-check", member_no);
+	}
+
 }
