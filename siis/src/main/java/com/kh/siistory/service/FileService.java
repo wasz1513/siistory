@@ -2,6 +2,7 @@ package com.kh.siistory.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,6 @@ public interface FileService {
 	
 	void change(MemberVo memberVo, MultipartFile member_file) throws IllegalStateException, IOException;
 	
-	void Boarduploadimage(List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException;
+	Map<String, Object> Boarduploadimage(List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException;
 	
 }

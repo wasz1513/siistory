@@ -4,10 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardpic">
+	<select id="getpicseq" resultType="int">
+		select board_pic_seq.nextval from dual
+	</select>
+
 	<insert id="uploadimage" parameterType="map">
 		<foreach collection="boardpicDto" item="dto" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
-			into board_pic(board_pic_no, board_no, board_pic_store, board_pic_size) values
-			(getpic_seq(), 105, #{dto.board_pic_store}, #{dto.board_pic_size})
+			into board_pic(board_pic_no, board_pic_store, board_pic_size) values
+			(#{dto.board_pic_no}, #{dto.board_pic_store}, #{dto.board_pic_size})
 		</foreach>
 	</insert>
 </mapper>
