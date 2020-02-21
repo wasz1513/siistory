@@ -65,6 +65,11 @@ $(function(){
 						<table class="table table-hover">
 							<thead>
 								<tr>
+									<td colspan="4">
+										<h2>회원 목록</h2>
+									</td>
+								</tr>
+								<tr>
 									<td colspan="2">
 										<div class="form-group">
 											<select name="type" class="form-control">

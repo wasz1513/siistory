@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.vo.AdminSearchVo;
 import com.kh.siistory.vo.MemberProfileVo;
+import com.kh.siistory.vo.WarningVo;
 
 @Repository
 public class AdminDaoImpl implements AdminDao{
@@ -33,6 +34,16 @@ public class AdminDaoImpl implements AdminDao{
 	@Override
 	public List<MemberProfileVo> search_member_nav(AdminSearchVo adminSearchVo) {
 		return sqlSession.selectList("admin.search-member-nav", adminSearchVo);
+	}
+
+	@Override
+	public List<WarningVo> warning_list(WarningVo warningVo) {
+		return sqlSession.selectList("admin.warning-list", warningVo);
+	}
+
+	@Override
+	public int warning_list_count(WarningVo warningVo) {
+		return sqlSession.selectOne("admin.warning-list-count", warningVo);
 	}
 
 }
