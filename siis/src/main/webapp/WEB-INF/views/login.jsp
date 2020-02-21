@@ -45,6 +45,11 @@
 							<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="member_pw" required>
 						</div>
 						<div class="form-group">
+							<c:if test="${!empty param.error}">
+								<small class="form-text text-muted" id="login-error">Please check email or password</small>
+							</c:if>
+						</div>
+						<div class="form-group">
 			                <button type="submit" class="btn btn-outline-success btn-block">로그인</button>
 			            </div>
 					</form>
@@ -54,11 +59,6 @@
 				</div>
 				<div class="form-group">
 						<a href="${pageContext.request.contextPath}"><button class="btn btn-outline-primary btn-block">회원가입</button></a>
-				</div>
-				<div>
-					<c:if test="${!empty param.error}">
-						<small class="form-text text-muted" id="login-error">Please check email or password</small>
-					</c:if>
 				</div>
 			</div>
 		</div>

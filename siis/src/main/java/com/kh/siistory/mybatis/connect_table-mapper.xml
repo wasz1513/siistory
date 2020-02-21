@@ -26,19 +26,14 @@ when not matched then
             1,
             1,
             1
-        )
-
-	</update>
+        ) -->
+<!-- 	</update> -->
 	
-	<update id="oldsession" parameterType="connecttableDto">
+<!-- 	<update id="oldsession" parameterType="connecttableDto"> -->
 	
-	</update>
+<!-- 	</update> -->
 	
-	<update id="exitsession" parameterType="connecttableDto">
+<!-- 	<update id="exitsession" parameterType="connecttableDto"> -->
 	
-	</update> -->
-	
-	
-	
-
+<!-- 	</update> -->
 </mapper>

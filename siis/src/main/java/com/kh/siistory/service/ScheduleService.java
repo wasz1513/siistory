@@ -7,4 +7,5 @@ public interface ScheduleService {
 
 	public void alarm_Test();
 	
+	public void member_dormant();
 }
