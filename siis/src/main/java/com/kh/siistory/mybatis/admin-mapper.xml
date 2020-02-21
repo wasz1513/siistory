@@ -9,8 +9,130 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 	로그인 6개월 넘으면 휴면계정전환 -->
 	<update id="dormant">
 		<![CDATA[
-		update member set member_state='휴면' where last_login < sysdate-180
+		update member set member_state='휴면' where last_login < sysdate-180 and where member_state='정상'
 		]]>
 	</update>
 
+<!-- 	회원 검색 -->
+	<select id="search-member" parameterType="adminSearchVo" resultType="memberProfileVo">
+		select * from(
+			select rownum rn, M.* from
+			(
+				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+				<if test="member_state!=''">
+				and member_state=#{member_state}
+				</if>
+				<if test="member_gender!=''">
+				and member_gender=#{member_gender}
+				</if>
+				<if test="member_birth!=null">
+				and member_birth=#{member_birth}
+				</if>
+				<if test="member_phone!=null">
+				and member_phone=#{member_phone}			
+				</if>
+				order by member_no desc) M
+			)
+		where rn between #{start} and #{finish}
+	</select>
+	
+<!-- 	회원 검색 페이징 테스트-->
+	<select id="search-member-nav" parameterType="adminSearchVo" resultType="memberProfileVo">
+		select * from(
+			select rownum rn, M.* from
+			(
+				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+				<if test="member_state!=''">
+				and member_state=#{member_state}
+				</if>
+				<if test="member_gender!=''">
+				and member_gender=#{member_gender}
+				</if>
+				<if test="member_birth!=''">
+				and member_birth=#{member_birth}
+				</if>
+				<if test="member_phone!=''">
+				and member_phone=#{member_phone}			
+				</if>
+				order by member_no desc) M
+			)
+		where rn between #{start} and #{finish}
+	</select>
+	
+<!-- 	회원 검색 count -->
+	<select id="search-member-count" parameterType="adminSearchVo" resultType="int">
+		select count(*) from(
+			select rownum rn, M.* from
+			(
+				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+				<if test="member_state!=''">
+				and member_state=#{member_state}
+				</if>
+				<if test="member_gender!=''">
+				and member_gender=#{member_gender}
+				</if>
+				<if test="member_birth!=null">
+				and member_birth=#{member_birth}
+				</if>
+				<if test="member_phone!=null">
+				and member_phone=#{member_phone}			
+				</if>
+				order by member_no desc) M
+			)
+	</select>
+	
+<!-- 	신고 리스트 -->
+	<select id="warning-list" parameterType="warningVo" resultType="warningVo">
+		select * from(
+		    select rownum r, WL.* from(
+		        select
+		            w.warning_no,
+		            tm.email target_email,
+		            tm.member_name target_name,
+		            w.target_no,
+		            pm.email pusher_email,
+		            pm.member_name pusher_name,
+		            w.pusher_no,
+		            w.board_no,
+		            w.content,
+		            w.state
+		        from warning W inner join member TM on W.target_no = TM.member_no 
+		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
+		        <if test="content != ''">
+		        and content like '%'||#{content_keyword}||'%'
+		        </if>
+		        <if test="state=='null'">and state is null</if>
+		        <if test="state=='접수'">and state = '접수'</if>
+		        <if test="state=='보류'">and state = '보류'</if>
+		)
+		where r between #{start} and #{finish}
+	</select>
+	
+<!-- 	신고리스트 카운트 -->
+	<select id="warning-list-count" parameterType="warningVo" resultType="int">
+		select count(*) from(
+			select rownum r, WL.* from(
+		        select
+		            w.warning_no,
+		            tm.email target_email,
+		            tm.member_name target_name,
+		            w.target_no,
+		            pm.email pusher_email,
+		            pm.member_name pusher_name,
+		            w.pusher_no,
+		            w.board_no,
+		            w.content,
+		            w.state
+		        from warning W inner join member TM on W.target_no = TM.member_no 
+		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
+		        <if test="content != ''">
+		        and content like '%'||#{content_keyword}||'%'
+		        </if>
+		        <if test="state=='null'">and state is null</if>
+		        <if test="state=='접수'">and state = '접수'</if>
+		        <if test="state=='보류'">and state = '보류'</if>
+		)
+	</select>
 </mapper>

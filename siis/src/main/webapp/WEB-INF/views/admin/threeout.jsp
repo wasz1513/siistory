@@ -50,37 +50,42 @@ $(function(){
 	}
 </style>
 
+
 <article>
 	<aside class="left-aside">	
 		<jsp:include page="/WEB-INF/views/template/adminmenu.jsp"></jsp:include>
 	</aside>
 	
 	<section>
-	
 		<div class="container">
 			<div class="row">
 				<div class="col-md">
 				
-					<form action="management" method="post">
+					<form action="threeout" method="post">
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<td colspan="4">
-										<h2>회원 목록</h2>
+										<h2>신고 목록</h2>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="center">
+									피신고인 (Email / Name)
 									</td>
 								</tr>
 								<tr>
 									<td colspan="2">
 										<div class="form-group">
-											<select name="type" class="form-control">
-												<option value="email">Email</option>
-												<option value="member_name">Name</option>
+											<select name="target_type" class="form-control">
+												<option value="target_email">Email</option>
+												<option value="target_name">Name</option>
 											</select>
 										</div>
 									</td>
 									<td colspan="2">
 										<div class="form-group">
-											<input type="text" name="keyword" class="form-control">
+											<input type="text" name="target_keyword" class="form-control">
 										</div>
 									</td>
 								</tr>
@@ -97,55 +102,54 @@ $(function(){
 							</thead>
 							<tbody class="view-detail">
 								<tr>
-									<td>
-										<div class="form-group">
-											회원상태
-										</div>
+									<td colspan="4" align="center">
+									신고자 (Email / Name)
 									</td>
-									<td>
+								</tr>
+								<tr>
+									<td colspan="2">
 										<div class="form-group">
-											<select name="member_state" class="form-control">
-												<option value="">선택</option>
-												<option value="정상">정상</option>
-												<option value="정지">정지</option>
-												<option value="휴면">휴면</option>
-												<option value="탈퇴">탈퇴</option>
+											<select name="pusher_type" class="form-control">
+												<option value="pusher_email">Email</option>
+												<option value="pusher_name">Name</option>
 											</select>
 										</div>
 									</td>
-									<td>
+									<td colspan="2">
 										<div class="form-group">
-											전화번호
-										</div>
-									</td>
-									<td>
-										<div class="form-group">
-											<input type="text" name="mebmer_phone" class="form-control">
+											<input type="text" name="pusher_keyword" class="form-control">
 										</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<div class="form-group">
-											나이
+											신고처리
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="mebmer_birth" class="form-control">
+											<select name="state" class="form-control">
+												<option value="all">선택</option>
+												<option value="null">접수전</option>
+												<option value="보류">접수보류</option>
+												<option value="접수">접수완료</option>
+											</select>
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
-											성별
+											신고내용
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
-											<select name="member_gender" class="form-control">
+											<select name="content_keyword" class="form-control">
 												<option value="">선택</option>
-												<option value="남">남</option>
-												<option value="여">여</option>
+												<option value="음란성">음란성</option>
+												<option value="광고성">광고성</option>
+												<option value="언어적">언어적</option>
+												<option value="분란유도">분란유도</option>
 											</select>
 										</div>
 									</td>
@@ -155,7 +159,7 @@ $(function(){
 								<tr>
 									<td colspan="4" align="right">
 										<div class="form-group">
-											<button type="submit" class="btn btn-outline-success btn-block">회원 검색</button>
+											<button type="submit" class="btn btn-outline-success btn-block">신고 검색</button>
 										</div>
 									</td>
 								</tr>
@@ -165,54 +169,44 @@ $(function(){
 				</div>
 			</div>
 		</div>
-		
+	
 		<div class="container">
 			<div class="row">
 				<div class="col-md">
+				
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Email</th>
-								<th>Name</th>
-								<th>State</th>
-								<th>ProfileState</th>
-								<th>Gender</th>
-								<th>Phone</th>
-								<th>Location</th>
-								<th>Job</th>
-								<th>Management</th>
+								<th>피신고인</th>
+								<th>신고자</th>
+								<th>신고내용</th>
+								<th>게시글</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="member" items="${list}">
+							<c:forEach var="warning" items="${list}">
 								<tr>
-									<td>${member.email}</td>
-									<td>${member.member_name}</td>
-									<td>${member.member_state}</td>
-									<td>${member.member_profile_state}</td>
-									<td>${member.member_gender}</td>
-									<td>${member.member_phone}</td>
-									<td>${member.member_home}</td>
-									<td>${member.member_job}</td>
-									<td>
-									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
-									[정지] 
-									[???]
-									</td>
+									<td>${warning.target_email}[${warning.target_name}]</td>
+									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
+									<td>${warning.content}</td>
+									<td>${warning.board_no}</td>
+									<td>접수 / 보류</td>						
 								</tr>
 							</c:forEach>
-						</tbody>	
+						</tbody>
 						<tfoot>
 							<c:if test="${not empty pno}">
 							<tr>
-								<td colspan="9">
+								<td colspan="5">
 									<div>
 										<ul class="pagination">
 									
 											<c:if test="${startBlock > 1}">
 												<li class="page-item">
-												<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${startBlock-1}&count=${count}
-												&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">&laquo;</a>
+												<a class="page-link" href="warninglist?pno=${startBlock-1}&count=${count}
+												&target_type=${target_type}&pusher_type=${pusher_type}&target_keyword=${target_keyword}
+												&pusher_keyword=${pusher_keyword}&content_keyword=${content_keyword}&state=${state}">&laquo;</a>
 												</li>
 											</c:if>
 										    
@@ -223,8 +217,9 @@ $(function(){
 													</c:when>
 													<c:otherwise>
 														<li class="page-item">
-															<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${i}&count=${count}
-															&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">${i}</a>
+															<a class="page-link" href="warninglist?pno=${i}&count=${count}
+															&target_type=${target_type}&pusher_type=${pusher_type}&target_keyword=${target_keyword}
+															&pusher_keyword=${pusher_keyword}&content_keyword=${content_keyword}&state=${state}">${i}</a>
 														</li>
 													</c:otherwise>
 												</c:choose>
@@ -232,8 +227,9 @@ $(function(){
 
 										    <c:if test="${finishBlock < pageCount}">
 												<li class="page-item">
-													<a class="page-link" href="list?type=${type}&keyword=${keyword}&pno=${finishBlock+1}&count=${count}
-													&member_state=${member_state}&member_gender=${member_gender}&member_birth=${member_birth}&member_phone=${member_phone}">&raquo;</a>
+													<a class="page-link" href="warninglist?pno=${startBlock-1}&count=${count}
+													&target_type=${target_type}&pusher_type=${pusher_type}&target_keyword=${target_keyword}
+													&pusher_keyword=${pusher_keyword}&content_keyword=${content_keyword}&state=${state}">&raquo;</a>
 												</li>
 											</c:if>
 										</ul>
@@ -243,11 +239,12 @@ $(function(){
 							</c:if>
 						</tfoot>				
 					</table>
+				
 				</div>
 			</div>
-		</div>		
-		
+		</div>
 	</section>
+	
 </article>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

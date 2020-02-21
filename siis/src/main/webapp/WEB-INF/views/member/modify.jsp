@@ -54,7 +54,9 @@ function previewImage(target){
 			<input type="hidden" name="member_no" value="${memberVo.member_no}">
 			<table class="table table-hover">
 				<thead>
-					<td colspan="3">${memberVo.member_name} 프로필</td>
+					<tr>
+						<td colspan="3">${memberVo.member_name} 프로필</td>
+					</tr>
 				</thead>
 			 	<tbody>
 			 		<tr class="table-secondary">
