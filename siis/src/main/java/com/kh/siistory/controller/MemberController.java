@@ -1,6 +1,7 @@
 package com.kh.siistory.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.WarningDto;
 import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.FileuploadDao;
@@ -119,7 +121,12 @@ public class MemberController {
 	public String boardInfo(Model model, HttpSession session) {
 		model.addAttribute("dtolist", boardDao.myboardList(session));
 		
-		System.out.println(session.isNew());
+		ConnectTableDto dto = new ConnectTableDto();
+		
+		String obj = dto.getDT();
+		
+		
+		System.out.println(obj);
 		
 		return "member/myboard";
 	}
