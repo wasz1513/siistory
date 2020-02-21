@@ -18,14 +18,20 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Autowired
 	private SqlSession sqlsession;
-
+	
+	// 게시판 시퀀스 선 발급 메소드
 	@Override
-	public void setWrtie(BoardDto boardDto, HttpSession session) {
+	public int getboardseq() {
+		return sqlsession.selectOne("board.getseq");
+	}
+	
+	@Override
+	public void addcontent(BoardDto boardDto, HttpSession session) {
 		boardDto.setMember_no((int)session.getAttribute("member_no"));
 		boardDto.setBoard_writer((String)session.getAttribute("member_name"));
 		sqlsession.insert("board.write", boardDto);
 	}
-
+	
 	@Override
 	public List<BoardDto> dashboardlist(HttpSession session) {
 //		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
@@ -36,8 +42,18 @@ public class BoardDaoImpl implements BoardDao {
 //			dto.setBoard_reply_count(count);
 //			dtolist.add(dto);
 //		}
-//		
 		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
+
+	@Override
+	public List<BoardDto> myboardList(HttpSession session) {
+		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
+	}
+
+	@Override
+	public void setPrivate(BoardDto boardDto) {
+		sqlsession.update("myboard.setprivate", boardDto);
+	}
+
 
 }

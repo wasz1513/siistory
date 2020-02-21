@@ -47,8 +47,7 @@ $(function() {
 				 * "state = " + Friend.flist_data[index].connect_state);
 				 * 
 				 * $(".showList").append(tr).append(Fno).append(Fname)
-				 * .append(Fstate);
-				 *  } ;
+				 * .append(Fstate); } ;
 				 */
 				$(".testList").empty();
 				var room_no = 0;
@@ -119,16 +118,35 @@ $(function() {
 				// 누구누구 님이 나의 글에 댓글을 등록했습니다.
 				// 누구누구 님이 나의 댓글을 좋아합니다.
 				for ( var index in msg.alarmList) {
-					var tr = $("<tr>");
+
 					var tag = $("<a href='#'>");
 					var btn = $("<button>").attr("type", "button").attr(
 							"class",
 							"btn btn-primary btn-lg btn-block go-content");
 
-					var alarm_message = $("<td>").append(
-							btn.text(msg.alarmList[index].ment));
+					var alarm_message = btn.text(msg.alarmList[index].ment);
+					var member_no1 = $("<a>").addClass("member_no-data").hide()
+							.text(msg.alarmList[index].member_no);
+					var target_no = $("<a>").addClass("target_no-data").hide()
+							.text(msg.alarmList[index].target_no);
+					var pusher_no = $("<a>").addClass("pusher_no-data").hide()
+							.text(msg.alarmList[index].pusher_no);
+					var content_no = $("<a>").addClass("content_no-data")
+							.hide().text(msg.alarmList[index].content_no);
+					var content_type = $("<a>").addClass("content_tpye-data")
+							.hide().text(msg.alarmList[index].content_type);
+					var content_play = $("<a>").addClass("content_play-data")
+							.hide().text(msg.alarmList[index].content_play);
 
-					$(".alarmList").append(tr).append(alarm_message);
+					$(".alarmList").append(
+							$("<tr>").append(
+									$("<td>").append(alarm_message).append(
+											member_no1).append(target_no)
+											.append(pusher_no).append(
+													content_no).append(
+													content_type).append(
+													content_play)));
+
 					console.log(msg[index]);
 
 				}
@@ -142,6 +160,36 @@ $(function() {
 
 			console.log(e.data);
 		};
+
+		$(document)
+				.off()
+				.on(
+						"click",
+						".go-content",
+						function(event) {
+							console.log("컨텐츠 이동")
+
+							var target_no = $(this).next().next().text();
+							console.log(target_no)
+							var pusher_no = $(this).next().next().next().text();
+							console.log(pusher_no)
+							var content_no = $(this).next().next().next()
+									.next().text();
+							console.log(content_no)
+							var content_type = $(this).next().next().next()
+									.next().next().text();
+							console.log(content_type)
+							var content_play = $(this).next().next().next()
+									.next().next().next().text();
+							console.log(content_play)
+
+							send_alarm(member_no, 7, target_no, pusher_no,
+									content_no, content_type, content_play);
+
+							window.location.href = "http://" + host + context
+									+ "/member/follow";
+
+						});
 
 	}// connect
 	;
@@ -177,19 +225,18 @@ $(function() {
 		window.socket.send(value)
 
 	}
-	
 
 	// 보내는 메시지 메소드 및 형식 구성
 	// 데이터 보낼 때 필요한 정보 =
 	// 누른사람, 타겟사람 , 컨텐츠 넘버 , 컨텐츠 형식, 행동표시, 메시지 형태
-	function send_alarm(member_no, status, target_no, content_no,
+	function send_alarm(member_no, status, target_no, pusher_no, content_no,
 			content_type, content_play, text) {
 
 		var message = {
 			member_no : member_no,
 			status : status,
 			target_no : target_no,
-			pusher_no : member_no,
+			pusher_no : pusher_no,
 			content_no : content_no,
 			content_type : content_type,
 			content_play : content_play,
@@ -199,10 +246,6 @@ $(function() {
 		window.socket.send(value);
 	}
 	;
-	
-	
-	
-	
 
 	// 연결 종료 코드 (윈도우가 닫히기 전에~)
 	$(window).on("beforeunload", function() {
@@ -242,12 +285,12 @@ $(function() {
 	// 좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 	// 좋아요 키는버튼
 	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, 86, "board", "good")
+		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
 	});
 
 	// 좋아요 취소 버튼
 	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, 86, "board", "good")
+		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
 	});
 
 	// 친구 요청 버튼
@@ -255,13 +298,14 @@ $(function() {
 	// send_alarm(member_no,10,24,0,"friend","add")
 	// });
 
+	// if($(".follow-btn").text()=="팔로우"){
 	$(".follow-btn").off().click(function() {
-
+		console.log($(".follow-btn").text());
 		var target_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
-		
-		send_alarm(member_no, 10, target_no, 0, "friend", "add")
+		if ($(".follow-btn").text() == "팔로우") {
+			send_alarm(member_no, 10, target_no, member_no, 0, "friend", "add")
+		}
 	});
-
-
+	// }
 });

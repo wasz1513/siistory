@@ -87,10 +87,10 @@ public class MainPageController {
 					return "redirect:/admin/management";
 				}else {
 					switch(login.getMember_state()) {
-					case "정상" : url="redirect:/main"; break;
-					case "탈퇴" : url="redirect:/withdraw"; break;
-					case "휴면" : url="redirect:/dormant"; break;
-					case "정지" : url="redirect:/suspend"; break;
+						case "정상" : url="redirect:/main"; break;
+						case "탈퇴" : url="redirect:/withdraw"; break;
+						case "휴면" : url="redirect:/dormant"; break;
+						case "정지" : url="redirect:/suspend"; break;
 					}
 					memberDao.last_login(memberDto);
 					return url;
@@ -114,7 +114,10 @@ public class MainPageController {
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
+
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
+
 		return "login/main";
 	}
 	

@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.siistory.entity.WarningDto;
+import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.FileuploadDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
+import com.kh.siistory.service.WarningService;
 import com.kh.siistory.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,12 @@ public class MemberController {
 	
 	@Autowired
 	private FileuploadDao fileuploadDao;
+	
+	@Autowired
+	private BoardDao boardDao;
+	
+	@Autowired
+	private WarningService warningService;
 	
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session,
@@ -107,6 +116,41 @@ public class MemberController {
 		model.addAttribute("list", followDao.myfollower(member_no));
 		return "member/follow";
 	}
+	
+	
+	@GetMapping("/myboard")
+	public String boardInfo(Model model, HttpSession session) {
+		model.addAttribute("dtolist", boardDao.myboardList(session));
+		
+		System.out.println(session.isNew());
+		
+		return "member/myboard";
+	}
+	
+	@GetMapping("/warning")
+	public String warning() {
+		
+		
+		
+		return "member/warning";
+	}
+	
+	@PostMapping("/warning")
+	public String warning_result(@ModelAttribute WarningDto warningDto ) {
+		
+		String content = warningDto.getContent1() + warningDto.getContent2() + warningDto.getContent3() +
+				warningDto.getContent4() + warningDto.getContent5()+warningDto.getContent6();
+		warningDto.setContent(content);
+		
+		warningService.insert(warningDto);
+		
+		System.out.println(warningDto);
+		
+		return "redirect:warning?result=1";
+		
+		
+	}
+	
 	
 
 	
