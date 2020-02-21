@@ -82,20 +82,19 @@ public class MainPageController {
 				String url = "";
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
-
 				session.setAttribute("member_name", login.getMember_name());
-				
-
-				
-				switch(login.getMember_state()) {
-					case "정상" : url="redirect:/main"; break;
-					case "탈퇴" : url="redirect:/withdraw"; break;
-					case "휴면" : url="redirect:/dormant"; break;
-					case "정지" : url="redirect:/suspend"; break;
+				if(login.getEmail().equals("admin")) {
+					return "redirect:/admin/management";
+				}else {
+					switch(login.getMember_state()) {
+						case "정상" : url="redirect:/main"; break;
+						case "탈퇴" : url="redirect:/withdraw"; break;
+						case "휴면" : url="redirect:/dormant"; break;
+						case "정지" : url="redirect:/suspend"; break;
+					}
+					memberDao.last_login(memberDto);
+					return url;
 				}
-				memberDao.last_login(memberDto);
-				return url;
-
 			}else {
 				return "redirect:/login?error=false";
 			}
