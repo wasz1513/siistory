@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myboard">
+	<insert id="write" parameterType="boardDto">
+		insert into board(board_no, board_content, member_no, board_writer) values(board_seq.nextval, #{board_content}, #{member_no}, #{board_writer})
+	</insert>
+
+
+
+ 	<resultMap id="dashboardlist" type="boardDto"> 
+	  <id property="board_no" column="board_no" />
+	  <result property="board_content" column="board_content"/>
+	  <result property="board_writer" column="board_writer"/>
+	  <result property="member_no" column="member_no"/>
+	  <result property="board_reply_count" column="board_reply_count"/>
+	  <result property="board_state" column="board_state"/>
+		  <collection property="replylist" ofType="replyDto">
+		    <id property="reply_no" column="reply_no"/>
+		    <result property="reply_content" column="reply_content"/>
+		    <result property="reply_writer" column="reply_writer"/>
+		    <result property="writer_no" column="writer_no"/>
+		    <result property="depth" column="depth"/>
+		  </collection>
+	</resultMap>
+	
+	
+	
+		<select id="getlist" resultMap="dashboardlist" parameterType="int">
+
+		select 
+			* 
+		from (
+			select 
+				b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth, 
+				(select count(*) from reply where b.board_no = reply.board_no) as board_reply_count, 
+				row_number() OVER (PARTITION BY b.board_no ORDER BY b.board_no) as rk
+			from board b left outer join (select * from reply where depth = 0) r 
+            on b.board_no = r.board_no
+			) where member_no= #{member_no} order by board_wdate desc
+
+	</select>
+	
+	
+		<update id="setprivate" parameterType="boardDto">
+		update board set board_state=#{board_state} where board_no=#{board_no}	
+	</update>
+
+
+</mapper>

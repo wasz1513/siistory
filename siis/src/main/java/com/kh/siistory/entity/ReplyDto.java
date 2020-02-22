@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ReplyDto {
-	int reply_no, board_no, member_no, super_no, group_no, depth, reply_count;
-	String reply_wdate, reply_content;
+	int reply_no, board_no, writer_no, super_no, group_no, depth, reply_count;
+	String reply_wdate, reply_content, reply_writer;
 }

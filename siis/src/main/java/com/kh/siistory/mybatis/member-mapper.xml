@@ -40,7 +40,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 <!-- 	회원가입 -->
 	<insert id="regist" parameterType="memberDto">
-		insert into member(member_no, email, member_name, member_pw) values(#{member_no}, #{email}, #{member_name}, #{member_pw})
+		insert into member(member_no, email, member_name, member_pw, member_state, last_login) values(#{member_no}, #{email}, #{member_name}, #{member_pw}, '정상', sysdate)
+	</insert>
+	
+<!-- 	회원가입시 member_profile table member_no 설정 -->
+	<insert id="regist_profile" parameterType="memberDto">
+		insert into member_profile(member_no) values(#{member_no})
 	</insert>
 	
 <!-- 	로그인 -->
@@ -48,6 +53,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where email=#{email}
 	</select>
 	
+<!-- 	마지막 로그인 시간 업데이트 -->
+	<update id="last-login" parameterType="memberDto">
+		update member set last_login = sysdate where email=#{email}
+	</update>
+		
 <!-- 	단일조회 -->
 	<select id="getMember" parameterType="int" resultType="memberDto">
 		select * from member where member_no=#{member_no}
@@ -62,5 +72,83 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getMemberVo_no" parameterType="int" resultType="memberVo">
 		select * from member_member_profile where member_no = #{member_no}
 	</select>
+	
+<!-- 	아이디중복검사 -->
+	<select id="idcheck" parameterType="string" resultType="int">
+		select count(*) from member where email=#{email}
+	</select>
+	
+<!-- 	이메일 인증 입력-->
+	<insert id="cert" parameterType="certDto">
+		insert into cert values(cert_seq.nextval, #{email}, #{cert}, sysdate)
+	</insert>
+	
+<!-- 	비밀번호 변경 -->
+	<update id="changePw" parameterType="memberDto">
+		update member set member_pw=#{member_pw} where email=#{email}
+	</update>
+	
+<!-- 	회원검색(email) -->
+<!-- 	<resultMap id="memberList" type="memberDto"> -->
+<!-- 		<id property="member_no" column="member_no"/> -->
+<!-- 		<result property="email" column="email"/> -->
+<!-- 		<result property="member_name" column="member_name"/> -->
+<!-- 		<result property="member_state" column="member_state"/> -->
+<!-- 			<collection property="followList" ofType="followDto"> -->
+<!-- 				<id property="seq_no" column="seq_no"/> -->
+<!-- 				<result property="friend_no" column="friend_no"/> -->
+<!-- 				<result property="follower" column="follower"/> -->
+<!-- 				<result property="following" column="following"/> -->
+<!-- 				<result property="follow_state" column="follow_state"/> -->
+<!-- 			</collection> -->
+<!-- 	</resultMap> -->
+
+<!-- 	회원검색(email) -->
+	<select id="getMember_email" parameterType="memberDto" resultType="memberFollowVo">
+		select
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
+		where M.email like '%'||#{email}||'%' and M.member_state='정상' order by M.member_no
+	</select>
+	
+<!-- 	회원검색(member_name) -->
+	<select id="getMember_name" parameterType="memberDto" resultType="memberFollowVo">
+		select
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        left outer join (select * from friend_test where member_no=#{member_no}) F on M.member_no = F.friend_no
+		where M.member_name like '%'||#{member_name}||'%' and M.member_state='정상' order by M.member_no
+	</select>
+	
+<!-- 	회원정보 검색	 -->
+	<select id="member_info" parameterType="map" resultType="memberProfileVo">
+		select
+		    M.*,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member_member_profile M
+		        left outer join (select * from friend_test where member_no=#{my_member_no}) F on M.member_no = F.friend_no
+        where M.member_no=#{member_no}
+	</select>
+	
+	<!-- 휴면계정 정상계정으로 전환 -->
+	<update id="dormant" parameterType="memberDto">
+		update member set member_state='정상' where email=#{email}
+	</update>
 	
 </mapper>

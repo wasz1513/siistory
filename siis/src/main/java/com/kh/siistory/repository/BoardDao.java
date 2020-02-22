@@ -1,11 +1,16 @@
 package com.kh.siistory.repository;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.kh.siistory.entity.BoardDto;
-import com.kh.siistory.vo.SeqVo;
+import com.kh.siistory.vo.ContentVo;
 
 public interface BoardDao {
-	SeqVo getSequence();
-	void setWrtie(BoardDto boardDto, HttpSession session);
+	void addcontent(ContentVo contentVo, HttpSession session);
+	List<BoardDto> dashboardlist(HttpSession session);
+	List<BoardDto> myboardList(HttpSession session);
+	void setPrivate(BoardDto boardDto);
 }
+

@@ -17,12 +17,22 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.entity.BoardDto" alias="boardDto"/>
 		<typeAlias type="com.kh.siistory.entity.ReplyDto" alias="replyDto"/>
 		<typeAlias type="com.kh.siistory.entity.MemberDto" alias="memberDto"/>
-
 		<typeAlias type="com.kh.siistory.entity.FriendDto" alias="friendDto"/>
-
 		<typeAlias type="com.kh.siistory.vo.MemberVo" alias="memberVo"/>
-
 		<typeAlias type="com.kh.siistory.vo.SeqVo" alias="seqVo"/>
-
+		<typeAlias type="com.kh.siistory.entity.Member_profile_fileDto" alias="memberfileDto"/>
+		<typeAlias type="com.kh.siistory.entity.AlarmDto" alias="alarmDto"/>
+		<typeAlias type="com.kh.siistory.entity.CertDto" alias="certDto"/>
+		<typeAlias type="com.kh.siistory.entity.BoardLikeDto" alias="boardlikeDto"/>
+		<typeAlias type="com.kh.siistory.entity.ReplyLikeDto" alias="replylikeDto"/>
+		<typeAlias type="com.kh.siistory.entity.FollowDto" alias="followDto"/>
+		<typeAlias type="com.kh.siistory.vo.MemberFollowVo" alias="memberFollowVo"/>
+		<typeAlias type="com.kh.siistory.vo.AdminSearchVo" alias="adminSearchVo"/>
+		<typeAlias type="com.kh.siistory.entity.WarningDto" alias="warningDto"/>
+		<typeAlias type="com.kh.siistory.entity.ConnectTableDto" alias="connecttableDto"/>
+		<typeAlias type="com.kh.siistory.entity.BoardPicDto" alias="boardpicDto"/>
+		<typeAlias type="com.kh.siistory.vo.ContentVo" alias="contentVo"/>
+		<typeAlias type="com.kh.siistory.vo.WarningVo" alias="warningVo"/>
+		<typeAlias type="com.kh.siistory.vo.MemberProfileVo" alias="memberprofileVo"/>
 	</typeAliases>
 </configuration>

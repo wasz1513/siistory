@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="follow">
+	
+	<insert id="following" parameterType="followDto">
+		insert into friend_test(seq_no, member_no, friend_no, following) values(friend_test_seq.nextval, #{member_no}, #{friend_no}, #{following})
+<!-- 		insert into follow(follow_no, -->
+<!-- 						 following_member_no,  -->
+<!-- 						 following_friend_no,  -->
+<!-- 						 my_following,  -->
+<!-- 						 follower_member_no,  -->
+<!-- 						 follower_friend_no, -->
+<!-- 						 friend_follower)  -->
+<!-- 					values(follow_seq.nextval, -->
+<!-- 						#{member_no}, -->
+<!-- 						#{friend_no}, -->
+<!-- 						1, -->
+<!-- 						#{friend_no}, -->
+<!-- 						#{member_no}, -->
+<!-- 						1) -->
+	</insert>
+	
+	<insert id="follower" parameterType="followDto">
+		insert into friend_test(seq_no, member_no, friend_no, follower) values(friend_test_seq.nextval, #{friend_no}, #{member_no}, #{following})
+	</insert>
+	
+	<delete id="unfollowing" parameterType="followDto">
+		delete friend_test where member_no=#{member_no} and friend_no=#{friend_no} and following=#{following}
+<!-- 		delete follow where following_member_no=#{member_no} and following_friend_no=#{friend_no} -->
+	</delete>
+	
+	<delete id="unfollower" parameterType="followDto">
+		delete friend_test where member_no=#{friend_no} and friend_no=#{member_no} and follower=#{following}
+	</delete>
+	
+<!-- 	내가 친구신청한 목록 -->
+	<select id="myfollowing" parameterType="int" resultType="memberFollowVo">
+		select * from member_follow where member_no=#{member_no}
+	</select>
+		
+<!-- 	나한테 친구신청한 회원 목록 -->
+	<select id="myfollower" parameterType="int" resultType="memberFollowVo">
+		select
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        inner join (select * from friend_test where member_no=#{member_no} and follower=1 and friend_state is null) F on M.member_no = F.friend_no
+		order by F.seq_no desc
+	</select>	
+
+	<update id="follower_ok" parameterType="followDto">
+		update friend_test set following=1, friend_state=1 where member_no=#{member_no} and follower=1 and friend_no=#{friend_no}
+	</update>
+	
+	<update id="following_ok" parameterType="followDto">
+		update friend_test set follower=1, friend_state=1 where friend_no=#{member_no} and following=1 and member_no=#{friend_no}
+	</update>
+	
+	<update id="follower_no" parameterType="followDto">
+		update friend_test set following=null, friend_state=null where member_no=#{member_no} and follower=1 and friend_no=#{friend_no}
+	</update>
+	
+	<update id="following_no" parameterType="followDto">
+		update friend_test set follower=null, friend_state=null where friend_no=#{member_no} and following=1 and member_no=#{friend_no}
+	</update>
+	
+<!-- 	상대방이 나를 팔로잉 했는지 확인 -->
+	<select id="check_following" parameterType="followDto" resultType="int">
+		select count(*) from friend_test where member_no=#{friend_no} and friend_no=#{member_no} and following=1
+	</select>
+	
+<!-- 	내 친구 목록 -->
+	<select id="myfriend" parameterType="int" resultType="memberFollowVo">
+		select
+		    M.member_no, 
+		    M.email, 
+		    M.member_name ,
+		    F.follower,
+		    F.following,
+		    F.friend_state
+		from 
+		    member M
+		        inner join (select * from friend_test where member_no=#{member_no} and friend_state=1) F on M.member_no = F.friend_no
+		where M.member_state='정상' order by F.seq_no desc
+	</select>	
+	
+<!-- 	친구요청 거절 -->
+	<delete id="refuse-following" parameterType="followDto">
+		delete friend_test where member_no=#{member_no} and friend_no=#{friend_no} and follower=#{following}
+	</delete>
+	
+	<delete id="refuse-follower" parameterType="followDto">
+		delete friend_test where member_no=#{friend_no} and friend_no=#{member_no} and following=#{following}
+	</delete>
+</mapper>

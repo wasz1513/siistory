@@ -15,6 +15,11 @@ public class FriendDto {
 	private int friend;
 	private int friend_state;
 	
-	private String connect_state;
+	private String connect_state = "미접속";
+	
+	
+	
+	
+	
 	
 }

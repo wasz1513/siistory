@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="alarm">
+    <!-- 유저의 알람 리스트 -->
+	<select id="getList" parameterType="alarmDto"
+		resultType="alarmDto">
+		select * from alarm where target_no = #{target_no} 
+		order by content_date desc
+	</select>
+
+
+	<select id="get" parameterType="int" resultType="alarmDto">
+		select * from alarm where no = #{no}
+	</select>	
+
+
+	<insert id="insert" parameterType="alarmDto">
+		insert into alarm values (
+		alarm_seq.nextval,
+		#{target_no},
+		#{pusher_no},	
+		#{content_no},
+		#{content_type},
+		#{content_play},
+		sysdate
+		)
+	</insert>
+
+	<delete id="delete" parameterType="alarmDto">
+		delete alarm
+		where
+		pusher_no = #{pusher_no} and
+		content_no = #{content_no} and
+		content_type = #{content_type} and
+		content_play = #{content_play}
+	</delete>
+
+</mapper>

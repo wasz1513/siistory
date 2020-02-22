@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberfile">
+<!-- 	member_profile_file seq 생성 -->
+	<select id="seqno" resultType="seqVo">
+		select memberfile_seq.nextval seq_no from dual
+	</select>
+
+<!-- 	프로필사진 저장 -->
+	<insert id="insert" parameterType="memberfileDto">
+		insert into member_profile_file values(#{profile_file_no},
+												#{profile_file_uploadname},
+												#{profile_file_savename},
+												#{profile_file_size},
+												#{member_no})
+	</insert>
+	
+<!-- 	기존프로필이 있는지 확인 -->
+	<select id="check" parameterType="int" resultType="int">
+		select count(*) from member_profile_file where member_no = #{member_no}
+	</select>
+	
+<!-- 	프로필사진 업데이트 -->
+	<update id="change" parameterType="memberfileDto">
+		update member_profile_file set profile_file_uploadname=#{profile_file_uploadname},
+										profile_file_size=#{profile_file_size}
+		where member_no=#{member_no}
+	</update>
+	
+<!-- 	프로필사진 정보 -->
+	<select id="getInfo" parameterType="int" resultType="memberfileDto">
+		select * from member_profile_file where member_no=#{member_no}
+	</select>
+</mapper>
