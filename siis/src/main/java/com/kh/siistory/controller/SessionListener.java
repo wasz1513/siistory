@@ -24,7 +24,7 @@ public class SessionListener implements HttpSessionBindingListener {
 	private static Hashtable loginUsers = new Hashtable();
 
 
-// 싱글톤 처리
+// 싱글톤 처리=> 관리할 각 세션마다의 공간으로 파악됨. (ex 리스너 공간에  sesssion 이 들어가면서 이벤트 발생)
 	public static synchronized SessionListener getInstance() {
 
 		if (sessionListener == null) {
@@ -33,6 +33,10 @@ public class SessionListener implements HttpSessionBindingListener {
 		
 		return sessionListener;
 	}
+	
+	
+	
+	
 // 세션이 연결 되었을 때 
 	@Override
 	public void valueBound(HttpSessionBindingEvent event) {
@@ -48,6 +52,7 @@ public class SessionListener implements HttpSessionBindingListener {
 	public void valueUnbound(HttpSessionBindingEvent event) {
 		System.out.println("session 상태 제거 시점");
 		System.out.println(event.getSession().getId());
+		System.out.println(getUserCount());
 		loginUsers.remove(event.getSession().getId());
 
 		ConnectTableDto dto = ConnectTableDto.builder().build();
@@ -85,7 +90,11 @@ public class SessionListener implements HttpSessionBindingListener {
 //		
 //		System.out.println((HttpSession)session);
 	 
-
+	 //아이디 동시 사용을 막기 위해 이미 사용중인 session1 아이디 인지 확인 처리(isnew 를 통해 대체) 
+	 public boolean isUsing(String userId) {
+		 
+		 return loginUsers.containsValue(userId);
+	 }
 	
 	
 	
