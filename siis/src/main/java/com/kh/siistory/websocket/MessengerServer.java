@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -20,12 +18,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.siistory.controller.SessionListener;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
-import com.kh.siistory.entity.FriendDto;
+import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
 import com.kh.siistory.repository.BoardLikeDao;
+import com.kh.siistory.repository.ConnectTableDao;
 import com.kh.siistory.repository.FollowDao;
-import com.kh.siistory.repository.FriendDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.repository.ReplyLikeDao;
 import com.kh.siistory.vo.AlarmData;
@@ -100,6 +98,7 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	@Autowired
 	private ReplyLikeDao replylikeDao;
+	
 
 	// 사용자 저장을 위한 set 저장소 생성
 	// Set<WebSocketSession> userList = new HashSet<>();
@@ -109,6 +108,7 @@ public class MessengerServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		if ((String) session.getAttributes().get("email") != null) {
+
 
 			int no = (int) session.getAttributes().get("member_no");
 
