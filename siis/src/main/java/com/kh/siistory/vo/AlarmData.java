@@ -1,16 +1,24 @@
 package com.kh.siistory.vo;
 
+import java.util.List;
+
+import com.kh.siistory.entity.AlarmDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AlarmData {
 
-	int target_no;
-	int pusher_no;
-	int content_no;
-	String content_type;
-	String content_date;
-	String content_play;
-	
+	private int member_no;
 	private String text;
 	private int status;
+	private List<AlarmDto> alarmList;
 	
 	
 }

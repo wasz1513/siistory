@@ -1,5 +1,9 @@
 package com.kh.siistory.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.ReplyDto;
 import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.ReplyDao;
+import com.kh.siistory.service.FileService;
+import com.kh.siistory.vo.ContentVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,13 +33,16 @@ import lombok.extern.slf4j.Slf4j;
 public class DashBoardController {
 	@Autowired
 	private BoardDao boardDao;
-	
+
 	@Autowired
 	private ReplyDao replyDao;
-
+	
+	@Autowired
+	private FileService fileService;
+	
 	@GetMapping({ "/", "" })
-	public String dashboard(Model model) {
-		model.addAttribute("list", boardDao.dashboardlist());
+	public String dashboard(Model model, HttpSession session) {
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
 		return "dashboard/dashboard";
 	}
 
@@ -39,16 +51,41 @@ public class DashBoardController {
 		return "dashboard/write";
 	}
 
-	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDto boardDto, HttpSession session) {
-		boardDao.setWrtie(boardDto, session);
-		return "redirect:/";
+	@PostMapping("/uploadimage")
+	@ResponseBody
+	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
+		return fileService.Boarduploadimage(sel_files, session);
+	}
+
+	@PostMapping("/addcontent")
+	@ResponseBody
+	public void addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
+		log.info("vo = {}", contentVo);
+		boardDao.addcontent(contentVo, session);
 	}
 
 	@PostMapping("/replyinsert")
 	@ResponseBody
-	public int replywrite(@ModelAttribute ReplyDto replyDto, HttpSession session) {
-		replyDao.insert(replyDto, session);
-		return 1;
+	public ReplyDto replywrite(@ModelAttribute ReplyDto replyDto, HttpSession session, Model model) {
+		return replyDao.insert(replyDto, session);
 	}
+
+	@GetMapping("/commentview")
+	@ResponseBody
+	public List<ReplyDto> commentview(@RequestParam Map<String, Integer> obj) {
+		return replyDao.commentview(obj);
+	}
+
+	@GetMapping("/morereply")
+	@ResponseBody
+	public List<ReplyDto> morereply(@RequestParam Map<String, Integer> obj) {
+		log.info("obj = {}", obj);
+		return replyDao.morereply(obj);
+	}
+
+	@PostMapping("/private")
+	public void boardPrivate(@ModelAttribute BoardDto boardDto, HttpSession session) {
+		boardDao.setPrivate(boardDto);
+	}
+
 }

@@ -28,9 +28,9 @@ public class AlarmDaoImple implements AlarmDao{
 	}
 
 	@Override
-	public List<AlarmDto> getList(AlarmDto alarmDto) {
+	public List<AlarmDto> getList(int target_no) {
 		
-		return sqlSession.selectList("alarm.getList", alarmDto);
+		return sqlSession.selectList("alarm.getList", target_no);
 	}
 
 	@Override

@@ -56,6 +56,7 @@ $(function(){
 			}
 		
 		});
+		
 		var email = $("#exampleInputEmail1").val();
 		$("#inputEmail").val(email);
 	});
@@ -95,44 +96,49 @@ $(function(){
 
 
 <article>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-md">
-				<div>
-					<form action="getCert" method="get" class="email-form">
-						<div class="form-group">
-							<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
-						</div>
-						<div class="form-group">
-							<label for="exampleInputEmail1">Email address</label>
-					    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
-							<small class="form-text text-muted" id="email-check-span"></small>
-						</div>
-						<div class="form-group form-button">
-			                <input type="submit" class="btn btn-outline-success btn-block" id="send-cert-button" value="인증번호 전송">
-			           		<small class="form-text text-muted" id="send-cert-button-span"></small>
-			            </div>
-					</form>
-				</div>
-				<div>
-					<form action="validate" method="get" class="validate-form">
-						<div class="form-group">
-							<input type="text" class="form-control" name="cert" placeholder="인증번호" required>
-							<small class="form-text text-muted" id="check-cert-button-span">인증번호를 입력하세요</small>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-outline-success btn-block" id="check-cert-button">인증번호 확인</button>
-						</div>
-					</form>
-				</div>
-				<div>
-					<form action="changePw" method="get" class="changePw-form">
-						<input type="hidden" name="email" id="inputEmail">
-						<button type="submit" class="btn btn-outline-success btn-block" id="changePw-button" disabled>비밀번호 변경하기</button>
-					</form>
+	<section>
+	
+		<div class="container">
+			<div class="row">
+				<div class="col-md">
+					<div>
+						<form action="getCert" method="get" class="email-form">
+							<div class="form-group">
+								<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Email address</label>
+						    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+								<small class="form-text text-muted" id="email-check-span"></small>
+							</div>
+							<div class="form-group form-button">
+				                <input type="submit" class="btn btn-outline-success btn-block" id="send-cert-button" value="인증번호 전송">
+				           		<small class="form-text text-muted" id="send-cert-button-span"></small>
+				            </div>
+						</form>
+					</div>
+					<div>
+						<form action="validate" method="get" class="validate-form">
+							<div class="form-group">
+								<input type="text" class="form-control" name="cert" placeholder="인증번호" required>
+								<small class="form-text text-muted" id="check-cert-button-span">인증번호를 입력하세요</small>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-outline-success btn-block" id="check-cert-button">인증번호 확인</button>
+							</div>
+						</form>
+					</div>
+					<div>
+						<form action="changePw" method="get" class="changePw-form">
+							<input type="hidden" name="email" id="inputEmail">
+							<button type="submit" class="btn btn-outline-success btn-block" id="changePw-button" disabled>비밀번호 변경하기</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		
+	</section>
 </article>
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

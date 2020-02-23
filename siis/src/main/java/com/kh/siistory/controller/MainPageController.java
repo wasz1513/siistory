@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.MemberDto;
+import com.kh.siistory.repository.BoardDao;
+import com.kh.siistory.repository.ConnectTableDao;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
@@ -28,6 +32,12 @@ public class MainPageController {
 	private MemberDao memberDao;
 	
 	@Autowired
+	private FollowDao followDao;
+	
+	@Autowired
+	private BoardDao boardDao;
+	
+	@Autowired
 	private PasswordEncoder encoder;
 	
 	@Autowired
@@ -36,9 +46,27 @@ public class MainPageController {
 	@Autowired
 	private RandomCertService randomCertService;
 	
+	@Autowired
+	private ConnectTableDao connecttableDao;
+	
+	@Autowired
+	private ConnectTableDto connectDto;
+		
+	
 	@GetMapping("/")
-	public String index() {
-		return "index";
+	public String index(HttpSession session) {
+		
+	
+		//신규 세션이면
+		if(session.isNew()) {
+			connecttableDao.true_session(connectDto);
+			SessionListener.getInstance().setSession(session);
+		//기존 세션이면
+		} else if (!session.isNew()) {
+			connecttableDao.false_session(connectDto);
+		} 
+				
+		return "index";		
 	}
 	
 	@PostMapping("/")
@@ -71,15 +99,27 @@ public class MainPageController {
 		if(login != null){
 			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
 			if(correct) {
+				String url = "";
 				session.setAttribute("email", login.getEmail());
 				session.setAttribute("member_no", login.getMember_no());
 				session.setAttribute("member_name", login.getMember_name());
-				return "redirect:/main";				
+				if(login.getEmail().equals("admin")) {
+					return "redirect:/admin/management";
+				}else {
+					switch(login.getMember_state()) {
+						case "정상" : url="redirect:/main"; break;
+						case "탈퇴" : url="redirect:/withdraw"; break;
+						case "휴면" : url="redirect:/dormant"; break;
+						case "정지" : url="redirect:/suspend"; break;
+					}
+					memberDao.last_login(memberDto);
+					return url;
+				}
 			}else {
-				return "redirect:/login";
+				return "redirect:/login?error=false";
 			}
 		} else {
-			return "redirect:/login";
+			return "redirect:/login?error=false";
 		}
 	}
 	
@@ -92,8 +132,45 @@ public class MainPageController {
 	}
 	
 	@GetMapping("/main")
-	public String main() {
-		return "main/main";
+	public String main(HttpSession session, Model model) {
+		int member_no = (int) session.getAttribute("member_no");
+
+		model.addAttribute("myfriend", followDao.myfriend(member_no));
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
+
+		return "login/main";
+	}
+	
+	@GetMapping("/suspend")
+	public String suspend() {
+		return "login/suspend";
+	}
+	
+	@GetMapping("/withdraw")
+	public String withdraw() {
+		return "login/withdraw";
+	}
+	
+	@GetMapping("/dormant")
+	public String getDormant() {
+		return "login/dormant";
+	}
+	
+	@PostMapping("/dormant")
+	public String postDormant(@ModelAttribute MemberDto memberDto) {
+		MemberDto login = memberDao.login(memberDto);
+		boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
+		if(correct) {
+			memberDao.dormant(memberDto);
+			return "redirect:main";
+		}else {
+			return "redirect:dormant?error=false";
+		}
+	}
+	
+	public String dashboard(Model model, HttpSession session) {
+		model.addAttribute("dtolist", boardDao.dashboardlist(session));
+		return "dashboard/dashboard";
 	}
 	
 	@GetMapping("/idcheck")

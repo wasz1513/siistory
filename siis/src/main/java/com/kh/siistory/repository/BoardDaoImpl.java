@@ -1,6 +1,8 @@
 package com.kh.siistory.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.siistory.entity.BoardDto;
-import com.kh.siistory.vo.SeqVo;
+import com.kh.siistory.vo.ContentVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,24 +21,41 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Autowired
 	private SqlSession sqlsession;
-	
-	@Override
-	public SeqVo getSequence() {
-		SeqVo seqVo = sqlsession.selectOne("board.seqno");
-		return seqVo;
-	}
 
 	@Override
-	public void setWrtie(BoardDto boardDto, HttpSession session) {
-		boardDto.setMember_no((int)session.getAttribute("member_no"));
-		boardDto.setBoard_no(getSequence().getSeq_no());
+	public void addcontent(ContentVo contentVo, HttpSession session) {
+		BoardDto boardDto = BoardDto.builder().member_no((int)session.getAttribute("member_no")).board_writer((String)session.getAttribute("member_name")).board_content(contentVo.getBoard_content()).build();
 		sqlsession.insert("board.write", boardDto);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("board_no", boardDto.getBoard_no());
+		map.put("list", contentVo.getBoard_pic_no());
+		
+		log.info("list = {}", contentVo.getBoard_pic_no());
+		sqlsession.insert("board.bpinsert", map);
 	}
 
 	@Override
-	public List<BoardDto> dashboardlist() {
-		List<BoardDto> list = sqlsession.selectList("board.dashboardlist");
-		return list;
+	public List<BoardDto> dashboardlist(HttpSession session) {
+//		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
+//		
+//		List<BoardDto> dtolist = new ArrayList<>();
+//		for(BoardDto dto : list) {
+//			int count = dto.getReplylist().size();
+//			dto.setBoard_reply_count(count);
+//			dtolist.add(dto);
+//		}
+		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
+	}
+
+	@Override
+	public List<BoardDto> myboardList(HttpSession session) {
+		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
+	}
+
+	@Override
+	public void setPrivate(BoardDto boardDto) {
+		sqlsession.update("myboard.setprivate", boardDto);
 	}
 
 }

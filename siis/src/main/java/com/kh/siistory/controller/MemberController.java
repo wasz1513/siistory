@@ -1,34 +1,29 @@
 package com.kh.siistory.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
+import java.time.LocalDate;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.siistory.entity.Member_profile_fileDto;
+import com.kh.siistory.entity.ConnectTableDto;
+import com.kh.siistory.entity.WarningDto;
+import com.kh.siistory.repository.BoardDao;
 import com.kh.siistory.repository.FileuploadDao;
+import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
-import com.kh.siistory.vo.FileVo;
+import com.kh.siistory.service.WarningService;
 import com.kh.siistory.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +37,19 @@ public class MemberController {
 	private MemberDao memberDao;
 	
 	@Autowired
+	private FollowDao followDao;
+	
+	@Autowired
 	private FileService fileService;
 	
 	@Autowired
 	private FileuploadDao fileuploadDao;
+	
+	@Autowired
+	private BoardDao boardDao;
+	
+	@Autowired
+	private WarningService warningService;
 	
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session,
@@ -54,6 +58,18 @@ public class MemberController {
 		model.addAttribute("memberVo", memberVo);
 //		log.info("memberVo = {}", memberVo);
 		return "member/mypage";
+	}
+	
+	@GetMapping("/info")
+	public String info(HttpSession session,
+			Model model,
+			@RequestParam int member_no) {
+		int my_member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("memberInfo", memberDao.memberInfo(my_member_no, member_no));
+		log.info("my = {}",my_member_no);
+		log.info("you = {}", member_no);
+		log.info("dto = {}",memberDao.memberInfo(my_member_no, member_no));
+		return "member/info";
 	}
 	
 	@GetMapping("/modify")
@@ -72,28 +88,77 @@ public class MemberController {
 //		log.info("member_file = {}", member_file.getSize());
 		
 		if(member_file.getSize() != 0 ) {
-			fileService.upload(memberVo, member_file);			
+			if(memberDao.checkFile(memberVo.getMember_no())>=1) {
+				fileService.change(memberVo, member_file);
+			}else {				
+				fileService.upload(memberVo, member_file);			
+			}
+		}else {
+			memberDao.update_profile(memberVo);
 		}
-		memberDao.update_profile(memberVo);
 		
 		return "redirect:mypage";
 	}
 	
-	@GetMapping("/download")
-	public void download(@RequestParam int member_no,
-			HttpServletResponse resp) throws IOException {
-		List<Member_profile_fileDto> list_fileDto = fileuploadDao.getFileInfo(member_no);
-		
-		Member_profile_fileDto fileDto = list_fileDto.get(0);
-		
-		File target = new File("D:/upload/kh2f/member", fileDto.getProfile_file_savename());
-		byte[] data = FileUtils.readFileToByteArray(target);
-		
-		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
-		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(fileDto.getProfile_file_uploadname(), "UTF-8")+"\"");
-		resp.setHeader("Content-Length", String.valueOf(fileDto.getProfile_file_size()));
 
-		resp.getOutputStream().write(data);
+	
+	@GetMapping("/changeName")
+	@ResponseBody
+	public int changeName(@RequestParam String member_name,
+			HttpSession session) {
+		int member_no = (int) session.getAttribute("member_no");
+		session.setAttribute("member_name", member_name);
+		return memberDao.changeName(member_name, member_no);
 	}
+	
+	@GetMapping("/follow")
+	public String follow(HttpSession session,
+			Model model) {
+		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("list", followDao.myfollower(member_no));
+		return "member/follow";
+	}
+	
+	
+	@GetMapping("/myboard")
+	public String boardInfo(Model model, HttpSession session) {
+		model.addAttribute("dtolist", boardDao.myboardList(session));
+		
+		ConnectTableDto dto = new ConnectTableDto();
+		
+		String obj = dto.getDT();
+		
+		
+		System.out.println(obj);
+		
+		return "member/myboard";
+	}
+	
+	@GetMapping("/warning")
+	public String warning() {
+		
+		
+		
+		return "member/warning";
+	}
+	
+	@PostMapping("/warning")
+	public String warning_result(@ModelAttribute WarningDto warningDto ) {
+		
+		String content = warningDto.getContent1() + warningDto.getContent2() + warningDto.getContent3() +
+				warningDto.getContent4() + warningDto.getContent5()+warningDto.getContent6();
+		warningDto.setContent(content);
+		
+		warningService.insert(warningDto);
+		
+		System.out.println(warningDto);
+		
+		return "redirect:warning?result=1";
+		
+		
+	}
+	
+	
+
 	
 }
