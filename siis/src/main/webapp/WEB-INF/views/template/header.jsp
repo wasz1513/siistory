@@ -17,6 +17,7 @@
 	var member_no = '${member_no}';
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/messenger.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 
 
 <style>
