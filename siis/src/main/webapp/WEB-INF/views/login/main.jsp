@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
@@ -69,9 +68,7 @@ $(function(){
 	.detail-list.detail-list:hover{
 		background-color: gray;
 	}
-	
 </style>
-
 <article>
 
 	<aside class="left-aside">
@@ -93,79 +90,103 @@ $(function(){
 		</div>
 	</aside>
 
+
+	<!-- 게시판 -->
 	<section>
-		
 		<div class="container scroll-div">
-			<section>
-		<c:forEach var="content" items="${dtolist }">
-		<div>
-			<div class="card mb-3" data-seq="${content.board_no }">
-				<ul class="list-group list-group-flush b">
-					<!-- 본문관련 -->
-					<div class="card-body">
-						<h2>${content.board_writer }</h2>
-						<span>${content.board_content }</span>
-						<i class="fa fa-plus" aria-hidden="true"></i>
-					</div>
-					
-					<!-- 여기서부터 댓글 -->
-					<c:forEach var="reply" items="${content.replylist }">
-					<ul class="list-group list-group-flush r" data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
-						<div class="card-body">
-							<div><img src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}" width="20" height="20"></div>
-							<div>
-								<h3>${reply.reply_writer }</h3>
-								<span>${reply.reply_content }</span>
-								<div>
-									<div>
-										<time>1시간</time>
-										<button class="btn">좋아요 ??개</button>
-										<button class="btn replyadd">답글달기</button>
-									</div>
-								</div>
+		
+		<!-- editor -->
+		<div class="card">
+			<div class="media border p-3">
+				<img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 50px;">
+				<div class="media-body">
+					<h4>${sessionScope.member_name }</h4>
+					<textarea id="summernote" name="editordata"></textarea>
+					<form class="imgsupload" method="post"
+						enctype="multipart/form-data">
+						<div>
+							<div class="input_wrap">
+								<button type="button" onclick="fileUploadAction();"
+									class="btn btn-secondary my_button">
+									<i class="fas fa-camera"></i>
+								</button>
+								<button type="button" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
+								<input type="file" id="input_imgs" name="sel_files" multiple />
 							</div>
 						</div>
-						
-						<!-- 여기서부터 대댓글 -->
-						<li class="list-group-item">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item rr" id="${reply.reply_no }">
-									<div>
-										<button class="btn commentview">답글 보기(??개)</button>
-									</div>
-								</li>
-								
-							<!-- 여기서부터 대댓글 추가하면 뜨는 곳 -->
-							
-							</ul>
-						</li>
-					</ul>
-					</c:forEach>
-					<li class="list-group-item more">
 						<div>
-							<button class="btn replymore" data-click="0">댓글 <span>${content.board_reply_count }</span>개 모두 보기</button>
+							<div class="imgs_wrap"><img id="img" />
 						</div>
-					</li>
-				</ul>
-			</div>
-			<section>
-				<div>
-					<form>
-						<div class="form-group">
-		      				<textarea class="form-control reply_content" rows="1" placeholder="댓글달기..."></textarea>
-							<button type="submit" class="btn btn-primary submit">Submit</button>
-		    			</div>
+						</div>
 					</form>
 				</div>
-			</section>
-		</div>
-		</c:forEach>			
-	</section>
-			
+			</div>
 		</div>
 		
-	</section>
+		<br>
+		<br>
+		<br>
+		
+		<!-- content -->
+		<c:forEach var="content" items="${dtolist }">
+		<div class="card mb-3">
+			<div class="card-body" data-seq="${content.board_no }">
+				<!-- 본문관련 -->
+				<div class="media p-3">
+					<img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
+					<div class="media-body">
+						<h4>${content.board_writer } <small><i>Posted on February 19, 2016</i></small></h4>
+						<c:if test="${content.photo == 1 }">
+							<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="40%">
+						</c:if>
+						<p>${content.board_content }</p>
+					</div>
+				</div>
+			</div>
 
+			<!-- 여기서부터 댓글 -->
+			<c:forEach var="reply" items="${content.replylist }">
+			<ul class="list-group list-group-flush r" data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
+				<li class="list-group-item rr">
+					<div class="media p-3">
+						<img src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
+						<div class="media-body" id="${reply.reply_no }">
+							<h4>${reply.reply_writer } <small><i>Posted on ?? days ago</i></small></h4>
+							<p>${reply.reply_content }</p>
+							<button class="btn">좋아요 ??개</button>
+							<button class="btn replyadd">답글달기</button>
+							<button class="btn commentview">답글 보기(??개)</button>
+
+							<!-- 답글(대댓글) 추가하면 뜨는 곳 -->
+						</div>
+						
+					</div>
+				</li>
+			</ul>
+			</c:forEach>
+			<!-- 여기까지 댓글 -->
+
+			<c:if test="${content.board_reply_count > 2 }">
+			<button class="btn replymore" data-click="0">
+				댓글 <span>${content.board_reply_count }</span>개 모두 보기
+			</button>
+			</c:if>
+						
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div class="input-group mb-3">
+		  				<input type="text" class="form-control replycontent" placeholder="댓글 달기..">
+						<div class="input-group-append">
+			   				<button class="btn btn-primary submit" type="button">게시</button>
+						</div>
+					</div>
+				</li>
+			</ul>				
+		</div>
+		</c:forEach>
+		</div>
+	</section>			
+						
 	<aside class="right-aside">
 		<div class="container scroll-div">
 			<c:forEach var="myfriend" items="${myfriend}">
@@ -175,7 +196,7 @@ $(function(){
 			</c:forEach>
 		</div>
 	</aside>
-	
+
 </article>
 
 
