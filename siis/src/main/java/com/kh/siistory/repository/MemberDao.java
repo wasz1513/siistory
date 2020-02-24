@@ -44,4 +44,6 @@ public interface MemberDao {
 	void dormant(MemberDto memberDto);
 	
 	int checkFile(int member_no);
+
+	void withdraw(int member_no);
 }

@@ -85,6 +85,11 @@
 	      		</c:otherwise>
 	      	</c:choose>
 	      </li>
+	      <li class="nav-item">
+	      	<c:if test="${sessionScope.email == 'admin' }">
+	      		<a class="nav-link" href="${pageContext.request.contextPath}/admin/management">Management</a>
+	      	</c:if>
+	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
 	      <select class="form-control" id="exampleSelect1" name="type">

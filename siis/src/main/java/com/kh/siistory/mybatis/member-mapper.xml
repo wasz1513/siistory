@@ -151,4 +151,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_state='정상' where email=#{email}
 	</update>
 	
+<!-- 	회원탈퇴 -->
+	<update id="withdraw" parameterType="int">
+		update member set member_state='탈퇴' where member_no=#{member_no}
+	</update>
 </mapper>
