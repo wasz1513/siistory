@@ -97,6 +97,7 @@ $(function(){
 <article>
 	<section>
 	
+		<c:if test="${sessionScope.email == 'admin' }">
 		<div class="form-group">
 			<c:if test="${memberInfo.member_state == '정지' }">
 				<h1 class="suspend-member">정지회원</h1>
@@ -109,6 +110,7 @@ $(function(){
 				<h1 class="withdraw-member">탈퇴회원</h1>
 			</c:if>
 		</div>
+		</c:if>
 		
 		
 		<table class="table table-hover">

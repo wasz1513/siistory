@@ -90,6 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            tm.email target_email,
 		            tm.member_name target_name,
 		            w.target_no,
+		            wc.w_count,
 		            pm.email pusher_email,
 		            pm.member_name pusher_name,
 		            w.pusher_no,
@@ -97,7 +98,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            w.content,
 		            w.state
 		        from warning W inner join member TM on W.target_no = TM.member_no 
-		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		            inner join member PM on W.pusher_no = PM.member_no 
+		            	left outer join warning_count WC on W.target_no = WC.member_no
+		            order by w.warning_no desc) WL
 		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
 		        <if test="content != ''">
 		        and content like '%'||#{content_keyword}||'%'
@@ -118,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            tm.email target_email,
 		            tm.member_name target_name,
 		            w.target_no,
+		            wc.w_count,
 		            pm.email pusher_email,
 		            pm.member_name pusher_name,
 		            w.pusher_no,
@@ -125,7 +129,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            w.content,
 		            w.state
 		        from warning W inner join member TM on W.target_no = TM.member_no 
-		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		            inner join member PM on W.pusher_no = PM.member_no 
+		            	left outer join warning_count WC on W.target_no = WC.member_no
+		            order by w.warning_no desc) WL
 		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
 		        <if test="content != ''">
 		        and content like '%'||#{content_keyword}||'%'
@@ -170,5 +176,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete-warning-count" parameterType="int">
 		delete warning_count where member_no = #{membr_no}
 	</delete>
+	
+<!-- 	회원 정지 시키기 -->
+	<update id="suspend-member" parameterType="int">
+		update member set member_state = '정지' where member_no = #{member_no}
+	</update>
+
 	
 </mapper>

@@ -240,5 +240,11 @@ public class AdminController {
 		return "redirect:../member/info?member_no="+member_no;
 	}
 	
+	@GetMapping("suspend")
+	public String suspend(@RequestParam int member_no) {
+		adminDao.suspend_member(member_no);
+		return "redirect:../member/info?member_no="+member_no;
+	}
+	
 	
 }

@@ -33,4 +33,6 @@ public interface AdminDao {
 	void cancle_suspend(int member_no);
 	
 	void delete_warning_count(int member_no);
+
+	void suspend_member(int member_no);
 }

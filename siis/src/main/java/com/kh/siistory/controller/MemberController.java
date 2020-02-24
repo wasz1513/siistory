@@ -158,7 +158,20 @@ public class MemberController {
 		
 	}
 	
+	@GetMapping("/withdraw")
+	public String getWithdraw() {
+		return "member/withdraw";
+	}
 	
+	@PostMapping("/withdraw")
+	public String postWithdraw(@RequestParam int member_no,
+			HttpSession session) {
+		memberDao.withdraw(member_no);
+		session.removeAttribute("email");
+		session.removeAttribute("member_no");
+		session.removeAttribute("member_name");
+		return "redirect:../";
+	}
 
 	
 }

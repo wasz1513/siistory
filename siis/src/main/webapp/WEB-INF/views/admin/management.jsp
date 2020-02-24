@@ -196,7 +196,7 @@ $(function(){
 									<td>${member.member_job}</td>
 									<td>
 									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
-									[정지] 
+									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}">[정지]</a> 
 									[???]
 									</td>
 								</tr>
