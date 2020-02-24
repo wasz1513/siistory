@@ -78,17 +78,16 @@ $(function(){
 		<div class="list-group">
 		  <button class="list-group-item list-group-item-action dropdown">게시글</button>
 		  <div class="dropdown-list">
-		  	<a href="${pageContext.request.contextPath}/admin/management" class="list-group-item list-group-item-action detail-list">내 게시글</a>
+		  	<a href="#" class="list-group-item list-group-item-action detail-list">내 게시글</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">친구</button>
 		  <div class="dropdown-list">
 		  	<a href="#" class="list-group-item list-group-item-action detail-list">친구관리</a>
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">친구요청</a>
+		  	<a href="${pageContext.request.contextPath}/member/follow" class="list-group-item list-group-item-action detail-list">친구요청</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">설정</button>
 		  <div class="dropdown-list">
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">프로필사진 변경</a>
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">프로필 공개설정</a>
+		  	<a href="${pageContext.request.contextPath}/member/modify" class="list-group-item list-group-item-action detail-list">정보 변경</a>
 		  	<a href="${pageContext.request.contextPath}/member/withdraw" class="list-group-item list-group-item-action detail-list">회원탈퇴</a>
 		  </div>
 		</div>
