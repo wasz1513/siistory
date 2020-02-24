@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select board_seq.nextval as board_no from dual
 		</selectKey>
 		insert all
-			into board(board_no, board_content, member_no, board_writer) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer})
+			into board(board_no, board_content, member_no, board_writer, photo) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer}, #{photo})
 		<if test="piclist != null">
 			<foreach collection="piclist" item="pic" separator=" ">
 				into bpconnect(bpconnect_seq, board_no, board_pic_no) values(getbp_seq(), #{board_no}, #{pic})
@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result property="member_no" column="member_no"/>
 	  <result property="board_reply_count" column="board_reply_count"/>
 	  <result property="board_state" column="board_state"/>
+	  <result property="photo" column="photo"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>

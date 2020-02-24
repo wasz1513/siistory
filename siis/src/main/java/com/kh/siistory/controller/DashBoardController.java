@@ -42,12 +42,6 @@ public class DashBoardController {
 	@Autowired
 	private FileService fileService;
 
-	@GetMapping({ "/", "" })
-	public String dashboard(Model model, HttpSession session) {
-		model.addAttribute("dtolist", boardDao.dashboardlist(session));
-		return "dashboard/dashboard";
-	}
-
 	@GetMapping("/write")
 	public String write() {
 		return "dashboard/write";

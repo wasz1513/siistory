@@ -91,9 +91,9 @@
 		Transaction 활성화
 	 -->
 	<tx:annotation-driven/>
-	<bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- <bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     	<property name="dataSource" ref="dbcpSource"/>
-	</bean>
+	</bean> -->
 	
 	<!--
 		 bcrypt password encoder 등록

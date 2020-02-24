@@ -31,6 +31,6 @@ public class BoardPicDaoImpl implements BoardPicDao {
 
 	@Override
 	public PhotoVo getimage(int boardno) {
-		return sqlSession.selectOne("boardpic.getimgae", boardno);
+		return sqlSession.selectOne("boardpic.getimage", boardno);
 	}
 }
