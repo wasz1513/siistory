@@ -52,30 +52,28 @@ $(function() {
 				$(".friend-list").empty();
 				var room_no = 0;
 				var ul = $("<ul>").addClass("set-list");
-				$(".friend-list").append(ul);
 
 				for ( var index in msg.flist_data) {
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
 
-					var text = " "
-							+ msg.flist_data[index].member_name + " "
+					var text = ""
+							+ msg.flist_data[index].member_name + " 　　  "
 							+msg.flist_data[index].connect_state 
 
 					var room = $("<a>").addClass("room_no-data").hide().text(
 							room_no);
 
 					var friend = $("<a>").addClass("friend_no-data").hide()
-							.text(msg.flist_data[index].member_no);
-
-					var li = $("<li>");
+							.text(msg.flist_data[index].member_no);	
 
 					var tag = $("<a href=" + http + ">")
-							.addClass("invite-chat").text(text);
+							.addClass("invite-chat list-group-item list-group-item-action active").text(text)
+							.attr('style', "text-align:center" );
 
-					li.append(tag).append(room).append(friend).appendTo(
-							".set-list");
+					$(".friend-list").append(tag).append(room).append(friend).appendTo(
+							".friend-list");
 
 					room_no++;
 				}
@@ -89,6 +87,7 @@ $(function() {
 								"http://" + host + context
 										+ "/messenger/chat?room_no="
 										+ msg.room_no,
+
 								"1:1 채팅",
 								"width=300, height=450, toolbar=no, menubar=no,scrollbars=yes, resizable=no, location=no, left=1400px,top=1300px");
 			}
@@ -264,7 +263,7 @@ $(function() {
 		var location = $(this).attr("href");
 		var room_no = $(this).next().text();
 		var target_no = $(this).next().next().text();
-
+		
 		console.log(target_no);
 
 		console.log(room_no);
