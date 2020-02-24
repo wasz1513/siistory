@@ -11,9 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 		insert all
 			into board(board_no, board_content, member_no, board_writer) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer})
-		<foreach collection="piclist" item="pic" separator=" " close="SELECT * FROM DUAL">
-			into bpconnect(bpconnect_seq, board_no, board_pic_no) values(getbp_seq(), #{board_no}, #{pic})
-		</foreach>	
+		<if test="piclist != null">
+			<foreach collection="piclist" item="pic" separator=" ">
+				into bpconnect(bpconnect_seq, board_no, board_pic_no) values(getbp_seq(), #{board_no}, #{pic})
+			</foreach>	
+		</if>
+		select * from dual
 	</insert>
 	
  	<resultMap id="dashboardlist" type="boardDto"> 
@@ -44,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				select 
 					f.friend_no 
 				from 
-					friend_test f where f.member_no = 62 and f.friend_state = 1
+					friend_test f where f.member_no = #{member_no} and f.friend_state = 1
 				)
 			inner join 
 				board b
