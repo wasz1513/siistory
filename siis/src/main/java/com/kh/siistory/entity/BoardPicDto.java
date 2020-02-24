@@ -13,4 +13,5 @@ public class BoardPicDto {
 	int board_pic_no;
 	String board_pic_store;
 	long board_pic_size;
+	int main;
 }

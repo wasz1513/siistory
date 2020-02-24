@@ -6,39 +6,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="connect">
 
-<!-- 	<update id="newsession" parameterType=""> -->
+	<update id="newsession" parameterType="connecttableDto">
 	
-<!-- 	merge into connect_table -->
-<!-- using dual on (connect_table.DT =:new.connect_table.DT) -->
-<!-- when matched then  -->
-<!--             update set  -->
-<!--             connect_table.now_connect = :old.connect_table.now_connect + 1 , -->
-<!--             connect_table.today_connect_ea = :old.connect_table.today_connect_ea + 1 , -->
-<!--             connect_table.today_connect_user = :old.connect_table.today_connect_user + 1 , -->
-<!--             connect_table.total_connect_ea = :old.connect_table.total_connect_ea + 1 , -->
-<!--             connect_table.total_connect_user = :old.connect_table.total_connect_user + 1         -->
-<!-- when not matched then  -->
-<!--             insert              -->
-<!--             values ( -->
-<!--                     to_date(sysdate,'yyyy-mm-dd'), -->
-<!--             1, -->
-<!--             1, -->
-<!--             1, -->
-<!--             1, -->
-<!--             1 -->
-<!--         ) -->
+merge into connect_table
+using dual on (connect_table.DT =#{DT})
+when matched then 
+            update set 
+            now_connect = now_connect + 1 ,
+            today_connect_ea = today_connect_ea + 1 ,
+            today_connect_user = today_connect_user + 1 ,
+            total_connect_ea = total_connect_ea + 1 ,
+            total_connect_user = total_connect_user + 1
+            where DT = #{DT}
+when not matched then 
+            insert             
+            values (
+                   #{DT},
+            1,
+            1,
+            1,
+            1,
+            1
+        )
 
-<!-- 	</update> -->
+	</update>
 	
-<!-- 	<update id="oldsession" parameterType="connecttableDto"> -->
+	<update id="oldsession" parameterType="connecttableDto">
 	
-<!-- 	</update> -->
+	merge into connect_table
+using dual on (connect_table.DT =#{DT})
+when matched then 
+            update set 
+            
+            today_connect_ea = today_connect_ea + 1 ,
+            
+            total_connect_ea = total_connect_ea + 1
+            
+            where DT = #{DT}
+when not matched then 
+            insert             
+            values (
+                   #{DT},
+            1,
+            1,
+            1,
+            1,
+            1
+        )
 	
-<!-- 	<update id="exitsession" parameterType="connecttableDto"> -->
-	
-<!-- 	</update> -->
 	
 	
 	
+	</update>
+	
+	<update id="exitsession" parameterType="connecttableDto">
+	
+		merge into connect_table
+using dual on (connect_table.DT =#{DT})
+when matched then 
+            update set 
+            now_connect = now_connect -1
+            
+            
+            where DT = #{DT}
 
+        )
+	
+	
+	
+	</update>
+	
 </mapper>

@@ -4,6 +4,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.siistory.entity.ConnectTableDto;
+
 @Repository
 public class ConnectTableDaoImpl implements ConnectTableDao {
 
@@ -11,26 +13,29 @@ public class ConnectTableDaoImpl implements ConnectTableDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Override
-	public void true_session() {
-		
-		sqlSession.update("connect.newsession");
-		
-		
-	}
-
-	@Override
-	public void false_session() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void exit_session() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	@Autowired
+	private ConnectTableDto dto;
 	
+	@Override
+	public void true_session(ConnectTableDto connecttableDto) {
+						
+		sqlSession.update("connect.newsession", dto);
+		
+		
+	}
+
+	@Override
+	public void false_session(ConnectTableDto connecttableDto) {
+		sqlSession.update("connect.oldsession", dto);
+	}
+
+	@Override
+	public void exit_session(ConnectTableDto connecttableDto) {
+		sqlSession.update("connect.exitsession", dto);
+	}
+	
+	
+
+
 	
 }

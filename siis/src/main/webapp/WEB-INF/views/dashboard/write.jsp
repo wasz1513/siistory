@@ -28,17 +28,20 @@
 		
 		// textarea 전송
 		$(".upload").click(function(e){
-			var data = [];
+			var contentVo = {'board_content':$("#summernote").val(), 'board_pic_no':$("#summernote").data("boardpicno")};
 			
-			$.ajax({
-				url:'write',
+			console.log(contentVo);
+			
+		 	$.ajax({
+				url:'addcontent',
 				type:'post',
-				data : data,
+				data : JSON.stringify(contentVo),
+				contentType: "application/json",
 		        success:function(data){
 		        	console.log("성공")
 		        }
 
-			})
+			}) 
 		});
 	});
 	    
@@ -82,7 +85,7 @@
 	        contentType : false,
 	        processData : false,
 	        success:function(data){
-	        	console.log("성공")
+	        	$("#summernote").data("boardpicno", data.board_pic_no);
 	        }
 
 		});
@@ -100,6 +103,7 @@
     }
 	
 </script>
+<div>${sessionScope.member_no }</div>
 <div>
 	<textarea id="summernote" name="editordata"></textarea>
 </div>
@@ -119,7 +123,7 @@
     </div>
 </form>
 <div>
-	<button type="click" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
+	<button type="button" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
 </div>
 
 
