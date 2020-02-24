@@ -68,6 +68,7 @@ $(function(){
 	.detail-list.detail-list:hover{
 		background-color: gray;
 	}
+	
 </style>
 <article>
 
@@ -75,7 +76,7 @@ $(function(){
 		<div class="list-group">
 		  <button class="list-group-item list-group-item-action dropdown">게시글</button>
 		  <div class="dropdown-list">
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">내 게시글</a>
+		  	<a href="member/myboard" class="list-group-item list-group-item-action detail-list">내 게시글</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">친구</button>
 		  <div class="dropdown-list">
@@ -137,7 +138,9 @@ $(function(){
 					<div class="media-body">
 						<h4>${content.board_writer } <small><i>Posted on February 19, 2016</i></small></h4>
 						<c:if test="${content.photo == 1 }">
-							<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="40%">
+							<a href="p">
+								<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="100%">
+							</a>
 						</c:if>
 						<p>${content.board_content }</p>
 					</div>
@@ -165,11 +168,11 @@ $(function(){
 			</ul>
 			</c:forEach>
 			<!-- 여기까지 댓글 -->
-
+			
 			<c:if test="${content.board_reply_count > 2 }">
-			<button class="btn replymore" data-click="0">
-				댓글 <span>${content.board_reply_count }</span>개 모두 보기
-			</button>
+				<button class="btn replymore" data-click="0">
+					댓글 <span>${content.board_reply_count }</span>개 모두 보기
+				</button>
 			</c:if>
 						
 			<ul class="list-group list-group-flush">

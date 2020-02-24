@@ -30,7 +30,7 @@ import com.kh.siistory.vo.ContentVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping("/post")
 @Slf4j
 public class DashBoardController {
 	@Autowired
@@ -41,11 +41,6 @@ public class DashBoardController {
 
 	@Autowired
 	private FileService fileService;
-
-	@GetMapping("/write")
-	public String write() {
-		return "dashboard/write";
-	}
 
 	@PostMapping("/uploadimage")
 	@ResponseBody
@@ -63,7 +58,6 @@ public class DashBoardController {
 	@PostMapping("/addcontent")
 	@ResponseBody
 	public void addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
-		log.info("vo = {}", contentVo);
 		boardDao.addcontent(contentVo, session);
 	}
 
@@ -82,7 +76,6 @@ public class DashBoardController {
 	@GetMapping("/morereply")
 	@ResponseBody
 	public List<ReplyDto> morereply(@RequestParam Map<String, Integer> obj) {
-		log.info("obj = {}", obj);
 		return replyDao.morereply(obj);
 	}
 
