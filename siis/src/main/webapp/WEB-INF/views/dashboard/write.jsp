@@ -103,6 +103,7 @@
     }
 	
 </script>
+<div>${sessionScope.member_no }</div>
 <div>
 	<textarea id="summernote" name="editordata"></textarea>
 </div>
