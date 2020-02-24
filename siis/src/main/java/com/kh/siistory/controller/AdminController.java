@@ -190,12 +190,48 @@ public class AdminController {
 			finishBlock = pagecount;
 		}
 		
+		warningVo.setStart(start);
+		warningVo.setFinish(finish);
 		model.addAttribute("list", adminDao.warning_list(warningVo));
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("startBlock", startBlock);
 		model.addAttribute("finishBlock", finishBlock);
 		model.addAttribute("pno", pno);
+		model.addAttribute("count", count);
+		model.addAttribute("target_type", warningVo.getTarget_type());
+		model.addAttribute("pusher_type", warningVo.getPusher_type());
+		model.addAttribute("target_keyword", warningVo.getTarget_keyword());
+		model.addAttribute("pusher_keyword", warningVo.getPusher_keyword());
+		model.addAttribute("content_keyword", warningVo.getContent_keyword());
+		model.addAttribute("state", warningVo.getState());
 		return "admin/threeout";
+	}
+	
+	@GetMapping("/receipt")
+	@ResponseBody
+	public boolean receipt(HttpServletRequest req) {
+		try {
+			adminDao.warning_receipt(Integer.parseInt(req.getParameter("warning_no")));
+			if(adminDao.warning_check(Integer.parseInt(req.getParameter("member_no")))==0) {
+				adminDao.warning_count_newreceipt(Integer.parseInt(req.getParameter("member_no")));
+			}else {
+				adminDao.warning_count_addreceipt(Integer.parseInt(req.getParameter("member_no")));
+			}
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	@GetMapping("/hold")
+	@ResponseBody
+	public boolean hold(HttpServletRequest req) {
+		try {
+			adminDao.warning_hold(Integer.parseInt(req.getParameter("warning_no")));
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 	
