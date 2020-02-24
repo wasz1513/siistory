@@ -17,13 +17,11 @@
         width: 20%;
         margin-top:150px;
 	}
-
 	section{
 		background-color: C8FFFF;
 		width:60%;
 		margin-top:150px;
 	}
-
 	.right-aside{
 		background-color: BEEFFF;
 		flex-grow: 1;

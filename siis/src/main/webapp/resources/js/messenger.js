@@ -49,20 +49,19 @@ $(function() {
 				 * $(".showList").append(tr).append(Fno).append(Fname)
 				 * .append(Fstate); } ;
 				 */
-				$(".testList").empty();
+				$(".friend-list").empty();
 				var room_no = 0;
 				var ul = $("<ul>").addClass("set-list");
-				$(".testList").append(ul);
+				$(".friend-list").append(ul);
 
 				for ( var index in msg.flist_data) {
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
 
-					var text = "  no = " + msg.member_no + "  fno = "
-							+ msg.flist_data[index].member_no + "  state = "
-							+ msg.flist_data[index].connect_state + "  이름 = "
-							+ msg.flist_data[index].member_name
+					var text = " "
+							+ msg.flist_data[index].member_name + " "
+							+msg.flist_data[index].connect_state 
 
 					var room = $("<a>").addClass("room_no-data").hide().text(
 							room_no);
