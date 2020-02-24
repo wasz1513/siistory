@@ -173,5 +173,11 @@ public class MemberController {
 		return "redirect:../";
 	}
 
+	@GetMapping("/friend")
+	public String getFriend(HttpSession session,
+			Model model) {
+		model.addAttribute("myfriendlist", followDao.myfriend((int)session.getAttribute("member_no")));
+		return "member/friend";
+	}
 	
 }

@@ -4,22 +4,55 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	article{
+		width:80%;
+        text-align:center;
+        align-items: center;
+        margin:auto;
+        margin-top:100px;
+	}
+	
+	section{
+		display: flex;
+		flex-wrap: wrap;
+	}
+	
+	.myfriend{
+		width:25%;
+		height:200px;
+	}
+	
+	.myfriend-img{
+		height:100px;
+	}
+	
+	.myfriend-img-item{
+		width:100px;
+		height:100px;
+		border-radius: 50%;
+	}
+	
+</style>
+
 <article>
+
 	<section>
-		
-
-
-
-
-
-
-
-
-
-
-
-
+		<c:forEach var="myfriend" items="${myfriendlist}">
+			<div class="myfriend">
+				<div class="myfriend-img">
+					<img src="${pageContext.request.contextPath}/util/download?member_no=${myfriend.member_no}" class="myfriend-img-item">
+				</div>
+				<div class="myfriend-email">
+				${myfriend.email}				
+				</div>
+				<div class="myfriend-name">
+				${myfriend.member_name}
+				</div>
+			</div>
+		</c:forEach>
 	</section>
+	
 </article>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
