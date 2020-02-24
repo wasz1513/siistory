@@ -37,14 +37,6 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public List<BoardDto> dashboardlist(HttpSession session) {
-//		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
-//		
-//		List<BoardDto> dtolist = new ArrayList<>();
-//		for(BoardDto dto : list) {
-//			int count = dto.getReplylist().size();
-//			dto.setBoard_reply_count(count);
-//			dtolist.add(dto);
-//		}
 		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
 
