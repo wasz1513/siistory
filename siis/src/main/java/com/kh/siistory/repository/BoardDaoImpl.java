@@ -24,15 +24,15 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public void addcontent(ContentVo contentVo, HttpSession session) {
-		BoardDto boardDto = BoardDto.builder().member_no((int)session.getAttribute("member_no")).board_writer((String)session.getAttribute("member_name")).board_content(contentVo.getBoard_content()).build();
-		sqlsession.insert("board.write", boardDto);
+//		BoardDto boardDto = BoardDto.builder().member_no((int)session.getAttribute("member_no")).board_writer((String)session.getAttribute("member_name")).board_content(contentVo.getBoard_content()).build();
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("board_no", boardDto.getBoard_no());
-		map.put("list", contentVo.getBoard_pic_no());
+		map.put("member_no", (int)session.getAttribute("member_no"));
+		map.put("board_writer", (String)session.getAttribute("member_name"));
+		map.put("board_content", contentVo.getBoard_content());
+		map.put("piclist", contentVo.getBoard_pic_no());
 		
-		log.info("list = {}", contentVo.getBoard_pic_no());
-		sqlsession.insert("board.bpinsert", map);
+		sqlsession.insert("board.write", map);
 	}
 
 	@Override

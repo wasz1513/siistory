@@ -10,8 +10,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="uploadimage" parameterType="map">
 		<foreach collection="boardpicDto" item="dto" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
-			into board_pic(board_pic_no, board_pic_store, board_pic_size) values
-			(#{dto.board_pic_no}, #{dto.board_pic_store}, #{dto.board_pic_size})
+			into 
+				board_pic(board_pic_no, board_pic_store, board_pic_size, main) 
+			values
+				(#{dto.board_pic_no}, #{dto.board_pic_store}, #{dto.board_pic_size}, #{main})
 		</foreach>
 	</insert>
+	
+	<select id="getimage" parameterType="int" resultType="photoVo">
+		select
+			pic.board_pic_no, pic.board_pic_store, pic.board_pic_size, b.member_no
+		from
+			(select board_no, member_no from board where board_no = #{board_no}) b
+		inner join
+			(select * from bpconnect) bp
+		on
+			b.board_no = bp.board_no
+		inner join 
+			(select * from board_pic where main = 0) pic
+		on 
+			bp.board_pic_no = pic.board_pic_no
+	</select>
 </mapper>
