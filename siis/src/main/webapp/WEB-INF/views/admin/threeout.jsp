@@ -91,6 +91,10 @@ $(function(){
 		width:220px;
 		margin:auto;
 	}
+	
+	.w-count{
+		color:red;
+	}
 </style>
 
 
@@ -222,6 +226,7 @@ $(function(){
 							<tr>
 								<th>처리상태</th>
 								<th>피신고인</th>
+								<th>피신고인 접수건수</th>
 								<th>신고자</th>
 								<th>신고내용</th>
 								<th>게시글</th>
@@ -233,6 +238,7 @@ $(function(){
 								<tr>
 									<td>${warning.state}</td>
 									<td>${warning.target_email}[${warning.target_name}]</td>
+									<td class="w-count">${warning.w_count}</td>
 									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
 									<td>${warning.content}</td>
 									<td>${warning.board_no}</td>
@@ -254,7 +260,7 @@ $(function(){
 						<tfoot>
 							<c:if test="${not empty pno}">
 							<tr>
-								<td colspan="6">
+								<td colspan="7">
 									<div>
 										<ul class="pagination">
 									

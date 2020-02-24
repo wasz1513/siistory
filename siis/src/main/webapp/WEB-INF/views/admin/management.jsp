@@ -120,7 +120,7 @@ $(function(){
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="mebmer_phone" class="form-control">
+											<input type="text" name="member_phone" class="form-control">
 										</div>
 									</td>
 								</tr>
@@ -132,7 +132,7 @@ $(function(){
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="mebmer_birth" class="form-control">
+											<input type="text" name="member_birth" class="form-control">
 										</div>
 									</td>
 									<td>
@@ -196,7 +196,7 @@ $(function(){
 									<td>${member.member_job}</td>
 									<td>
 									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
-									[정지] 
+									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}">[정지]</a> 
 									[???]
 									</td>
 								</tr>

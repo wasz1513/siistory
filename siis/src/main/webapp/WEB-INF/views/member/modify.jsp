@@ -75,7 +75,7 @@ function previewImage(target){
 						<th scope="row">생일</th>
 						<td>
 							<div class="form-group">
-							  <input type="text" name="member_birth" value="${memberVo.member_birth}" class="form-control" id="inputDefault">
+							  <input type="date" name="member_birth" value="${memberVo.member_birth}" class="form-control" id="inputDefault">
 							</div>
 						</td>
 				    </tr>

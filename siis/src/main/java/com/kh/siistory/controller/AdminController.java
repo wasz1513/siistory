@@ -38,6 +38,7 @@ public class AdminController {
 	public String postManagement(@ModelAttribute AdminSearchVo adminSearchVo,
 			HttpServletRequest req,
 			Model model) {
+		System.out.println("나이검색중우웅 =============== " + adminSearchVo.getMember_birth());
 		int pagesize = 10;
 		int navsize = 5;
 		int count = adminDao.search_member_count(adminSearchVo);
@@ -232,6 +233,18 @@ public class AdminController {
 			return false;
 		}
 		return true;
+	}
+	
+	@GetMapping("/canclesuspend")
+	public String canclesuspend(@RequestParam int member_no) {
+		adminDao.cancle_suspend(member_no);
+		return "redirect:../member/info?member_no="+member_no;
+	}
+	
+	@GetMapping("suspend")
+	public String suspend(@RequestParam int member_no) {
+		adminDao.suspend_member(member_no);
+		return "redirect:../member/info?member_no="+member_no;
 	}
 	
 	

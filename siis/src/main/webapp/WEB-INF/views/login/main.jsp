@@ -3,59 +3,90 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script>
+
+$(function(){
+	
+	$(".dropdown-list").hide();
+	
+	$(".dropdown").click(function(){
+		$(this).next().slideDown();
+		$(this).removeClass("dropdown");
+		$(this).addClass("updown");
+		
+	});
+	
+	$(".updown").click(function(){
+		$(this).next().slideUp();
+		$(this).removeClass("updown");
+		$(this).addClass("dropdown");
+	});
+	
+});
+
+</script>
+
 <style>
-article {
-	display: flex; /*바로안에있는것만적용됨*/
-	flex-wrap: wrap;
-	width: 80%;
-	margin: auto;
-}
-
-.left-aside {
-	background-color: EBFBFF;
-	width: 20%;
-	margin-top: 150px;
-}
-
-section {
-	background-color: C8FFFF;
-	width: 60%;
-	margin-top: 150px;
-}
-
-.right-aside {
-	background-color: BEEFFF;
-	flex-grow: 1;
-	height: 750px;
-	margin-top: 150px;
-}
-
-.scroll-div {
-	overflow-y: scroll;
-	height: 750px;
-}
-
-.scroll-div::-webkit-scrollbar {
-	display: none;
-}
+	article{
+		display: flex; /*바로안에있는것만적용됨*/
+        flex-wrap: wrap;
+		width:80%;
+		margin:auto;
+	}
+	
+	.left-aside{
+		background-color: EBFBFF;
+        width: 20%;
+        margin-top:150px;
+	}
+	section{
+		background-color: C8FFFF;
+		width:60%;
+		margin-top:150px;
+	}
+	.right-aside{
+		background-color: BEEFFF;
+		flex-grow: 1;
+		height:750px;
+		margin-top:150px;
+	}
+	
+	.scroll-div{
+		overflow-y:scroll;
+		height:750px;
+	}
+	
+	.scroll-div::-webkit-scrollbar{
+		display: none;
+	}
+	
+	
+	.detail-list.detail-list{
+		background-color: black;
+	}
+	
+	.detail-list.detail-list:hover{
+		background-color: gray;
+	}
 </style>
 <article>
 
 	<aside class="left-aside">
-		<div class="row">
-			<a href="member/follow">친구 요청</a>
-		</div>
-		<div class="row">
-			<a href="#">내 게시글</a>
-		</div>
-		<div class="row">
-			<a href="#">내정보</a>
-		</div>
-		<div class="row">
-			<a href="#">친구관리</a>
-		</div>
-		<div class="row">
-			<a href="#">설정</a>
+		<div class="list-group">
+		  <button class="list-group-item list-group-item-action dropdown">게시글</button>
+		  <div class="dropdown-list">
+		  	<a href="#" class="list-group-item list-group-item-action detail-list">내 게시글</a>
+		  </div>
+		  <button class="list-group-item list-group-item-action dropdown">친구</button>
+		  <div class="dropdown-list">
+		  	<a href="#" class="list-group-item list-group-item-action detail-list">친구관리</a>
+		  	<a href="${pageContext.request.contextPath}/member/follow" class="list-group-item list-group-item-action detail-list">친구요청</a>
+		  </div>
+		  <button class="list-group-item list-group-item-action dropdown">설정</button>
+		  <div class="dropdown-list">
+		  	<a href="${pageContext.request.contextPath}/member/modify" class="list-group-item list-group-item-action detail-list">정보 변경</a>
+		  	<a href="${pageContext.request.contextPath}/member/withdraw" class="list-group-item list-group-item-action detail-list">회원탈퇴</a>
+		  </div>
 		</div>
 	</aside>
 
