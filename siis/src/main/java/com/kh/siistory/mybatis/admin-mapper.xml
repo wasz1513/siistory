@@ -16,69 +16,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 	회원 검색 -->
 	<select id="search-member" parameterType="adminSearchVo" resultType="memberProfileVo">
 		select * from(
-			select rownum rn, M.* from
-			(
-				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+			select rownum r, MP.* from(
+				select M.*, to_char(sysdate,'yyyy')-substr(M.member_birth,1,4)+1 age from member_member_profile M order by member_no desc) MP
+				where ${type} like '%'||#{keyword}||'%'
 				<if test="member_state!=''">
 				and member_state=#{member_state}
 				</if>
 				<if test="member_gender!=''">
 				and member_gender=#{member_gender}
 				</if>
-				<if test="member_birth!=null">
-				and member_birth=#{member_birth}
-				</if>
-				<if test="member_phone!=null">
+				<if test="member_phone!=''">
 				and member_phone=#{member_phone}			
 				</if>
-				order by member_no desc) M
-			)
-		where rn between #{start} and #{finish}
+				<if test="member_birth!=''">
+				and age=#{member_birth}
+				</if>		
+		)
+		where r between #{start} and #{finish}
 	</select>
 	
 <!-- 	회원 검색 페이징 테스트-->
 	<select id="search-member-nav" parameterType="adminSearchVo" resultType="memberProfileVo">
 		select * from(
-			select rownum rn, M.* from
-			(
-				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+			select rownum r, MP.* from(
+				select M.*, to_char(sysdate,'yyyy')-substr(M.member_birth,1,4)+1 age from member_member_profile M order by member_no desc) MP
+				where ${type} like '%'||#{keyword}||'%'
 				<if test="member_state!=''">
 				and member_state=#{member_state}
 				</if>
 				<if test="member_gender!=''">
 				and member_gender=#{member_gender}
 				</if>
-				<if test="member_birth!=''">
-				and member_birth=#{member_birth}
-				</if>
 				<if test="member_phone!=''">
 				and member_phone=#{member_phone}			
 				</if>
-				order by member_no desc) M
-			)
-		where rn between #{start} and #{finish}
+				<if test="member_birth!=''">
+				and age=#{member_birth}
+				</if>		
+		)
+		where r between #{start} and #{finish}
 	</select>
 	
 <!-- 	회원 검색 count -->
 	<select id="search-member-count" parameterType="adminSearchVo" resultType="int">
 		select count(*) from(
-			select rownum rn, M.* from
-			(
-				select * from member_member_profile where ${type} like '%'||#{keyword}||'%'
+			select rownum r, MP.* from(
+				select M.*, to_char(sysdate,'yyyy')-substr(M.member_birth,1,4)+1 age from member_member_profile M order by member_no desc) MP
+				where ${type} like '%'||#{keyword}||'%'
 				<if test="member_state!=''">
 				and member_state=#{member_state}
 				</if>
 				<if test="member_gender!=''">
 				and member_gender=#{member_gender}
 				</if>
-				<if test="member_birth!=null">
-				and member_birth=#{member_birth}
-				</if>
-				<if test="member_phone!=null">
+				<if test="member_phone!=''">
 				and member_phone=#{member_phone}			
 				</if>
-				order by member_no desc) M
-			)
+				<if test="member_birth!=''">
+				and age=#{member_birth}
+				</if>		
+		)
 	</select>
 	
 <!-- 	신고 리스트 -->
@@ -90,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            tm.email target_email,
 		            tm.member_name target_name,
 		            w.target_no,
+		            wc.w_count,
 		            pm.email pusher_email,
 		            pm.member_name pusher_name,
 		            w.pusher_no,
@@ -97,7 +95,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            w.content,
 		            w.state
 		        from warning W inner join member TM on W.target_no = TM.member_no 
-		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		            inner join member PM on W.pusher_no = PM.member_no 
+		            	left outer join warning_count WC on W.target_no = WC.member_no
+		            order by w.warning_no desc) WL
 		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
 		        <if test="content != ''">
 		        and content like '%'||#{content_keyword}||'%'
@@ -118,6 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            tm.email target_email,
 		            tm.member_name target_name,
 		            w.target_no,
+		            wc.w_count,
 		            pm.email pusher_email,
 		            pm.member_name pusher_name,
 		            w.pusher_no,
@@ -125,7 +126,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            w.content,
 		            w.state
 		        from warning W inner join member TM on W.target_no = TM.member_no 
-		            inner join member PM on W.pusher_no = PM.member_no order by w.warning_no desc) WL
+		            inner join member PM on W.pusher_no = PM.member_no 
+		            	left outer join warning_count WC on W.target_no = WC.member_no
+		            order by w.warning_no desc) WL
 		        where ${target_type} like '%'||#{target_keyword}||'%' and ${pusher_type} like '%'||#{pusher_keyword}||'%'
 		        <if test="content != ''">
 		        and content like '%'||#{content_keyword}||'%'
@@ -160,5 +163,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="warning-check" parameterType="int" resultType="int">
 		select count(*) from warning_count where member_no = #{member_no}
 	</select>
+	
+<!-- 	정지회원 풀기(member_state 변경) -->
+	<update id="cancle-suspend" parameterType="int">
+		update member set member_state = '정상' where member_no = #{member_no}
+	</update>
+	
+<!-- 	정지회원 풀기 (warning_count 테이블 member_no 삭제 ) -->
+	<delete id="delete-warning-count" parameterType="int">
+		delete warning_count where member_no = #{membr_no}
+	</delete>
+	
+<!-- 	회원 정지 시키기 -->
+	<update id="suspend-member" parameterType="int">
+		update member set member_state = '정지' where member_no = #{member_no}
+	</update>
+
 	
 </mapper>
