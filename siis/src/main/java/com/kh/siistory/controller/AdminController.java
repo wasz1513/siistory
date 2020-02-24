@@ -234,5 +234,11 @@ public class AdminController {
 		return true;
 	}
 	
+	@GetMapping("/canclesuspend")
+	public String canclesuspend(@RequestParam int member_no) {
+		adminDao.cancle_suspend(member_no);
+		return "redirect:../member/info?member_no="+member_no;
+	}
+	
 	
 }

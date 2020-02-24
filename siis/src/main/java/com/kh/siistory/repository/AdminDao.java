@@ -30,4 +30,7 @@ public interface AdminDao {
 	
 	int warning_check(int member_no);
 	
+	void cancle_suspend(int member_no);
+	
+	void delete_warning_count(int member_no);
 }

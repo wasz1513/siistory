@@ -71,4 +71,14 @@ public class AdminDaoImpl implements AdminDao{
 		return sqlSession.selectOne("admin.warning-check", member_no);
 	}
 
+	@Override
+	public void cancle_suspend(int member_no) {
+		sqlSession.update("admin.cancle-suspend", member_no);
+	}
+
+	@Override
+	public void delete_warning_count(int member_no) {
+		sqlSession.delete("admin.delete-warning-count", member_no);
+	}
+
 }

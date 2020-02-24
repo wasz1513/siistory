@@ -161,4 +161,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from warning_count where member_no = #{member_no}
 	</select>
 	
+<!-- 	정지회원 풀기(member_state 변경) -->
+	<update id="cancle-suspend" parameterType="int">
+		update member set member_state = '정상' where member_no = #{member_no}
+	</update>
+	
+<!-- 	정지회원 풀기 (warning_count 테이블 member_no 삭제 ) -->
+	<delete id="delete-warning-count" parameterType="int">
+		delete warning_count where member_no = #{membr_no}
+	</delete>
+	
 </mapper>
