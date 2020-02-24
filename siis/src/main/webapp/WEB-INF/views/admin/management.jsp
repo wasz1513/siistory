@@ -120,7 +120,7 @@ $(function(){
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="mebmer_phone" class="form-control">
+											<input type="text" name="member_phone" class="form-control">
 										</div>
 									</td>
 								</tr>
@@ -132,7 +132,7 @@ $(function(){
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="mebmer_birth" class="form-control">
+											<input type="text" name="member_birth" class="form-control">
 										</div>
 									</td>
 									<td>
