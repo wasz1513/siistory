@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
 $(function(){
 	
 	$(".dropdown-list").hide();
@@ -24,7 +23,6 @@ $(function(){
 	});
 	
 });
-
 </script>
 
 <style>
