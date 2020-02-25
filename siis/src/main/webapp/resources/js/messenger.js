@@ -1,5 +1,18 @@
 $(function() {
 
+    Hakademy.util.toast.initializeOnLoad({
+        duration:2,//메시지 출력 시간(초)
+        position:"right-bottom",//출력 위치 : top, bottom, right, left 또는 혼합
+        positionStyle:"nonblock",//출력스타일(block/nonblock)
+        backgroundColor:"rgba(27, 71, 69, 0.9)",//배경색(css style)
+        fontColor:"white",//글자색(css style)
+        fontSize:10,//글자크기(px)
+        fontFamily:null,//글꼴(css style)
+        isBorderRounded:true,//둥근 테두리
+        isFade:true,//페이드 인/아웃 적용여부
+    }); 
+	
+	
 	// 페이지 로딩시 바로 웹소켓 서버 접속
 	connect(context);
 
@@ -109,7 +122,7 @@ $(function() {
 			}
 			// Arefresh = 8;
 			else if (msg.status == 8) {
-				$(".alarmList").empty();
+				$(".dropdown-content").empty();
 
 				// 누구누구 님이 게시글을 등록했습니다.
 				// 누구누구 님이 나의 어떤 게시글을 좋아합니다.
@@ -120,7 +133,7 @@ $(function() {
 					var tag = $("<a href='#'>");
 					var btn = $("<button>").attr("type", "button").attr(
 							"class",
-							"btn btn-primary btn-lg btn-block go-content");
+							"btn btn-dark btn-lg btn-block go-content");
 
 					var alarm_message = btn.text(msg.alarmList[index].ment);
 					var member_no1 = $("<a>").addClass("member_no-data").hide()
@@ -129,6 +142,8 @@ $(function() {
 							.text(msg.alarmList[index].target_no);
 					var pusher_no = $("<a>").addClass("pusher_no-data").hide()
 							.text(msg.alarmList[index].pusher_no);
+					var total_count = $("<a>").addClass("total_count-data").hide()
+					.text(msg.alarmList.length);
 					var content_no = $("<a>").addClass("content_no-data")
 							.hide().text(msg.alarmList[index].content_no);
 					var content_type = $("<a>").addClass("content_tpye-data")
@@ -136,16 +151,19 @@ $(function() {
 					var content_play = $("<a>").addClass("content_play-data")
 							.hide().text(msg.alarmList[index].content_play);
 
-					$(".alarmList").append(
-							$("<tr>").append(
-									$("<td>").append(alarm_message).append(
+					$(".dropdown-content").append(alarm_message).append(
 											member_no1).append(target_no)
 											.append(pusher_no).append(
 													content_no).append(
 													content_type).append(
-													content_play)));
-
+													content_play).append(total_count);
+					
+					$(".badge-pill").text(msg.alarmList.length);
 					console.log(msg[index]);
+					
+					
+					var text = "새로운 알림 메시지가 있습니다!!";
+					Hakademy.toast.push(text);
 
 				}
 
@@ -303,7 +321,13 @@ $(function() {
 		var member_no = $(this).prev().prev().val();
 		if ($(".follow-btn").text() == "팔로우") {
 			send_alarm(member_no, 10, target_no, member_no, 0, "friend", "add")
+		} else if ($(".follow-btn").text()=="팔로잉"){
+			send_alarm(member_no, 5, target_no, member_no, 0, "friend", "add")
 		}
 	});
+	
+
+	
+	
 	// }
 });
