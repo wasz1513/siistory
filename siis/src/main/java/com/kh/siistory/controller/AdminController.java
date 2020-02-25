@@ -1,7 +1,5 @@
 package com.kh.siistory.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.repository.AdminDao;
 import com.kh.siistory.vo.AdminSearchVo;
-import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;

@@ -21,4 +21,8 @@ public interface FileService {
 	Map<String, Object> Boarduploadimage(List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException;
 	
 	void getimage(int boardno, HttpServletResponse resp) throws UnsupportedEncodingException, IOException;
+
+	List<Integer> getphotolist(int boardno);
+
+	void getimageall(int pic, int member, HttpServletResponse resp) throws UnsupportedEncodingException, IOException;
 }

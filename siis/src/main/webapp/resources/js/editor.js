@@ -27,7 +27,7 @@ $(function() {
 			data : JSON.stringify(contentVo),
 			contentType : "application/json",
 			success : function(data) {
-				console.log("성공")
+				$("#summernote").val("");
 			}
 
 		})

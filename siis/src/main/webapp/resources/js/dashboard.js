@@ -1,5 +1,4 @@
 $(function(){
-	
 	// 댓글 쓰기 + 답글 쓰기 누르면 submit 전 정보 세팅 이벤트
 	$(document).on("click", ".replyadd", function(){
 		var writer = "@"+$(this).parents(".r").data("writer")+" ";
