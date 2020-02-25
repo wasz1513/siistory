@@ -224,9 +224,9 @@ public class MessengerServer extends TextWebSocketHandler {
 //					replylikeDao.insert(replylikeDto);
 						alarmDao.insert(alarmDto);
 					}
-					// 좋아요 취소라면 ?
+					// 취소라면 ?
 				} else if (data.getStatus() == 5) {
-
+					System.out.println("==================="+data);
 					if (data.getContent_type().equals("board")) {
 //					boardlikeDao.delete(boardlikeDto);
 						alarmDao.delete(alarmDto);
@@ -234,6 +234,8 @@ public class MessengerServer extends TextWebSocketHandler {
 						// 삭제했으니 갱신하도록 다시 메시지 뿌려라
 					} else if (data.getContent_type().equals("reply")) {
 //					replylikeDao.delete(replylikeDto);
+						alarmDao.delete(alarmDto);
+					} else if (data.getContent_type().equals("friend")) {
 						alarmDao.delete(alarmDto);
 					}
 					// 게시글 작성 시

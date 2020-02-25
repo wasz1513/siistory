@@ -190,13 +190,12 @@ $(function(){
 	</section>			
 						
 	<aside class="right-aside">
-		<div class="container scroll-div">
-			<c:forEach var="myfriend" items="${myfriend}">
-				<div class="row">
-					<a href="#"><button class="btn btn-secondary btn-sm">${myfriend.member_name}</button></a>
-				</div>
-			</c:forEach>
-		</div>
+			<div class="card border-primary mb-3" style="max-width: 20rem;">
+				<div class="card-header" style="text-align: center">접속 리스트</div>
+
+				<div class="list-group friend-list"></div>
+
+			</div>
 	</aside>
 
 </article>
