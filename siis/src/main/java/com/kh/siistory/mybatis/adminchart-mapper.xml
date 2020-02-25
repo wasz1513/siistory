@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="adminchart">
+
+<!-- 	오늘부터 7일전까지 각 당일 방문자 수 -->
+	<select id="day-visit" resultType="adminChartVo">
+		select dt, today_connect_user count from connect_table where dt between sysdate-7 and sysdate order by dt
+	</select>
+
+<!-- 	매달 방문자 -->
+	<select id="month-visit" resultType="adminChartVo">
+		select dt, sum(today_connect_user) count from(
+		    select substr(dt,6,2) dt, today_connect_user from connect_table) CT
+		group by dt order by dt
+	</select>
+	
+<!-- 	년별 방문자 -->
+	<select id="year-visit" resultType="adminChartVo">
+		select dt, sum(today_connect_user) count from(
+		    select substr(dt,1,4) dt, today_connect_user from connect_table) CT
+		group by dt order by dt
+	</select>
+	
+<!-- 	오늘부터 7일전까지 각 당일 회원가입수 -->
+	<select id="day-regist" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select to_char(member_joindate, 'yyyy-mm-dd') dt from member where member_joindate between sysdate-7 and sysdate)
+		group by dt order by dt
+	</select>
+	
+<!-- 	매달 가입수 -->
+	<select id="month-regist" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select substr(to_char(member_joindate,'yyyy-mm-dd'),6,2) dt from member)
+		group by dt order by dt
+	</select>
+	
+<!-- 	년별 가입수 -->
+	<select id="year-regist" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select substr(to_char(member_joindate,'yyyy-mm-dd'),1,4) dt from member)
+		group by dt order by dt
+	</select>
+	
+<!-- 	일주일 게시글수 -->
+	<select id="day-content" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select to_char(board_wdate, 'yyyy-mm-dd') dt from board where board_wdate between sysdate-7 and sysdate)
+		group by dt order by dt
+	</select>
+	
+<!-- 	매달 게시글수 -->
+	<select id="month-content" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select substr(to_char(board_wdate, 'yyyy-mm-dd'),6,2) dt from board)
+		group by dt order by dt
+	</select>
+	
+<!-- 	년별 게시글수 -->
+	<select id="year-content" resultType="adminChartVo">
+		select dt, count(*) count from(
+		    select substr(to_char(board_wdate, 'yyyy-mm-dd'),1,4) dt from board)
+		group by dt order by dt
+	</select>
+
+</mapper>

@@ -93,12 +93,8 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-	    
 
-
-<div>test</div>
-        
-
+      
 	    
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
 	      <select class="form-control" id="exampleSelect1" name="type">

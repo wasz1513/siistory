@@ -33,13 +33,13 @@ $(function(){
 	}
 	
 	.left-aside{
-		background-color: EBFBFF;
+/* 		background-color: EBFBFF; */
         width: 20%;
         margin-top:150px;
 	}
 
 	section{
-		background-color: C8FFFF;
+/* 		background-color: C8FFFF; */
 		flex-grow:1;
 		margin-top:150px;
 	}
