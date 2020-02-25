@@ -35,5 +35,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.siistory.vo.WarningVo" alias="warningVo"/>
 		<typeAlias type="com.kh.siistory.vo.MemberProfileVo" alias="memberprofileVo"/>
 		<typeAlias type="com.kh.siistory.vo.PhotoVo" alias="photoVo"/>
+		<typeAlias type="com.kh.siistory.vo.AdminChartVo" alias="adminChartVo"/>
 	</typeAliases>
 </configuration>

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
 $(function(){
 	
 	$(".dropdown-list").hide();
@@ -23,7 +23,6 @@ $(function(){
 	});
 	
 });
-
 </script>
 
 <style>
@@ -35,17 +34,17 @@ $(function(){
 	}
 	
 	.left-aside{
-		background-color: EBFBFF;
+/* 		background-color: EBFBFF; */
         width: 20%;
         margin-top:150px;
 	}
 	section{
-		background-color: C8FFFF;
+/* 		background-color: C8FFFF; */
 		width:60%;
 		margin-top:150px;
 	}
 	.right-aside{
-		background-color: BEEFFF;
+/* 		background-color: BEEFFF; */
 		flex-grow: 1;
 		height:750px;
 		margin-top:150px;
@@ -70,17 +69,18 @@ $(function(){
 	}
 	
 </style>
+
 <article>
 
 	<aside class="left-aside">
 		<div class="list-group">
 		  <button class="list-group-item list-group-item-action dropdown">게시글</button>
 		  <div class="dropdown-list">
-		  	<a href="member/myboard" class="list-group-item list-group-item-action detail-list">내 게시글</a>
+		  	<a href="#" class="list-group-item list-group-item-action detail-list">내 게시글</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">친구</button>
 		  <div class="dropdown-list">
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">친구관리</a>
+		  	<a href="${pageContext.request.contextPath}/member/friend" class="list-group-item list-group-item-action detail-list">친구관리</a>
 		  	<a href="${pageContext.request.contextPath}/member/follow" class="list-group-item list-group-item-action detail-list">친구요청</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">설정</button>
@@ -91,8 +91,7 @@ $(function(){
 		</div>
 	</aside>
 
-
-	<!-- 게시판 -->
+<!-- 게시판 -->
 	<section>
 		<div class="container scroll-div">
 		
@@ -200,6 +199,5 @@ $(function(){
 	</aside>
 
 </article>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

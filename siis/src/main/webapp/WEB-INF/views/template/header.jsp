@@ -36,6 +36,7 @@
 		position:fixed;
 		top:0;
 		width:100%;
+		z-index:9999;
 	}
 	
 	.left-aside{
@@ -54,9 +55,6 @@
 		margin-buttom:100px;
 	}	
 	
-	.navbar{
-		z-index: 300px;
-	}
 	
 
 /* Dropdown Button */
@@ -145,11 +143,6 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-	    
-
-
-
-
 
 
           
@@ -163,7 +156,6 @@
   
 </ul>
 
-	    
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
 	      <select class="form-control" id="exampleSelect1" name="type">
 		    <option value="popular">Popular</option>

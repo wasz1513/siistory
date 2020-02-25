@@ -33,13 +33,13 @@ $(function(){
 	}
 	
 	.left-aside{
-		background-color: EBFBFF;
+/* 		background-color: EBFBFF; */
         width: 20%;
         margin-top:150px;
 	}
 
 	section{
-		background-color: C8FFFF;
+/* 		background-color: C8FFFF; */
 		flex-grow:1;
 		margin-top:150px;
 	}
@@ -47,6 +47,10 @@ $(function(){
 	.pagination{
 		width:220px;
 		margin:auto;
+	}
+	
+	.suspend-exe{
+		color:orange;
 	}
 </style>
 
@@ -196,8 +200,7 @@ $(function(){
 									<td>${member.member_job}</td>
 									<td>
 									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
-									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}">[정지]</a> 
-									[???]
+									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}" class="suspend-exe">[정지]</a> 
 									</td>
 								</tr>
 							</c:forEach>
