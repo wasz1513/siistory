@@ -123,14 +123,8 @@ public class MemberController {
 	@GetMapping("/myboard")
 	public String boardInfo(Model model, HttpSession session) {
 		model.addAttribute("dtolist", boardDao.myboardList(session));
-		
 		ConnectTableDto dto = new ConnectTableDto();
-		
 		String obj = dto.getDT();
-		
-		
-		System.out.println(obj);
-		
 		return "member/myboard";
 	}
 	

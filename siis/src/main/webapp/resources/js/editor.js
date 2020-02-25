@@ -22,7 +22,7 @@ $(function() {
 		};
 
 		$.ajax({
-			url : 'addcontent',
+			url : 'post/addcontent',
 			type : 'post',
 			data : JSON.stringify(contentVo),
 			contentType : "application/json",
@@ -76,7 +76,7 @@ function handleImgFileSelect(e) {
 	var data = new FormData(form);
 
 	$.ajax({
-		url : 'dashboard/uploadimage',
+		url : 'post/uploadimage',
 		type : 'post',
 		data : data,
 		contentType : false,
