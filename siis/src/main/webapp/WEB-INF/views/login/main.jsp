@@ -91,7 +91,7 @@ $(function(){
 		</div>
 	</aside>
 
-	<!-- 게시판 -->
+<!-- 게시판 -->
 	<section>
 		<div class="container scroll-div">
 		
