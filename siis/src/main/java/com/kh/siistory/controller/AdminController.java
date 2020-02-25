@@ -1,5 +1,7 @@
 package com.kh.siistory.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.repository.AdminDao;
+import com.kh.siistory.service.AdminChartService;
+import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
 import com.kh.siistory.vo.WarningVo;
 
@@ -25,6 +29,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
+	@Autowired
+	private AdminChartService adminChartService;
 	
 	@GetMapping("/management")
 	public String getManagement(){
@@ -244,5 +251,31 @@ public class AdminController {
 		return "redirect:../member/info?member_no="+member_no;
 	}
 	
+	@GetMapping("/statismain")
+	public String getStiatismain() {
+		return "admin/statismain";
+	}
 	
+	@GetMapping("/statistics")
+	public String getStiatistics(Model model) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+		int max = list.get(0).getCount();
+		for(int i=1; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+		}
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		return "admin/statistics";
+	}
 }

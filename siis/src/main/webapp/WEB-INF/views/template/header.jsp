@@ -9,6 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>SiiStory</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hiphop5782/js/toast/hakademy-toast.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-rCA2D+D9QXuP2TomtQwd+uP50EHjpafN+wruul0sXZzX/Da7Txn4tB9aLMZV4DZm" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -34,6 +36,7 @@
 		position:fixed;
 		top:0;
 		width:100%;
+		z-index:9999;
 	}
 	
 	.left-aside{
@@ -52,11 +55,56 @@
 		margin-buttom:100px;
 	}	
 	
-	.navbar{
-		z-index: 300px;
-	}
+	
+
+/* Dropdown Button */
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
 	
 </style>
+
+	<script>
+	
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+	
+	</script>
 
 </head>
 <body>
@@ -95,13 +143,19 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-	    
 
 
-<div>test</div>
-        
+          
+<ul class="list-group my-2 my-sm-0 mr-sm-5">
+  <li onclick="myFunction()" class="btn btn-secondary my-2 my-sm-0 dropdown dropbtn">
+    알람 리스트
+    <div id="myDropdown" class="dropdown-content">
+            </div>
+    <span class="badge badge-primary badge-pill">0</span>
+  </li>
+  
+</ul>
 
-	    
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
 	      <select class="form-control" id="exampleSelect1" name="type">
 		    <option value="popular">Popular</option>
