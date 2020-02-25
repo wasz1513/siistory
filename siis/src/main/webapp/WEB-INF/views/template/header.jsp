@@ -145,13 +145,7 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-	    
-
-
-
-
-
-
+	
           
 <ul class="list-group my-2 my-sm-0 mr-sm-5">
   <li onclick="myFunction()" class="btn btn-secondary my-2 my-sm-0 dropdown dropbtn">
@@ -162,7 +156,6 @@
   </li>
   
 </ul>
-
 	    
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search/" method="get">
 	      <select class="form-control" id="exampleSelect1" name="type">

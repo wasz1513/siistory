@@ -41,7 +41,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			* 
 		from (
 			select 
-				b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth, 
+				b.*, 
+				r.reply_no, 
+				r.reply_content, 
+				r.reply_writer, 
+				r.writer_no, 
+				r.depth, 
+				
 				(select count(*) from reply where b.board_no = reply.board_no) as board_reply_count, 
 				row_number() OVER (PARTITION BY b.board_no ORDER BY b.board_no) as rk
 			from (
@@ -63,5 +69,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         	rk <![CDATA[<]]> 3
 
 	</select>
+	
+	
+	<select>
+	select 
+	* 
+	from (
+    select 
+        b.*,
+        r.reply_no,
+        r.reply_content,
+        r.reply_writer,
+        r.writer_no,
+        r.depth, 
+        
+        (
+        select count(*) from reply 
+        where 
+        b.board_no = reply.board_no
+        ) as board_reply_count, 
+        
+        row_number() OVER (PARTITION BY b.board_no ORDER BY b.board_no) as rk
+    from (select ob.*, bl.member_no mylike from board ob left outer join (select * from board_like where member_no=23) BL on ob.board_no = BL.board_no) b 
+        left outer join (select * from reply where depth = 0) r on b.board_no = r.board_no
+) where 
+member_no= 23 
+order by board_wdate desc;
+	
+	
+	</select>
+	
+	
+	
 	
 </mapper>

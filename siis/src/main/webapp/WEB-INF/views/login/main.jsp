@@ -22,6 +22,7 @@ $(function(){
 		$(this).addClass("dropdown");
 	});
 	
+
 });
 
 </script>
@@ -141,10 +142,16 @@ $(function(){
 							<a href="p">
 								<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="100%">
 							</a>
+							
 						</c:if>
 						<p>${content.board_content }</p>
 					</div>
 				</div>
+							<button class="btn good-btn"
+							data-member_no="${member_no}" data-status="조건" data-target_no="${sessionScope.member_no}" data-pusher_no="${member_no}"
+							data-content_no="${content.board_no}" data-content_type="board" data-content_play="good"
+							
+							>좋아요 ??개</button>
 			</div>
 
 			<!-- 여기서부터 댓글 -->
@@ -156,7 +163,10 @@ $(function(){
 						<div class="media-body" id="${reply.reply_no }">
 							<h4>${reply.reply_writer } <small><i>Posted on ?? days ago</i></small></h4>
 							<p>${reply.reply_content }</p>
-							<button class="btn">좋아요 ??개</button>
+							<button class="btn good-btn"
+							data-member_no="${member_no}" data-status="조건" data-target_no="${sessionScope.member_no}" data-pusher_no="${member_no}"
+							data-content_no="${reply.reply_no }" data-content_type="reply" data-content_play="good"
+							>좋아요 ??개</button>
 							<button class="btn replyadd">답글달기</button>
 							<button class="btn commentview">답글 보기(??개)</button>
 
