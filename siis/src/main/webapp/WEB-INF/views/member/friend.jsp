@@ -33,6 +33,10 @@
 		border-radius: 50%;
 	}
 	
+	.friend-info-exe{
+		color:white;
+	}
+	
 </style>
 
 <article>
@@ -40,7 +44,7 @@
 	<section>
 		<c:forEach var="myfriend" items="${myfriendlist}">
 			<div class="myfriend">
-				<a href="${pageContext.request.contextPath}/member/info?member_no=${myfriend.member_no}">
+				<a href="${pageContext.request.contextPath}/member/info?member_no=${myfriend.member_no}" class="friend-info-exe">
 					<div class="myfriend-img">
 						<img src="${pageContext.request.contextPath}/util/download?member_no=${myfriend.member_no}" class="myfriend-img-item">
 					</div>

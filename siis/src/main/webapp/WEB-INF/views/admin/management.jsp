@@ -201,7 +201,6 @@ $(function(){
 									<td>
 									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
 									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}" class="suspend-exe">[정지]</a> 
-									[???]
 									</td>
 								</tr>
 							</c:forEach>
