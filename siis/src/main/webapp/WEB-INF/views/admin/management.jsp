@@ -48,6 +48,10 @@ $(function(){
 		width:220px;
 		margin:auto;
 	}
+	
+	.suspend-exe{
+		color:orange;
+	}
 </style>
 
 <article>
@@ -196,7 +200,7 @@ $(function(){
 									<td>${member.member_job}</td>
 									<td>
 									<a href="${pageContext.request.contextPath}/member/info?member_no=${member.member_no}">[정보]</a> 
-									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}">[정지]</a> 
+									<a href="${pageContext.request.contextPath}/admin/suspend?member_no=${member.member_no}" class="suspend-exe">[정지]</a> 
 									[???]
 									</td>
 								</tr>

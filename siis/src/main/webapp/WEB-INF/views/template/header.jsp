@@ -35,6 +35,7 @@
 		position:fixed;
 		top:0;
 		width:100%;
+		z-index:9999;
 	}
 	
 	.left-aside{
@@ -53,9 +54,6 @@
 		margin-buttom:100px;
 	}	
 	
-	.navbar{
-		z-index: 300px;
-	}
 	
 </style>
 

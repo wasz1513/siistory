@@ -40,15 +40,17 @@
 	<section>
 		<c:forEach var="myfriend" items="${myfriendlist}">
 			<div class="myfriend">
-				<div class="myfriend-img">
-					<img src="${pageContext.request.contextPath}/util/download?member_no=${myfriend.member_no}" class="myfriend-img-item">
-				</div>
-				<div class="myfriend-email">
-				${myfriend.email}				
-				</div>
-				<div class="myfriend-name">
-				${myfriend.member_name}
-				</div>
+				<a href="${pageContext.request.contextPath}/member/info?member_no=${myfriend.member_no}">
+					<div class="myfriend-img">
+						<img src="${pageContext.request.contextPath}/util/download?member_no=${myfriend.member_no}" class="myfriend-img-item">
+					</div>
+					<div class="myfriend-email">
+					${myfriend.email}				
+					</div>
+					<div class="myfriend-name">
+					${myfriend.member_name}
+					</div>
+				</a>
 			</div>
 		</c:forEach>
 	</section>
