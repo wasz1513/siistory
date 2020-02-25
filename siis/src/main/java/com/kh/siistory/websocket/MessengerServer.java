@@ -15,7 +15,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.siistory.controller.SessionListener;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
 import com.kh.siistory.entity.ConnectTableDto;

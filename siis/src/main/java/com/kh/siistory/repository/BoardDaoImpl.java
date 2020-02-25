@@ -29,7 +29,7 @@ public class BoardDaoImpl implements BoardDao {
 		map.put("board_writer", (String)session.getAttribute("member_name"));
 		map.put("board_content", contentVo.getBoard_content());
 		map.put("piclist", contentVo.getBoard_pic_no());
-		if(contentVo.getBoard_pic_no().length > 0) {
+		if(contentVo.getBoard_pic_no() != null) {
 			map.put("photo", 1);
 		} else {
 			map.put("photo", 0);

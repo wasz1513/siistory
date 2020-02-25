@@ -93,6 +93,7 @@ $(function(){
 		</div>
 	</aside>
 
+	<!-- 게시판 -->
 	<section>
 		<div class="container scroll-div">
 		
@@ -138,7 +139,9 @@ $(function(){
 					<div class="media-body">
 						<h4>${content.board_writer } <small><i>Posted on February 19, 2016</i></small></h4>
 						<c:if test="${content.photo == 1 }">
-							<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="40%">
+							<a href="p">
+								<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="100%">
+							</a>
 						</c:if>
 						<p>${content.board_content }</p>
 					</div>
@@ -166,11 +169,11 @@ $(function(){
 			</ul>
 			</c:forEach>
 			<!-- 여기까지 댓글 -->
-
+			
 			<c:if test="${content.board_reply_count > 2 }">
-			<button class="btn replymore" data-click="0">
-				댓글 <span>${content.board_reply_count }</span>개 모두 보기
-			</button>
+				<button class="btn replymore" data-click="0">
+					댓글 <span>${content.board_reply_count }</span>개 모두 보기
+				</button>
 			</c:if>
 						
 			<ul class="list-group list-group-flush">
@@ -187,7 +190,7 @@ $(function(){
 		</c:forEach>
 		</div>
 	</section>			
-
+						
 	<aside class="right-aside">
 		<div class="container scroll-div">
 			<c:forEach var="myfriend" items="${myfriend}">
@@ -197,7 +200,7 @@ $(function(){
 			</c:forEach>
 		</div>
 	</aside>
-	
+
 </article>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

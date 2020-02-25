@@ -63,7 +63,7 @@ public class MainPageController {
 		//이번 프로젝트에서는 제외.
 		if(session.isNew()) {
 			connecttableDao.true_session(connectDto);
-			SessionListener.getInstance().setSession(session);
+			
 		//기존 세션이면 (db 접속 건수들만 처리)
 		} else if (!session.isNew()) {
 			connecttableDao.false_session(connectDto);

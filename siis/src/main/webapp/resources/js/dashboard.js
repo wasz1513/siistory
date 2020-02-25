@@ -18,7 +18,7 @@ $(function(){
 		var replyseq = $(this).parent().prev(".replycontent").data("replyseq");
 		
 		$.ajax({
-			url:"dashboard/replyinsert",
+			url:"post/replyinsert",
 			type:"post",
 			data:{'board_no':boardseq, 'super_no':replyseq, 'reply_content':content},
 			dataType:"JSON",
@@ -43,7 +43,7 @@ $(function(){
 		var count = $(this).data("click");
 
 		$.ajax({
-			url:"dashboard/morereply",
+			url:"post/morereply",
 			type:"get",
 			data:{'board_no':board_no, 'start':(count*10)+1, 'end':(count*10)+10},
 			context:this,
@@ -63,7 +63,7 @@ $(function(){
 		var board_no = $(this).parents(".mb-3").find(".card-body").data("seq");
 		
 		$.ajax({
-			url:"dashboard/commentview?super_no="+super_no+"&board_no="+board_no,
+			url:"post/commentview?super_no="+super_no+"&board_no="+board_no,
 			type:"get",
 			context:this,
 			success:function(data){
