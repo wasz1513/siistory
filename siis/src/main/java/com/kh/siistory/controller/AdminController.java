@@ -19,7 +19,6 @@ import com.kh.siistory.repository.AdminDao;
 import com.kh.siistory.service.AdminChartService;
 import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
-import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;

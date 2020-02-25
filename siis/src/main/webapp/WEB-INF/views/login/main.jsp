@@ -91,7 +91,7 @@ $(function(){
 		</div>
 	</aside>
 
-<!-- 게시판 -->
+	<!-- 게시판 -->
 	<section>
 		<div class="container scroll-div">
 		
@@ -133,12 +133,12 @@ $(function(){
 			<div class="card-body" data-seq="${content.board_no }">
 				<!-- 본문관련 -->
 				<div class="media p-3">
-					<img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
+					<img src="${pageContext.request.contextPath }/util/download?member_no=${content.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 					<div class="media-body">
 						<h4>${content.board_writer } <small><i>Posted on February 19, 2016</i></small></h4>
 						<c:if test="${content.photo == 1 }">
-							<a href="p">
-								<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="100%">
+							<a href="post/${content.board_no }">
+								<img src="${pageContext.request.contextPath }/post/image/${content.board_no }" width="100%">
 							</a>
 						</c:if>
 						<p>${content.board_content }</p>

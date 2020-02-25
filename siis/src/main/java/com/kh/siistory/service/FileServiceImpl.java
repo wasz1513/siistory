@@ -89,7 +89,7 @@ public class FileServiceImpl implements FileService {
 		List<BoardPicDto> bdto = new ArrayList<>();
 		for (int i = 0; i < sel_files.size(); i++) {
 			MultipartFile mf = sel_files.get(i);
-			if(i == 0) {
+			if (i == 0) {
 				bdto.add(BoardPicDto.builder().board_pic_no(boardpicDao.getpicseq()).board_pic_size(mf.getSize())
 						.board_pic_store(UUID.randomUUID().toString()).main(0).build());
 			} else {
@@ -125,17 +125,39 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public void getimage(int boardno, HttpServletResponse resp) throws UnsupportedEncodingException, IOException {
 		PhotoVo photoVo = boardpicDao.getimage(boardno);
-		
+
 		File target = new File("D:/upload/kh2f/" + "m" + photoVo.getMember_no(), photoVo.getBoard_pic_store());
-		
+
 		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
-		resp.setHeader("Content-Disposition", "attachment; filename=\""+URLEncoder.encode(photoVo.getBoard_pic_store(), "UTF-8")+"\"");
+		resp.setHeader("Content-Disposition",
+				"attachment; filename=\"" + URLEncoder.encode(photoVo.getBoard_pic_store(), "UTF-8") + "\"");
 		resp.setHeader("Content-Length", String.valueOf(photoVo.getBoard_pic_size()));
-		
+
 		byte[] data = FileUtils.readFileToByteArray(target);
-		
 
 		resp.getOutputStream().write(data);
+	}
+
+	// 사진 게시물 이미지 불러오기
+	@Override
+	public void getimageall(int pic, int member, HttpServletResponse resp) throws UnsupportedEncodingException, IOException {
+		PhotoVo photoVo = boardpicDao.getimageall(pic);
+
+		File target = new File("D:/upload/kh2f/" + "m" + member, photoVo.getBoard_pic_store());
+
+		resp.setHeader("Content-Type", "application/octet=stream; charset=UTF-8");
+		resp.setHeader("Content-Disposition",
+				"attachment; filename=\"" + URLEncoder.encode(photoVo.getBoard_pic_store(), "UTF-8") + "\"");
+		resp.setHeader("Content-Length", String.valueOf(photoVo.getBoard_pic_size()));
+
+		byte[] data = FileUtils.readFileToByteArray(target);
+
+		resp.getOutputStream().write(data);
+	}
+
+	@Override
+	public List<Integer> getphotolist(int boardno) {
+		return boardpicDao.getphotolist(boardno);
 	}
 
 }

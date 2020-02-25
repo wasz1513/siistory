@@ -61,7 +61,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
         where 
         	rk <![CDATA[<]]> 3
-
+	</select>
+	
+	<select id="getphotopost" parameterType="hashmap" resultMap="dashboardlist">
+		select 
+			* 
+		from (
+			select 
+				b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth, row_number() OVER (ORDER BY r.reply_wdate) as rk 
+			from 
+				(select * from board where board_no = #{board_no}) b 
+			left outer join 
+				(select * from reply where depth = 0) r 
+			on 
+				b.board_no = r.board_no) 
+		where 
+			rk between #{start} and #{end}
 	</select>
 	
 </mapper>

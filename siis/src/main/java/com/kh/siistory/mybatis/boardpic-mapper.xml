@@ -31,4 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on 
 			bp.board_pic_no = pic.board_pic_no
 	</select>
+	
+	<select id="getimageall" parameterType="int" resultType="photoVo">
+		select * from board_pic where board_pic_no = #{pic} 
+	</select>
+	
+	<select id="getphotolist" parameterType="int" resultType="int">
+		select board_pic_no from bpconnect where board_no = #{boardno}
+	</select>
 </mapper>
