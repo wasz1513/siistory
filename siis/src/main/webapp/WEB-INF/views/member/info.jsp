@@ -28,6 +28,18 @@
 	.change-name{
 		width:150px;
 	}
+	
+	.suspend-member{
+		color:red;
+	}
+	
+	.dormant-member{
+		color:blue;
+	}
+	
+	.withdraw-member{
+		color:green;
+	}
 </style>
 
 <script>
@@ -84,7 +96,23 @@ $(function(){
 
 <article>
 	<section>
-
+	
+		<c:if test="${sessionScope.email == 'admin' }">
+		<div class="form-group">
+			<c:if test="${memberInfo.member_state == '정지' }">
+				<h1 class="suspend-member">정지회원</h1>
+				<a href="${pageContext.request.contextPath}/admin/canclesuspend?member_no=${memberInfo.member_no}">[정지풀기]</a>
+			</c:if>
+			<c:if test="${memberInfo.member_state == '휴면' }">
+				<h1 class="dormant-member">휴면회원</h1>
+			</c:if>
+			<c:if test="${memberInfo.member_state == '탈퇴' }">
+				<h1 class="withdraw-member">탈퇴회원</h1>
+			</c:if>
+		</div>
+		</c:if>
+		
+		
 		<table class="table table-hover">
 			<thead>	
 				<tr>
