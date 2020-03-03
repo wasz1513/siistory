@@ -323,14 +323,31 @@ $(function() {
 		console.log ("content_play = " + content_play);
 		
 		if($(this).text()=="좋아요"){
+		
+		var i= $(this).next().next().text();
+		var num = parseInt(i)+1;	
 			
 		send_alarm(member_no, 4, target_no, pusher_no, content_no, content_type, content_play)  // 등록
 		$(this).attr("class","btn good-btn good-off").text("좋아요 취소");
+
+		$(this).next().next().text(num)
+		console.log(i);	
 		
 		
 		} else if ($(this).text()=="좋아요 취소"){
+
+		var i= $(this).next().next().text();
+		var num = parseInt(i)-1;
+		
+		console.log(i)
+		console.log(num)
 		send_alarm(member_no, 5, target_no, pusher_no, content_no, content_type, content_play)  // 취소
 		$(this).attr("class","btn good-btn good-on").text("좋아요");
+		
+		
+		
+		$(this).next().next().text(num)
+		console.log(i);
 		}
 		
 		
