@@ -163,7 +163,7 @@ section {
 							<c:when test="${content.board_like != sessionScope.member_no}">
 								<button class="btn good-btn good-on"
 									data-member_no="${member_no}" data-status="조건"
-									data-target_no="${sessionScope.member_no}"
+									data-target_no="${content.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
 									data-content_play="good"><a href="#">좋아요</a></button>
@@ -173,7 +173,7 @@ section {
 							<c:otherwise>
 								<button class="btn good-btn good-off"
 									data-member_no="${member_no}" data-status="조건"
-									data-target_no="${sessionScope.member_no}"
+									data-target_no="${content.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
 									data-content_play="good"><a href="#">좋아요 취소</a></button>
@@ -204,7 +204,7 @@ section {
 										<c:choose>
 										<c:when test="${reply.reply_like != sessionScope.member_no}">
 										<button class="btn good-btn good-on" data-member_no="${member_no}"
-											data-status="조건" data-target_no="${sessionScope.member_no}"
+											data-status="조건" data-target_no="${content.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
 											data-content_type="reply" data-content_play="good"><a href="#">좋아요</a></button>
@@ -213,7 +213,7 @@ section {
 										
 										<c:otherwise>
 										<button class="btn good-btn good-off" data-member_no="${member_no}"
-											data-status="조건" data-target_no="${sessionScope.member_no}"
+											data-status="조건" data-target_no="${content.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
 											data-content_type="reply" data-content_play="good"><a href="#">좋아요 취소</a></button>
