@@ -325,10 +325,12 @@ $(function() {
 		if($(this).text()=="좋아요"){
 			
 		send_alarm(member_no, 4, target_no, pusher_no, content_no, content_type, content_play)  // 등록
+		$(this).attr("class","btn good-btn good-off").text("좋아요 취소");
+		
 		
 		} else if ($(this).text()=="좋아요 취소"){
 		send_alarm(member_no, 5, target_no, pusher_no, content_no, content_type, content_play)  // 취소
-			
+		$(this).attr("class","btn good-btn good-on").text("좋아요");
 		}
 		
 		
@@ -338,16 +340,16 @@ $(function() {
 	
 	
 	
-	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
-		$(this).attr("class","good-offbtn");
-	});
-
-	// 좋아요 취소 버튼
-	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
-		$(this).attr("class","good-onbtn");
-	});
+//	$(".good-onbtn").off().click(function() {
+//		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-offbtn");
+//	});
+//
+//	// 좋아요 취소 버튼
+//	$(".good-offbtn").off().click(function() {
+//		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-onbtn");
+//	});
 
 	// 친구 요청 버튼
 	// $(".friend-add").off().click(function(){
