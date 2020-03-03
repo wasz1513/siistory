@@ -163,7 +163,7 @@ section {
 							<c:when test="${content.board_like != sessionScope.member_no}">
 								<button class="btn good-btn good-on"
 									data-member_no="${member_no}" data-status="조건"
-									data-target_no="${sessionScope.member_no}"
+									data-target_no="${content.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
 									data-content_play="good"><a href="#">좋아요</a></button>
@@ -173,7 +173,7 @@ section {
 							<c:otherwise>
 								<button class="btn good-btn good-off"
 									data-member_no="${member_no}" data-status="조건"
-									data-target_no="${sessionScope.member_no}"
+									data-target_no="${content.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
 									data-content_play="good"><a href="#">좋아요 취소</a></button>
@@ -181,7 +181,9 @@ section {
 
 
 						</c:choose>
-						<a>(좋아요  total = ${content.board_like_count} 개 )</a>
+						<a>(좋아요  total = </a>
+										<a>${content.board_like_count}</a> 
+										<a>개 )</a>	
 
 					</div>
 
@@ -204,16 +206,15 @@ section {
 										<c:choose>
 										<c:when test="${reply.reply_like != sessionScope.member_no}">
 										<button class="btn good-btn good-on" data-member_no="${member_no}"
-											data-status="조건" data-target_no="${sessionScope.member_no}"
+											data-status="조건" data-target_no="${content.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
 											data-content_type="reply" data-content_play="good"><a href="#">좋아요</a></button>
-											??개
 										</c:when>
 										
 										<c:otherwise>
 										<button class="btn good-btn good-off" data-member_no="${member_no}"
-											data-status="조건" data-target_no="${sessionScope.member_no}"
+											data-status="조건" data-target_no="${content.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
 											data-content_type="reply" data-content_play="good"><a href="#">좋아요 취소</a></button>
@@ -221,7 +222,9 @@ section {
 										</c:otherwise>
 										
 										</c:choose>
-										<a>(좋아요  total = ${reply.reply_like_count} 개 )</a>	
+										<a>(좋아요  total = </a>
+										<a>${reply.reply_like_count}</a> 
+										<a>개 )</a>	
 										
 										<button class="btn replyadd">답글달기</button>	
 										<button class="btn commentview">답글 보기(??개)</button>
