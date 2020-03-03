@@ -49,6 +49,6 @@ $(function(){
   </div>
   <button class="list-group-item list-group-item-action dropdown">통계분석</button>
   <div class="dropdown-list">
-  	<a href="#" class="list-group-item list-group-item-action detail-list">사이트 이용현황</a>
+  	<a href="${pageContext.request.contextPath}/admin/statismain" class="list-group-item list-group-item-action detail-list">사이트 이용현황</a>
   </div>
-</div>
+</div>	

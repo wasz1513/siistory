@@ -3,6 +3,7 @@ package com.kh.siistory.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.repository.AdminDao;
+import com.kh.siistory.service.AdminChartService;
+import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
-import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
+	@Autowired
+	private AdminChartService adminChartService;
 	
 	@GetMapping("/management")
 	public String getManagement(){
@@ -247,5 +252,68 @@ public class AdminController {
 		return "redirect:../member/info?member_no="+member_no;
 	}
 	
+	@GetMapping("/statismain")
+	public String getStiatismain(Model model,
+			HttpServletRequest req) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+//		if((String)req.getParameter("state")=="visit") {
+//			
+//		}else if((boolean)req.getParameter("state").equals("regist")) {
+//			list = adminChartService.day_regist();
+//		}else if((String)req.getParameter("state")=="content") {
+//			list = adminChartService.day_content();
+//		}
+		int max = list.get(0).getCount();
+		for(int i=0; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+			/*
+			 * if(list.get(i).getDt()==null) { list.get(i).setDt("셋팅 테스트"); }
+			 * if(list.get(i).getCount()<1) { list.get(i).setCount(0); }
+			 */
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/statismain";
+	}
 	
+	@GetMapping("/statistics")
+	public String getStiatistics(Model model,
+			@RequestParam int state) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+		int max = list.get(0).getCount();
+		for(int i=1; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		log.info("{}",max);
+		log.info("{}",max_value);
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/statistics";
+	}
 }

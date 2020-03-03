@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardDaoImpl implements BoardDao {
 
 	@Autowired
-	private SqlSession sqlsession;
+	private SqlSession sqlSession;
 
 	@Override
 	public void addcontent(ContentVo contentVo, HttpSession session) {
@@ -35,22 +35,33 @@ public class BoardDaoImpl implements BoardDao {
 			map.put("photo", 0);
 		}
 		
-		sqlsession.insert("board.write", map);
+		sqlSession.insert("board.write", map);
 	}
 
 	@Override
 	public List<BoardDto> dashboardlist(HttpSession session) {
-		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
+		return sqlSession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
 
 	@Override
 	public List<BoardDto> myboardList(HttpSession session) {
-		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
+		return sqlSession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
 	}
 
 	@Override
 	public void setPrivate(BoardDto boardDto) {
-		sqlsession.update("myboard.setprivate", boardDto);
+		sqlSession.update("myboard.setprivate", boardDto);
+	}
+
+	@Override
+	public BoardDto getphotopost(int boardno, Map<String, Integer> paging) {
+		if(paging.isEmpty()) {
+			paging.put("start", 1);
+			paging.put("end", 10);
+		}
+		paging.put("board_no", boardno);
+	
+		return 	sqlSession.selectOne("board.getphotopost", paging);
 	}
 
 }

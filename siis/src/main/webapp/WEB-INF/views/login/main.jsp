@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
 $(function(){
 	
 	$(".dropdown-list").hide();
@@ -22,9 +22,7 @@ $(function(){
 		$(this).addClass("dropdown");
 	});
 	
-
 });
-
 </script>
 
 <style>
@@ -36,17 +34,17 @@ $(function(){
 	}
 	
 	.left-aside{
-		background-color: EBFBFF;
+/* 		background-color: EBFBFF; */
         width: 20%;
         margin-top:150px;
 	}
 	section{
-		background-color: C8FFFF;
+/* 		background-color: C8FFFF; */
 		width:60%;
 		margin-top:150px;
 	}
 	.right-aside{
-		background-color: BEEFFF;
+/* 		background-color: BEEFFF; */
 		flex-grow: 1;
 		height:750px;
 		margin-top:150px;
@@ -71,6 +69,7 @@ $(function(){
 	}
 	
 </style>
+
 <article>
 
 	<aside class="left-aside">
@@ -81,7 +80,7 @@ $(function(){
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">친구</button>
 		  <div class="dropdown-list">
-		  	<a href="#" class="list-group-item list-group-item-action detail-list">친구관리</a>
+		  	<a href="${pageContext.request.contextPath}/member/friend" class="list-group-item list-group-item-action detail-list">친구관리</a>
 		  	<a href="${pageContext.request.contextPath}/member/follow" class="list-group-item list-group-item-action detail-list">친구요청</a>
 		  </div>
 		  <button class="list-group-item list-group-item-action dropdown">설정</button>
@@ -91,7 +90,6 @@ $(function(){
 		  </div>
 		</div>
 	</aside>
-
 
 	<!-- 게시판 -->
 	<section>
@@ -135,12 +133,12 @@ $(function(){
 			<div class="card-body" data-seq="${content.board_no }">
 				<!-- 본문관련 -->
 				<div class="media p-3">
-					<img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
+					<img src="${pageContext.request.contextPath }/util/download?member_no=${content.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 					<div class="media-body">
 						<h4>${content.board_writer } <small><i>Posted on February 19, 2016</i></small></h4>
 						<c:if test="${content.photo == 1 }">
-							<a href="p">
-								<img src="${pageContext.request.contextPath }/dashboard/image?boardno=${content.board_no }" width="100%">
+							<a href="post/${content.board_no }">
+								<img src="${pageContext.request.contextPath }/post/image/${content.board_no }" width="100%">
 							</a>
 							
 						</c:if>
@@ -210,6 +208,5 @@ $(function(){
 	</aside>
 
 </article>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

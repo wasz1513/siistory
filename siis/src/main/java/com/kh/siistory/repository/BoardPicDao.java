@@ -9,4 +9,6 @@ public interface BoardPicDao {
 	void uploadimage(List<BoardPicDto> boardpicDto);
 	int getpicseq();
 	PhotoVo getimage(int boardno);
+	PhotoVo getimageall(int pic);
+	List<Integer> getphotolist(int boardno);
 }
