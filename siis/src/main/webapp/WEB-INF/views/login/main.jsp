@@ -166,7 +166,7 @@ section {
 									data-target_no="${sessionScope.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
-									data-content_play="good">좋아요</button>
+									data-content_play="good"><a href="#">좋아요</a></button>
 							</c:when>
 
 
@@ -176,12 +176,12 @@ section {
 									data-target_no="${sessionScope.member_no}"
 									data-pusher_no="${member_no}"
 									data-content_no="${content.board_no}" data-content_type="board"
-									data-content_play="good">좋아요 취소</button>
+									data-content_play="good"><a href="#">좋아요 취소</a></button>
 							</c:otherwise>
 
 
 						</c:choose>
-						??개
+						<a>(좋아요  total = ${content.board_like_count} 개 )</a>
 
 					</div>
 
@@ -207,7 +207,7 @@ section {
 											data-status="조건" data-target_no="${sessionScope.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
-											data-content_type="reply" data-content_play="good">좋아요</button>
+											data-content_type="reply" data-content_play="good"><a href="#">좋아요</a></button>
 											??개
 										</c:when>
 										
@@ -216,12 +216,13 @@ section {
 											data-status="조건" data-target_no="${sessionScope.member_no}"
 											data-pusher_no="${member_no}"
 											data-content_no="${reply.reply_no }"
-											data-content_type="reply" data-content_play="good">좋아요 취소</button>
+											data-content_type="reply" data-content_play="good"><a href="#">좋아요 취소</a></button>
 											
 										</c:otherwise>
 										
 										</c:choose>
-											
+										<a>(좋아요  total = ${reply.reply_like_count} 개 )</a>	
+										
 										<button class="btn replyadd">답글달기</button>	
 										<button class="btn commentview">답글 보기(??개)</button>
 

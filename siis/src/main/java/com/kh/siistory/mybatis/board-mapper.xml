@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result property="board_state" column="board_state"/>
 	  <result property="photo" column="photo"/>
 	  <result property="board_like" column="board_like"/>
+	  <result property="board_like_count" column="board_like_count"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>
@@ -35,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    <result property="writer_no" column="writer_no"/>
 		    <result property="depth" column="depth"/>
 		    <result property="reply_like" column="reply_like"/>
+		    <result property="reply_like_count" column="reply_like_count"/>
 		  </collection>
 	</resultMap>
 	
@@ -44,7 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from (
 			select 
 				bb.*, rr.reply_no, rr.reply_content, rr.reply_writer, rr.writer_no, rr.depth, rr.reply_like,
+                (select count(*) from board_like where board_like.board_no = bb.board_no ) as board_like_count,
 				(select count(*) from reply where bb.board_no = reply.board_no) as board_reply_count, 
+                (select count(*) from reply_like where reply_like.reply_no = rr.reply_no ) as reply_like_count,
 				row_number() OVER (PARTITION BY bb.board_no ORDER BY bb.board_no) as rk
 			from (
 				select 
