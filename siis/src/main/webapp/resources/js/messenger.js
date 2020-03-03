@@ -63,10 +63,10 @@ $(function() {
 				 * .append(Fstate); } ;
 				 */
 				$(".friend-list").empty();
-				var room_no = 0;
 				var ul = $("<ul>").addClass("set-list");
 
 				for ( var index in msg.flist_data) {
+					var room_no = Math.floor(Math.random()*1000000+1);
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
@@ -88,7 +88,7 @@ $(function() {
 					$(".friend-list").append(tag).append(room).append(friend).appendTo(
 							".friend-list");
 
-					room_no++;
+					
 				}
 				;
 
