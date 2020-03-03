@@ -168,10 +168,10 @@ $(function() {
 					console.log(msg[index]);
 					
 					
-					var text = "새로운 알림 메시지가 있습니다!!";
-					Hakademy.toast.push(text);
 
 				}
+				var text = "새로운 알림 메시지가 있습니다!!";
+				Hakademy.toast.push(text);
 
 			}
 			// setting = 9;
