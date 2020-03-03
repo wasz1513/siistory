@@ -63,10 +63,10 @@ $(function() {
 				 * .append(Fstate); } ;
 				 */
 				$(".friend-list").empty();
-				var room_no = 0;
 				var ul = $("<ul>").addClass("set-list");
 
 				for ( var index in msg.flist_data) {
+					var room_no = Math.floor(Math.random()*1000000+1);
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
@@ -88,7 +88,7 @@ $(function() {
 					$(".friend-list").append(tag).append(room).append(friend).appendTo(
 							".friend-list");
 
-					room_no++;
+					
 				}
 				;
 
@@ -325,10 +325,12 @@ $(function() {
 		if($(this).text()=="좋아요"){
 			
 		send_alarm(member_no, 4, target_no, pusher_no, content_no, content_type, content_play)  // 등록
+		$(this).attr("class","btn good-btn good-off").text("좋아요 취소");
+		
 		
 		} else if ($(this).text()=="좋아요 취소"){
 		send_alarm(member_no, 5, target_no, pusher_no, content_no, content_type, content_play)  // 취소
-			
+		$(this).attr("class","btn good-btn good-on").text("좋아요");
 		}
 		
 		
@@ -338,16 +340,16 @@ $(function() {
 	
 	
 	
-	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
-		$(this).attr("class","good-offbtn");
-	});
-
-	// 좋아요 취소 버튼
-	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
-		$(this).attr("class","good-onbtn");
-	});
+//	$(".good-onbtn").off().click(function() {
+//		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-offbtn");
+//	});
+//
+//	// 좋아요 취소 버튼
+//	$(".good-offbtn").off().click(function() {
+//		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-onbtn");
+//	});
 
 	// 친구 요청 버튼
 	// $(".friend-add").off().click(function(){
