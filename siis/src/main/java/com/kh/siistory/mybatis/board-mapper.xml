@@ -27,23 +27,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result property="board_reply_count" column="board_reply_count"/>
 	  <result property="board_state" column="board_state"/>
 	  <result property="photo" column="photo"/>
+	  <result property="board_like" column="board_like"/>
 		  <collection property="replylist" ofType="replyDto">
 		    <id property="reply_no" column="reply_no"/>
 		    <result property="reply_content" column="reply_content"/>
 		    <result property="reply_writer" column="reply_writer"/>
 		    <result property="writer_no" column="writer_no"/>
 		    <result property="depth" column="depth"/>
+		    <result property="reply_like" column="reply_like"/>
 		  </collection>
 	</resultMap>
 	
 	<select id="dashboardlist" resultMap="dashboardlist" parameterType="int">
-		select 
+	select 
 			* 
 		from (
 			select 
-				b.*, r.reply_no, r.reply_content, r.reply_writer, r.writer_no, r.depth, 
-				(select count(*) from reply where b.board_no = reply.board_no) as board_reply_count, 
-				row_number() OVER (PARTITION BY b.board_no ORDER BY b.board_no) as rk
+				bb.*, rr.reply_no, rr.reply_content, rr.reply_writer, rr.writer_no, rr.depth, rr.reply_like,
+				(select count(*) from reply where bb.board_no = reply.board_no) as board_reply_count, 
+				row_number() OVER (PARTITION BY bb.board_no ORDER BY bb.board_no) as rk
 			from (
 				select 
 					f.friend_no 
@@ -51,13 +53,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					friend_test f where f.member_no = #{member_no} and f.friend_state = 1
 				)
 			inner join 
-				board b
+				(select b.*,bl.member_no as board_like from board b left outer join (select * from board_like where member_no= #{member_no}) bl on b.board_no = bl.board_no)  bb
 			on
-				friend_no = b.member_no 
+				friend_no = bb.member_no 
 			left outer join 
-				(select * from reply where depth = 0) r 
+				(select r.*,rl.member_no as reply_like from 
+(select * from reply where depth = 0) r left outer join (select * from reply_like where member_no = #{member_no}) rl  on r.reply_no = rl.reply_no) rr
 			on 
-				b.board_no = r.board_no
+				bb.board_no = rr.board_no
 			)
         where 
         	rk <![CDATA[<]]> 3
@@ -78,5 +81,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where 
 			rk between #{start} and #{end}
 	</select>
+
 	
 </mapper>

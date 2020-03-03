@@ -171,7 +171,7 @@
 		
 		var host = location.host;
 		var context = "${pageContext.request.contextPath}";
-		var popupX=(window.screen.width) /2-(200/2);
+		var popupX=(window.screen.width)/2-(200/2);
 		var popupY=(window.screen.height) /2-(300/2);  
  		
 		var target_no = $(this).data(target_no).target_no;
