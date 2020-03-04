@@ -50,7 +50,7 @@ public class ChatServer extends TextWebSocketHandler {
 		chatuserList.put(session,user);
 		
 		log.info("chat user list = {}", chatuserList);
-		
+		System.out.println("===쳇 유저 수 = ===" + chatuserList.size());
 	}
 
 	// session을 제거한다 . > 해당 번호의 룸을 제거한다.(모두 나가면)
@@ -63,6 +63,7 @@ public class ChatServer extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// 메시지 확인
 		String payload = message.getPayload();
+		
 
 		// chatdata 형식에 맞게 읽음 제이슨
 		ChatData chatdata = mapper.readValue(payload, ChatData.class);
@@ -105,9 +106,12 @@ public class ChatServer extends TextWebSocketHandler {
 //		chatuserList.remove(session);
 		log.info("접속 종료!!!!");
 //		friendSend(session, 1);
-		WebSocketUser target = WebSocketUser.builder().ws(session).build();
 		
-		chatuserList.remove(target);
+//		WebSocketUser target = WebSocketUser.builder().ws(session).build();
+		
+		chatuserList.remove(session);
+		System.out.println("===종료시  쳇 유저 수 = ===" + chatuserList.size());
+		System.out.println("===============++++++==========="+chatuserList);
 		
 		
 		

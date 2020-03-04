@@ -56,16 +56,20 @@ public class MainPageController {
 	@GetMapping("/")
 	public String index(HttpSession session) {
 		
-	
-		//신규 세션이면
+		
+		
+		//신규 세션이면 (리스터의 객체를 가져와서 셋팅 시킨다.)
+		//접속 중인 인원 표시의 경우 지금 단계에서 처리하기에는 생각보다 세부적인 사항들이 많이 들어가므로
+		//이번 프로젝트에서는 제외.
 		if(session.isNew()) {
 			connecttableDao.true_session(connectDto);
-			SessionListener.getInstance().setSession(session);
-		//기존 세션이면
+			
+		//기존 세션이면 (db 접속 건수들만 처리)
 		} else if (!session.isNew()) {
 			connecttableDao.false_session(connectDto);
-		} 
-				
+		}
+		
+		
 		return "index";		
 	}
 	
@@ -134,10 +138,8 @@ public class MainPageController {
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
-
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
-
 		return "login/main";
 	}
 	
@@ -166,11 +168,6 @@ public class MainPageController {
 		}else {
 			return "redirect:dormant?error=false";
 		}
-	}
-	
-	public String dashboard(Model model, HttpSession session) {
-		model.addAttribute("dtolist", boardDao.dashboardlist(session));
-		return "dashboard/dashboard";
 	}
 	
 	@GetMapping("/idcheck")

@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -17,15 +15,14 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.siistory.controller.SessionListener;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
-import com.kh.siistory.entity.FriendDto;
+import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
 import com.kh.siistory.repository.BoardLikeDao;
+import com.kh.siistory.repository.ConnectTableDao;
 import com.kh.siistory.repository.FollowDao;
-import com.kh.siistory.repository.FriendDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.repository.ReplyLikeDao;
 import com.kh.siistory.vo.AlarmData;
@@ -100,6 +97,7 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	@Autowired
 	private ReplyLikeDao replylikeDao;
+	
 
 	// 사용자 저장을 위한 set 저장소 생성
 	// Set<WebSocketSession> userList = new HashSet<>();
@@ -109,6 +107,7 @@ public class MessengerServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		if ((String) session.getAttributes().get("email") != null) {
+
 
 			int no = (int) session.getAttributes().get("member_no");
 
@@ -225,9 +224,9 @@ public class MessengerServer extends TextWebSocketHandler {
 //					replylikeDao.insert(replylikeDto);
 						alarmDao.insert(alarmDto);
 					}
-					// 좋아요 취소라면 ?
+					// 취소라면 ?
 				} else if (data.getStatus() == 5) {
-
+					System.out.println("==================="+data);
 					if (data.getContent_type().equals("board")) {
 //					boardlikeDao.delete(boardlikeDto);
 						alarmDao.delete(alarmDto);
@@ -235,6 +234,8 @@ public class MessengerServer extends TextWebSocketHandler {
 						// 삭제했으니 갱신하도록 다시 메시지 뿌려라
 					} else if (data.getContent_type().equals("reply")) {
 //					replylikeDao.delete(replylikeDto);
+						alarmDao.delete(alarmDto);
+					} else if (data.getContent_type().equals("friend")) {
 						alarmDao.delete(alarmDto);
 					}
 					// 게시글 작성 시

@@ -1,9 +1,11 @@
 package com.kh.siistory.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +31,7 @@ import com.kh.siistory.vo.ContentVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping("/post")
 @Slf4j
 public class DashBoardController {
 	@Autowired
@@ -36,37 +39,38 @@ public class DashBoardController {
 
 	@Autowired
 	private ReplyDao replyDao;
-	
+
 	@Autowired
 	private FileService fileService;
-	
-	@GetMapping({ "/", "" })
-	public String dashboard(Model model, HttpSession session) {
-		model.addAttribute("dtolist", boardDao.dashboardlist(session));
-		return "dashboard/dashboard";
-	}
-
-	@GetMapping("/write")
-	public String write() {
-		return "dashboard/write";
-	}
 
 	@PostMapping("/uploadimage")
 	@ResponseBody
-	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
+	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session)
+			throws IllegalStateException, IOException {
 		return fileService.Boarduploadimage(sel_files, session);
+	}
+
+	@GetMapping("/image/{boardno}")
+	@ResponseBody
+	public void getimage(@PathVariable("boardno") int boardno, HttpServletResponse resp) throws UnsupportedEncodingException, IOException {
+		fileService.getimage(boardno, resp);
+	}
+
+	@GetMapping("/imageall/{member}/{pic}")
+	@ResponseBody
+	public void getimageAll(@PathVariable("pic") int pic, @PathVariable("member") int member, HttpServletResponse resp, Model model) throws UnsupportedEncodingException, IOException {
+		fileService.getimageall(pic, member, resp);
 	}
 
 	@PostMapping("/addcontent")
 	@ResponseBody
 	public void addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
-		log.info("vo = {}", contentVo);
 		boardDao.addcontent(contentVo, session);
 	}
 
 	@PostMapping("/replyinsert")
 	@ResponseBody
-	public ReplyDto replywrite(@ModelAttribute ReplyDto replyDto, HttpSession session, Model model) {
+	public ReplyDto replywrite(@ModelAttribute ReplyDto replyDto, HttpSession session) {
 		return replyDao.insert(replyDto, session);
 	}
 
@@ -79,13 +83,20 @@ public class DashBoardController {
 	@GetMapping("/morereply")
 	@ResponseBody
 	public List<ReplyDto> morereply(@RequestParam Map<String, Integer> obj) {
-		log.info("obj = {}", obj);
 		return replyDao.morereply(obj);
 	}
 
 	@PostMapping("/private")
 	public void boardPrivate(@ModelAttribute BoardDto boardDto, HttpSession session) {
 		boardDao.setPrivate(boardDto);
+	}
+	
+	@GetMapping("{postno}")
+	public String getphotopost(@PathVariable("postno") int boardno, @RequestParam Map<String, Integer> paging, Model model) {
+		log.info("dto = {}", boardDao.getphotopost(boardno, paging) );
+		model.addAttribute("photolist", fileService.getphotolist(boardno));
+		model.addAttribute("photopost", boardDao.getphotopost(boardno, paging));
+		return "post";
 	}
 
 }

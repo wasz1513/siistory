@@ -1,5 +1,18 @@
 $(function() {
 
+    Hakademy.util.toast.initializeOnLoad({
+        duration:2,//메시지 출력 시간(초)
+        position:"right-bottom",//출력 위치 : top, bottom, right, left 또는 혼합
+        positionStyle:"nonblock",//출력스타일(block/nonblock)
+        backgroundColor:"rgba(27, 71, 69, 0.9)",//배경색(css style)
+        fontColor:"white",//글자색(css style)
+        fontSize:10,//글자크기(px)
+        fontFamily:null,//글꼴(css style)
+        isBorderRounded:true,//둥근 테두리
+        isFade:true,//페이드 인/아웃 적용여부
+    }); 
+	
+	
 	// 페이지 로딩시 바로 웹소켓 서버 접속
 	connect(context);
 
@@ -49,36 +62,33 @@ $(function() {
 				 * $(".showList").append(tr).append(Fno).append(Fname)
 				 * .append(Fstate); } ;
 				 */
-				$(".testList").empty();
-				var room_no = 0;
+				$(".friend-list").empty();
 				var ul = $("<ul>").addClass("set-list");
-				$(".testList").append(ul);
 
 				for ( var index in msg.flist_data) {
+					var room_no = Math.floor(Math.random()*1000000+1);
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
 
-					var text = "  no = " + msg.member_no + "  fno = "
-							+ msg.flist_data[index].member_no + "  state = "
-							+ msg.flist_data[index].connect_state + "  이름 = "
-							+ msg.flist_data[index].member_name
+					var text = ""
+							+ msg.flist_data[index].member_name + " 　　  "
+							+msg.flist_data[index].connect_state 
 
 					var room = $("<a>").addClass("room_no-data").hide().text(
 							room_no);
 
 					var friend = $("<a>").addClass("friend_no-data").hide()
-							.text(msg.flist_data[index].member_no);
-
-					var li = $("<li>");
+							.text(msg.flist_data[index].member_no);	
 
 					var tag = $("<a href=" + http + ">")
-							.addClass("invite-chat").text(text);
+							.addClass("invite-chat list-group-item list-group-item-action active").text(text)
+							.attr('style', "text-align:center" );
 
-					li.append(tag).append(room).append(friend).appendTo(
-							".set-list");
+					$(".friend-list").append(tag).append(room).append(friend).appendTo(
+							".friend-list");
 
-					room_no++;
+					
 				}
 				;
 
@@ -90,6 +100,7 @@ $(function() {
 								"http://" + host + context
 										+ "/messenger/chat?room_no="
 										+ msg.room_no,
+
 								"1:1 채팅",
 								"width=300, height=450, toolbar=no, menubar=no,scrollbars=yes, resizable=no, location=no, left=1400px,top=1300px");
 			}
@@ -111,8 +122,14 @@ $(function() {
 			}
 			// Arefresh = 8;
 			else if (msg.status == 8) {
-				$(".alarmList").empty();
-
+				$(".dropdown-content").empty();
+				
+				if(msg.alarmList.length >0){
+					$(".badge-pill").empty();					
+				}
+				else if (msg.alarmList.length ==0){
+					$(".badge-pill").text("0");
+				}
 				// 누구누구 님이 게시글을 등록했습니다.
 				// 누구누구 님이 나의 어떤 게시글을 좋아합니다.
 				// 누구누구 님이 나의 글에 댓글을 등록했습니다.
@@ -122,7 +139,7 @@ $(function() {
 					var tag = $("<a href='#'>");
 					var btn = $("<button>").attr("type", "button").attr(
 							"class",
-							"btn btn-primary btn-lg btn-block go-content");
+							"btn btn-dark btn-lg btn-block go-content");
 
 					var alarm_message = btn.text(msg.alarmList[index].ment);
 					var member_no1 = $("<a>").addClass("member_no-data").hide()
@@ -131,6 +148,8 @@ $(function() {
 							.text(msg.alarmList[index].target_no);
 					var pusher_no = $("<a>").addClass("pusher_no-data").hide()
 							.text(msg.alarmList[index].pusher_no);
+					var total_count = $("<a>").addClass("total_count-data").hide()
+					.text(msg.alarmList.length);
 					var content_no = $("<a>").addClass("content_no-data")
 							.hide().text(msg.alarmList[index].content_no);
 					var content_type = $("<a>").addClass("content_tpye-data")
@@ -138,18 +157,21 @@ $(function() {
 					var content_play = $("<a>").addClass("content_play-data")
 							.hide().text(msg.alarmList[index].content_play);
 
-					$(".alarmList").append(
-							$("<tr>").append(
-									$("<td>").append(alarm_message).append(
+					$(".dropdown-content").append(alarm_message).append(
 											member_no1).append(target_no)
 											.append(pusher_no).append(
 													content_no).append(
 													content_type).append(
-													content_play)));
-
+													content_play).append(total_count);
+					
+					$(".badge-pill").text(msg.alarmList.length);
 					console.log(msg[index]);
+					
+					
 
 				}
+				var text = "새로운 알림 메시지가 있습니다!!";
+				Hakademy.toast.push(text);
 
 			}
 			// setting = 9;
@@ -265,7 +287,7 @@ $(function() {
 		var location = $(this).attr("href");
 		var room_no = $(this).next().text();
 		var target_no = $(this).next().next().text();
-
+		
 		console.log(target_no);
 
 		console.log(room_no);
@@ -284,14 +306,54 @@ $(function() {
 	 */
 	// 좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 	// 좋아요 키는버튼
-	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
-	});
+	$(document).on("click",".good-btn", function(event){
+		var member_no = $(this).data(member_no).member_no;
+		var status = "???";
+		var target_no = $(this).data(target_no).target_no;
+		var pusher_no = $(this).data(pusher_no).pusher_no;
+		var content_no = $(this).data(content_no).content_no;
+		var content_type = $(this).data(content_type).content_type;
+		var content_play = $(this).data(content_play).content_play;
+		
+		if($(this).text()=="좋아요"){
+		
+		var i= $(this).next().next().text();
+		var num = parseInt(i)+1;	
+			
+		send_alarm(member_no, 4, target_no, pusher_no, content_no, content_type, content_play)  // 등록
+		$(this).attr("class","btn good-btn good-off").text("좋아요 취소");
 
-	// 좋아요 취소 버튼
-	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+		$(this).next().next().text(num)
+
+		} else if ($(this).text()=="좋아요 취소"){
+
+		var i= $(this).next().next().text();
+		var num = parseInt(i)-1;
+
+		send_alarm(member_no, 5, target_no, pusher_no, content_no, content_type, content_play)  // 취소
+		$(this).attr("class","btn good-btn good-on").text("좋아요");
+	
+		$(this).next().next().text(num)
+
+		}
+		
+		
+//		data-member_no="${member_no}" data-status="조건" data-target_no="${sessionScope.member_no}" data-pusher_no="${member_no}"
+//			data-content_no="${content.board_no}" data-content_type="board" data-content_play="good"
 	});
+	
+	
+	
+//	$(".good-onbtn").off().click(function() {
+//		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-offbtn");
+//	});
+//
+//	// 좋아요 취소 버튼
+//	$(".good-offbtn").off().click(function() {
+//		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-onbtn");
+//	});
 
 	// 친구 요청 버튼
 	// $(".friend-add").off().click(function(){
@@ -305,7 +367,13 @@ $(function() {
 		var member_no = $(this).prev().prev().val();
 		if ($(".follow-btn").text() == "팔로우") {
 			send_alarm(member_no, 10, target_no, member_no, 0, "friend", "add")
+		} else if ($(".follow-btn").text()=="팔로잉"){
+			send_alarm(member_no, 5, target_no, member_no, 0, "friend", "add")
 		}
 	});
+	
+
+	
+	
 	// }
 });

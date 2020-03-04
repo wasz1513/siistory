@@ -3,6 +3,7 @@ package com.kh.siistory.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.siistory.repository.AdminDao;
+import com.kh.siistory.service.AdminChartService;
+import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
-import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,9 @@ public class AdminController {
 	@Autowired
 	private AdminDao adminDao;
 	
+	@Autowired
+	private AdminChartService adminChartService;
+	
 	@GetMapping("/management")
 	public String getManagement(){
 		return "admin/management";
@@ -38,6 +43,7 @@ public class AdminController {
 	public String postManagement(@ModelAttribute AdminSearchVo adminSearchVo,
 			HttpServletRequest req,
 			Model model) {
+		System.out.println("나이검색중우웅 =============== " + adminSearchVo.getMember_birth());
 		int pagesize = 10;
 		int navsize = 5;
 		int count = adminDao.search_member_count(adminSearchVo);
@@ -190,23 +196,124 @@ public class AdminController {
 			finishBlock = pagecount;
 		}
 		
+		warningVo.setStart(start);
+		warningVo.setFinish(finish);
 		model.addAttribute("list", adminDao.warning_list(warningVo));
 		model.addAttribute("pagecount", pagecount);
 		model.addAttribute("startBlock", startBlock);
 		model.addAttribute("finishBlock", finishBlock);
 		model.addAttribute("pno", pno);
+		model.addAttribute("count", count);
+		model.addAttribute("target_type", warningVo.getTarget_type());
+		model.addAttribute("pusher_type", warningVo.getPusher_type());
+		model.addAttribute("target_keyword", warningVo.getTarget_keyword());
+		model.addAttribute("pusher_keyword", warningVo.getPusher_keyword());
+		model.addAttribute("content_keyword", warningVo.getContent_keyword());
+		model.addAttribute("state", warningVo.getState());
 		return "admin/threeout";
 	}
 	
 	@GetMapping("/receipt")
 	@ResponseBody
-	public int receipt() {
-		return 0;
+	public boolean receipt(HttpServletRequest req) {
+		try {
+			adminDao.warning_receipt(Integer.parseInt(req.getParameter("warning_no")));
+			if(adminDao.warning_check(Integer.parseInt(req.getParameter("member_no")))==0) {
+				adminDao.warning_count_newreceipt(Integer.parseInt(req.getParameter("member_no")));
+			}else {
+				adminDao.warning_count_addreceipt(Integer.parseInt(req.getParameter("member_no")));
+			}
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 	@GetMapping("/hold")
 	@ResponseBody
-	public int hold() {
-		return 0;
+	public boolean hold(HttpServletRequest req) {
+		try {
+			adminDao.warning_hold(Integer.parseInt(req.getParameter("warning_no")));
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	@GetMapping("/canclesuspend")
+	public String canclesuspend(@RequestParam int member_no) {
+		adminDao.cancle_suspend(member_no);
+		return "redirect:../member/info?member_no="+member_no;
+	}
+	
+	@GetMapping("suspend")
+	public String suspend(@RequestParam int member_no) {
+		adminDao.suspend_member(member_no);
+		return "redirect:../member/info?member_no="+member_no;
+	}
+	
+	@GetMapping("/statismain")
+	public String getStiatismain(Model model,
+			HttpServletRequest req) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+//		if((String)req.getParameter("state")=="visit") {
+//			
+//		}else if((boolean)req.getParameter("state").equals("regist")) {
+//			list = adminChartService.day_regist();
+//		}else if((String)req.getParameter("state")=="content") {
+//			list = adminChartService.day_content();
+//		}
+		int max = list.get(0).getCount();
+		for(int i=0; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+			/*
+			 * if(list.get(i).getDt()==null) { list.get(i).setDt("셋팅 테스트"); }
+			 * if(list.get(i).getCount()<1) { list.get(i).setCount(0); }
+			 */
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/statismain";
+	}
+	
+	@GetMapping("/statistics")
+	public String getStiatistics(Model model,
+			@RequestParam int state) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+		int max = list.get(0).getCount();
+		for(int i=1; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		log.info("{}",max);
+		log.info("{}",max_value);
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/statistics";
 	}
 }

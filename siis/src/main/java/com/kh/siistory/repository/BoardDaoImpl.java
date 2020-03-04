@@ -20,42 +20,48 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardDaoImpl implements BoardDao {
 
 	@Autowired
-	private SqlSession sqlsession;
+	private SqlSession sqlSession;
 
 	@Override
 	public void addcontent(ContentVo contentVo, HttpSession session) {
-		BoardDto boardDto = BoardDto.builder().member_no((int)session.getAttribute("member_no")).board_writer((String)session.getAttribute("member_name")).board_content(contentVo.getBoard_content()).build();
-		sqlsession.insert("board.write", boardDto);
-		
 		Map<String, Object> map = new HashMap<>();
-		map.put("board_no", boardDto.getBoard_no());
-		map.put("list", contentVo.getBoard_pic_no());
+		map.put("member_no", (int)session.getAttribute("member_no"));
+		map.put("board_writer", (String)session.getAttribute("member_name"));
+		map.put("board_content", contentVo.getBoard_content());
+		map.put("piclist", contentVo.getBoard_pic_no());
+		if(contentVo.getBoard_pic_no() != null) {
+			map.put("photo", 1);
+		} else {
+			map.put("photo", 0);
+		}
 		
-		log.info("list = {}", contentVo.getBoard_pic_no());
-		sqlsession.insert("board.bpinsert", map);
+		sqlSession.insert("board.write", map);
 	}
 
 	@Override
 	public List<BoardDto> dashboardlist(HttpSession session) {
-//		List<BoardDto> list = sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
-//		
-//		List<BoardDto> dtolist = new ArrayList<>();
-//		for(BoardDto dto : list) {
-//			int count = dto.getReplylist().size();
-//			dto.setBoard_reply_count(count);
-//			dtolist.add(dto);
-//		}
-		return sqlsession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
+		return sqlSession.selectList("board.dashboardlist", (int) session.getAttribute("member_no"));
 	}
 
 	@Override
 	public List<BoardDto> myboardList(HttpSession session) {
-		return sqlsession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
+		return sqlSession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
 	}
 
 	@Override
 	public void setPrivate(BoardDto boardDto) {
-		sqlsession.update("myboard.setprivate", boardDto);
+		sqlSession.update("myboard.setprivate", boardDto);
+	}
+
+	@Override
+	public BoardDto getphotopost(int boardno, Map<String, Integer> paging) {
+		if(paging.isEmpty()) {
+			paging.put("start", 1);
+			paging.put("end", 10);
+		}
+		paging.put("board_no", boardno);
+	
+		return 	sqlSession.selectOne("board.getphotopost", paging);
 	}
 
 }

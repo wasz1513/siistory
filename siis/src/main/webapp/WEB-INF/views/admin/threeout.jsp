@@ -6,7 +6,7 @@
 <script>
 $(function(){
 	$(".view-detail").hide();
-	$(".warning_no").hide();
+	
 	
 	$("#view-details").on("change", function(){
 
@@ -17,25 +17,49 @@ $(function(){
 		}
 	});
 	
+	$(".warning-no").hide();
+	$(".member-no").hide();
+	
 	$(".receipt").click(function(e){
 		e.preventDefault();
-		var no = $(this).prev().text();
-// 		console.log(no);
-		$.ajax({			
-			url = "receipt?warning_no="+no,
-			type = "get",
-			success:function(data){
-				
-			}
-		});
 		
+		var warning_no = $(this).prev().text();
+		var member_no = $(this).prev().prev().text();
+		var state = $(this);
+		
+		$.ajax({
+			url : "receipt?warning_no="+warning_no+"&member_no="+member_no,
+			type : "get",
+			success:function(resp){
+				console.log(resp);
+				if(resp){
+					state.parent().prev().prev().prev().prev().prev().text("접수");
+					state.hide();
+					state.next().hide();
+				}
+			}
+			
+		});
 	});
 	
 	$(".hold").click(function(e){
 		e.preventDefault();
-		var no = $(this).prev().prev().text();
-// 		console.log(no);
-		url = "hold?warning_no="+no;
+		
+		var warning_no = $(this).prev().prev().text();
+		var state = $(this);
+		
+		$.ajax({
+			url : "hold?warning_no="+warning_no,
+			type : "get",
+			success:function(resp){
+				console.log(resp);
+				if(resp){
+					state.parent().prev().prev().prev().prev().prev().text("보류");
+					state.hide();
+				}
+			}
+			
+		});
 	});
 	
 });
@@ -66,6 +90,10 @@ $(function(){
 	.pagination{
 		width:220px;
 		margin:auto;
+	}
+	
+	.w-count{
+		color:red;
 	}
 </style>
 
@@ -198,6 +226,7 @@ $(function(){
 							<tr>
 								<th>처리상태</th>
 								<th>피신고인</th>
+								<th>피신고인 접수건수</th>
 								<th>신고자</th>
 								<th>신고내용</th>
 								<th>게시글</th>
@@ -209,19 +238,20 @@ $(function(){
 								<tr>
 									<td>${warning.state}</td>
 									<td>${warning.target_email}[${warning.target_name}]</td>
+									<td class="w-count">${warning.w_count}</td>
 									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
 									<td>${warning.content}</td>
 									<td>${warning.board_no}</td>
 									<td>
+										<div class="member-no">${warning.target_no}</div>
 										<div class="warning-no">${warning.warning_no}</div>
 										<c:if test="${empty warning.state}">
-											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">접수</a> 
-											/ 
-											<a href="hold?warning_no=${warning.warning_no}" class="hold">보류</a>
+											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">[접수]</a> 
+											<a href="hold?warning_no=${warning.warning_no}" class="hold">[보류]</a>
 										</c:if>
 										<c:if test="${warning.state == '접수' }"></c:if>
 										<c:if test="${warning.state == '보류' }">
-											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">접수</a>
+											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">[접수]</a>
 										</c:if>
 									</td>						
 								</tr>
@@ -230,7 +260,7 @@ $(function(){
 						<tfoot>
 							<c:if test="${not empty pno}">
 							<tr>
-								<td colspan="6">
+								<td colspan="7">
 									<div>
 										<ul class="pagination">
 									
