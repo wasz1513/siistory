@@ -1,5 +1,8 @@
 package com.kh.siistory.controller;
 
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.MemberDto;
@@ -21,6 +26,7 @@ import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
 import com.kh.siistory.vo.SeqVo;
+import com.kh.siistory.vo.WebSocketUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,7 +57,6 @@ public class MainPageController {
 	
 	@Autowired
 	private ConnectTableDto connectDto;
-		
 	
 	@GetMapping("/")
 	public String index(HttpSession session) {
@@ -140,6 +145,7 @@ public class MainPageController {
 		int member_no = (int) session.getAttribute("member_no");
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
+		
 		return "login/main";
 	}
 	
@@ -215,6 +221,20 @@ public class MainPageController {
 		memberDto.setMember_pw(encoder.encode(memberDto.getMember_pw()));
 		memberDao.changePw(memberDto);
 		return "redirect:/login?email="+memberDto.getEmail();
+	}
+	
+	
+	//웹소켓 접속현황
+	public void user_count(int user_count) {
+		
+		int count = user_count;
+		System.out.println("ddddddd = "+ count);
+		
+		
+		 HttpServletRequest req =
+		 ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).
+		 getRequest(); req.setAttribute("user_count", count);
+		 
 	}
 	
 }
