@@ -6,7 +6,7 @@
 <script>
 $(function(){
 	$(".view-detail").hide();
-	
+	$(".warning_no").hide();
 	
 	$("#view-details").on("change", function(){
 
@@ -17,7 +17,26 @@ $(function(){
 		}
 	});
 	
+	$(".receipt").click(function(e){
+		e.preventDefault();
+		var no = $(this).prev().text();
+// 		console.log(no);
+		$.ajax({			
+			url = "receipt?warning_no="+no,
+			type = "get",
+			success:function(data){
+				
+			}
+		});
+		
+	});
 	
+	$(".hold").click(function(e){
+		e.preventDefault();
+		var no = $(this).prev().prev().text();
+// 		console.log(no);
+		url = "hold?warning_no="+no;
+	});
 	
 });
 
@@ -194,14 +213,15 @@ $(function(){
 									<td>${warning.content}</td>
 									<td>${warning.board_no}</td>
 									<td>
+										<div class="warning-no">${warning.warning_no}</div>
 										<c:if test="${empty warning.state}">
-											<a href="receipt?warning_no=${warning.warning_no}">접수</a> 
+											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">접수</a> 
 											/ 
-											<a href="hold?warning_no=${warning.warning_no}">보류</a>
+											<a href="hold?warning_no=${warning.warning_no}" class="hold">보류</a>
 										</c:if>
 										<c:if test="${warning.state == '접수' }"></c:if>
 										<c:if test="${warning.state == '보류' }">
-											<a href="receipt?warning_no=${warning.warning_no}">접수</a>
+											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">접수</a>
 										</c:if>
 									</td>						
 								</tr>

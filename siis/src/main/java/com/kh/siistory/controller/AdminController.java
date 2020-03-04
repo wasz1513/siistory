@@ -198,5 +198,15 @@ public class AdminController {
 		return "admin/threeout";
 	}
 	
+	@GetMapping("/receipt")
+	@ResponseBody
+	public int receipt() {
+		return 0;
+	}
 	
+	@GetMapping("/hold")
+	@ResponseBody
+	public int hold() {
+		return 0;
+	}
 }
