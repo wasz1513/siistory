@@ -95,6 +95,7 @@ section {
 					class="list-group-item list-group-item-action detail-list">회원탈퇴</a>
 			</div>
 		</div>
+
 	</aside>
 
 	<!-- 게시판 -->
@@ -102,7 +103,7 @@ section {
 		<div class="container scroll-div">
 
 			<!-- editor -->
-			<div class="card">
+			<div class="card mb-3 editor">
 				<div class="media border p-3">
 					<img
 						src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}"
@@ -270,5 +271,6 @@ section {
 	</aside>
 
 </article>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

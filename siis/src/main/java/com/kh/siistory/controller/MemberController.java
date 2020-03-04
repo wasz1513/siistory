@@ -174,4 +174,6 @@ public class MemberController {
 		return "member/friend";
 	}
 	
+	
+	
 }

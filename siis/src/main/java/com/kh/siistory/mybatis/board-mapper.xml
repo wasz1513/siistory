@@ -19,6 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from dual
 	</insert>
 	
+	<select id="getcontent" parameterType="int" resultType="boardDto">
+		select * from board where board_no = #{board_no}
+	</select>
+	
  	<resultMap id="dashboardlist" type="boardDto"> 
 	  <id property="board_no" column="board_no" />
 	  <result property="board_content" column="board_content"/>

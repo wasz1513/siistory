@@ -47,7 +47,6 @@ article {
 
 
 <article>
-
 	<div class="container-fluid">
 		<div class="row">
 			<div class="offset-md-2 col-md-8">
@@ -147,83 +146,5 @@ article {
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
 </article>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-
-
-
-<%--
-
-
-
-<div class="row">
-	<div class="col-sm-8">
-		<div class="col-sm-4">
-
-			<div class="card mb-3">
-				<div class="card-body" data-seq="${photopost.board_no }">
-					<!-- 본문관련 -->
-					<div class="media p-3">
-						<img
-							src="${pageContext.request.contextPath }/util/download?member_no=${photopost.member_no}"
-							class="mr-3 mt-3 rounded-circle" style="width: 30px;">
-						<div class="media-body">
-							<h4>${photopost.board_writer }
-								<small><i>Posted on February 19, 2016</i></small>
-							</h4>
-							<p>${photopost.board_content}</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- 여기서부터 댓글 -->
-				<c:forEach var="reply" items="${photopost.replylist }">
-					<ul class="list-group list-group-flush r"
-						data-seq="${reply.reply_no }" data-writer="${reply.reply_writer }">
-						<li class="list-group-item rr">
-							<div class="media p-3">
-								<img
-									src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}"
-									class="mr-3 mt-3 rounded-circle" style="width: 30px;">
-								<div class="media-body" id="${reply.reply_no }">
-									<h4>${reply.reply_writer }
-										<small><i>Posted on ?? days ago</i></small>
-									</h4>
-									<p>${reply.reply_content}</p>
-									<button class="btn">좋아요 ??개</button>
-									<button class="btn replyadd">답글달기</button>
-									<button class="btn commentview">답글 보기(??개)</button>
-
-									<!-- 답글(대댓글) 추가하면 뜨는 곳 -->
-								</div>
-
-							</div>
-						</li>
-					</ul>
-				</c:forEach>
-				<!-- 여기까지 댓글 -->
-
-				<c:if test="${photopost.board_reply_count > 2 }">
-					<button class="btn replymore" data-click="0">
-						댓글 <span>${photopost.board_reply_count }</span>개 모두 보기
-					</button>
-				</c:if>
-
-			</div>
-
-
-
-		</div>
-
-	</div>
---%>
