@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BoardDto {
 	private int board_no, member_no, board_like_count, board_read_count, board_reply_count, board_state, photo;
-	private String board_content, board_wdate, board_writer;
+	private String board_content, board_wdate, board_writer, board_like;
 	private List<ReplyDto> replylist;
 }

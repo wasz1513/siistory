@@ -48,7 +48,28 @@ chart.data = [
   {
     country: '${list[6].dt}',
     visits: ${list[6].count}
-  }
+  },
+ 	{
+	    country: '${list[7].dt}',
+	    visits: ${list[7].count}
+	},
+	{
+	    country: '${list[8].dt}',
+	    visits: ${list[8].count}
+	},
+	{
+	    country: '${list[9].dt}',
+	    visits: ${list[9].count}
+	},
+	{
+	    country: '${list[10].dt}',
+	    visits: ${list[10].count}
+	},
+	{
+	    country: '${list[11].dt}',
+	    visits: ${list[11].count}
+	},
+	  
 ];
 
 var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());

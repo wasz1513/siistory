@@ -143,8 +143,6 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-
-
           
 <ul class="list-group my-2 my-sm-0 mr-sm-5">
   <li onclick="myFunction()" class="btn btn-secondary my-2 my-sm-0 dropdown dropbtn">
