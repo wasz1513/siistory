@@ -96,7 +96,7 @@ $(function(){
 		<div class="container scroll-div">
 		
 		<!-- editor -->
-		<div class="card">
+		<div class="card mb-3 editor">
 			<div class="media border p-3">
 				<img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width: 50px;">
 				<div class="media-body">
@@ -123,9 +123,6 @@ $(function(){
 			</div>
 		</div>
 		
-		<br>
-		<br>
-		<br>
 		
 		<!-- content -->
 		<c:forEach var="content" items="${dtolist }">

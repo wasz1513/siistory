@@ -9,7 +9,7 @@ import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.vo.ContentVo;
 
 public interface BoardDao {
-	void addcontent(ContentVo contentVo, HttpSession session);
+	BoardDto addcontent(ContentVo contentVo, HttpSession session);
 	List<BoardDto> dashboardlist(HttpSession session);
 	List<BoardDto> myboardList(HttpSession session);
 	void setPrivate(BoardDto boardDto);

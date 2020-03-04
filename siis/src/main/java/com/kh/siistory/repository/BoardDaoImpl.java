@@ -3,6 +3,8 @@ package com.kh.siistory.repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,19 +25,23 @@ public class BoardDaoImpl implements BoardDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public void addcontent(ContentVo contentVo, HttpSession session) {
+	public BoardDto addcontent(ContentVo contentVo, HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("member_no", (int)session.getAttribute("member_no"));
-		map.put("board_writer", (String)session.getAttribute("member_name"));
-		map.put("board_content", contentVo.getBoard_content());
+
+		map.put("member_no", (int) session.getAttribute("member_no"));
+		map.put("board_writer", (String) session.getAttribute("member_name"));
+
+		map.put("board_content", patternconvert(contentVo.getBoard_content()));
 		map.put("piclist", contentVo.getBoard_pic_no());
-		if(contentVo.getBoard_pic_no() != null) {
+		if (contentVo.getBoard_pic_no() != null) {
 			map.put("photo", 1);
 		} else {
 			map.put("photo", 0);
 		}
 		
+		map.put("board_no", contentVo.getBoard_no());
 		sqlSession.insert("board.write", map);
+		return sqlSession.selectOne("board.getcontent", (int) map.get("board_no"));
 	}
 
 	@Override
@@ -55,13 +61,32 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public BoardDto getphotopost(int boardno, Map<String, Integer> paging) {
-		if(paging.isEmpty()) {
+		if (paging.isEmpty()) {
 			paging.put("start", 1);
 			paging.put("end", 10);
 		}
 		paging.put("board_no", boardno);
-	
-		return 	sqlSession.selectOne("board.getphotopost", paging);
+
+		return sqlSession.selectOne("board.getphotopost", paging);
+	}
+
+	private String patternconvert(String content) {
+		Pattern pattern = Pattern.compile("(@[a-zA-Z0-9ㄱ-ㅎ가-힣_]+)|(#[a-zA-Z0-9ㄱ-ㅎ가-힣_]+)");
+		Matcher match = pattern.matcher(content);
+
+		StringBuffer result = new StringBuffer();
+		while (match.find()) {
+			String find = match.group();
+			if (find.startsWith("@")) {
+				String contenturl = find.substring(1, find.length());
+				match.appendReplacement(result, "<a href='/" + contenturl + "'>" + find + "</a>");
+			} else if (find.startsWith("#")) {
+				String contenturl = find.substring(1, find.length());
+				match.appendReplacement(result, "<a href='/" + contenturl + "'>" + find + "</a>");
+			}
+		}
+
+		return match.appendTail(result).toString();
 	}
 
 }

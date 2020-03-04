@@ -64,8 +64,8 @@ public class DashBoardController {
 
 	@PostMapping("/addcontent")
 	@ResponseBody
-	public void addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
-		boardDao.addcontent(contentVo, session);
+	public BoardDto addcontent(HttpSession session, @RequestBody ContentVo contentVo) {
+		return boardDao.addcontent(contentVo, session);
 	}
 
 	@PostMapping("/replyinsert")
