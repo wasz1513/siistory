@@ -19,6 +19,7 @@ public class FriendListData {
 	private String text;
 	private List <MemberFollowVo> flist_data;
 	private int status;
+	private int user_count;
 	
 	
 }

@@ -50,6 +50,8 @@ $(function() {
 			}
 
 			else if (msg.status == 3) {
+								
+				$(".user-count").text("총 접속자 수 = " + msg.user_count);
 
 				/*
 				 * $(".showList").empty(); for ( var index in Friend.flist_data) {
@@ -91,6 +93,8 @@ $(function() {
 					
 				}
 				;
+				
+				
 
 			} // 3 일 때
 			// 새 창을 띄운다 > 해당 창에 로케이션을 정해진 주소로 변경시킨다 .
