@@ -228,7 +228,7 @@ public class MainPageController {
 	public void user_count(int user_count) {
 		
 		int count = user_count;
-		System.out.println("ddddddd = "+ count);
+
 		
 		
 		 HttpServletRequest req =

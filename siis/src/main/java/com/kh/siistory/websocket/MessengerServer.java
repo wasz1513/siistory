@@ -183,7 +183,7 @@ public class MessengerServer extends TextWebSocketHandler {
 			if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 3) {
 
 				for (MemberFollowVo fdto : friendList) {
-					System.out.println(fdto);
+					
 					// 접속한 사람이 친구 중에 있는가?
 					if (fdto.getMember_no() == data.getMember_no()) {
 						// 있다면? 상태 값에 따라 갱신해라
@@ -311,7 +311,7 @@ public class MessengerServer extends TextWebSocketHandler {
 					if (user3.getMember_no() == target_no) {
 
 						user3.getWs().sendMessage(msg);
-						System.out.println("귓속말 대상 session정보 = " + user3.getWs());
+						
 					}
 				}
 				// 나에게도 하나 보내야한다.(나도 새창을 띄워야하기 때문)
@@ -353,7 +353,7 @@ public class MessengerServer extends TextWebSocketHandler {
 		// [2]전체 유저 저장시 항시 정렬 (일단 저장소를 Array리스트로 변환 ) >> 추후 이름순으로 바꿀 예정
 		List<WebSocketUser> connectUser = new ArrayList<WebSocketUser>(userList);
 		// 정렬
-//	System.out.println("========" + connectUser.size() + "=========");
+
 		Collections.sort(connectUser, new Comparator<WebSocketUser>() {
 
 			@Override
@@ -452,7 +452,7 @@ public class MessengerServer extends TextWebSocketHandler {
 		String showFriend = mapper.writeValueAsString(fdata);
 
 		TextMessage msg = new TextMessage(showFriend);
-//	System.out.println(msg.getPayload());
+
 
 		user.getWs().sendMessage(msg);
 	}
@@ -471,11 +471,11 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 알람 멘트 가공 및 전송 메소드
 	public void sendAlarmData(WebSocketUser user) throws IOException {
 		int member_no = user.getMember_no();
-		System.out.println("멘트 가공-----------target_no =  " + member_no);
+		
 
 		List<AlarmDto> alarmList = alarmDao.getList(member_no);
 
-		System.out.println(alarmList);
+	
 
 		// 1차 누구의 게시글인가
 		// 2차 게시글의 번호는 무엇인가
@@ -489,9 +489,7 @@ public class MessengerServer extends TextWebSocketHandler {
 		String play_ment = null;
 
 		for (AlarmDto adto : alarmList) {
-//			System.out.println("============aDTO============");
-//			System.out.println(adto);
-//			System.out.println("============aDTO============");
+
 			// 누구 님이
 			pusher_name = memberDao.getMember(adto.getPusher_no()).getMember_name();
 			// 누구 님의
