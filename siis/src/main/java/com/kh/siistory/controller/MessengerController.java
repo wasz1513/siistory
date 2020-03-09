@@ -14,16 +14,14 @@ public class MessengerController {
 	@GetMapping("/messenger")
 	public String main(HttpSession session) {
 
-		// 임시 접속 넘버 테스트
-		System.out.println("session member no = {}" + session.getAttribute("member_no"));
+		
+		
 		return "messenger";
 	}
 
 	@GetMapping("/messenger/chat")
 	public String chat(HttpSession session) {
-		// 임시 접속 넘버 테스트
-		System.out.println("session member no = {}" + session.getAttribute("member_no"));
-
+		
 		return "chat";
 
 	}
