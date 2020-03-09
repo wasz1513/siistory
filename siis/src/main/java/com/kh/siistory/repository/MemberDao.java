@@ -46,4 +46,6 @@ public interface MemberDao {
 	int checkFile(int member_no);
 
 	void withdraw(int member_no);
+
+	int namecheck(String username);
 }

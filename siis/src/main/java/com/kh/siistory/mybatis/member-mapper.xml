@@ -78,6 +78,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member where email=#{email}
 	</select>
 	
+<!-- 	닉네임중복검사 -->
+	<select id="namecheck" parameterType="string" resultType="int">
+		select count(*) from member where member_name=#{username}
+	</select>	
+	
 <!-- 	이메일 인증 입력-->
 	<insert id="cert" parameterType="certDto">
 		insert into cert values(cert_seq.nextval, #{email}, #{cert}, sysdate)

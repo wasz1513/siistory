@@ -116,6 +116,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void withdraw(int member_no) {
 		sqlSession.update("member.withdraw", member_no);
+	}
+
+	@Override
+	public int namecheck(String username) {
+		return sqlSession.selectOne("member.namecheck", username);
 	}	
 
 }

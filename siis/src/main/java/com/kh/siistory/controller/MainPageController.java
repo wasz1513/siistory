@@ -182,6 +182,12 @@ public class MainPageController {
 		return memberDao.idcheck(email);
 	}
 	
+	@GetMapping("/namecheck")
+	@ResponseBody
+	public int namecheck(@RequestParam String username) {
+		return memberDao.namecheck(username);
+	}
+	
 	@GetMapping("/findPw")
 	public String getFindPw() {
 		return "findPw";
