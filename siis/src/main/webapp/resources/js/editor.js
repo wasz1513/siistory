@@ -48,8 +48,7 @@ function handleImgFileSelect(e) {
 	var filesArr = Array.prototype.slice.call(files);
 
 	var index = 0;
-	filesArr
-			.forEach(function(f) {
+	filesArr.forEach(function(f) {
 				if (!f.type.match("image.*")) {
 					alert("확장자는 이미지 확장자만 가능합니다.");
 					return;
@@ -78,7 +77,7 @@ function handleImgFileSelect(e) {
 									+ e.target.result
 									+ "\" data-file='"
 									+ f.name
-									+ "' class='selProductFile' title='Click to remove'></a>";
+									+ "' class='selProductFile' title='Click to remove' style='width: 200px'></a>";
 							$(".imgs_wrap").append(html);
 							index++;
 
@@ -87,10 +86,7 @@ function handleImgFileSelect(e) {
 					}
 
 				});
-
-				
-
-			});
+	});
 }
 
 function fileUploadAction() {
@@ -109,12 +105,12 @@ function addcontent(data){
 	html += '<div class="card mb-3">';
 	html += '<div class="card-body" data-seq="'+data.board_no+'">';
 	html += '<div class="media p-3">';
-	html += '<img src="${pageContext.request.contextPath }/util/download?member_no='+data.member_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
+	html += '<img src="util/download?member_no='+data.member_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body">';
 	html += '<h4>'+data.board_writer+' <small><i>Posted on February 19, 2016</i></small></h4>';
 	if(data.photo == 1){
 		html += '<a href="post/'+data.board_no+'">';
-		html += '<img src="${pageContext.request.contextPath }/post/image/'+data.board_no+'" width="100%">';
+		html += '<img src="post/image/'+data.board_no+'" width="100%">';
 		html += '</a>';
 	}
 	html += '<p>'+data.board_content+'</p>';
