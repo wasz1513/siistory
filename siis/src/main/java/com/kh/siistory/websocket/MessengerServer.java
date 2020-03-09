@@ -176,7 +176,10 @@ public class MessengerServer extends TextWebSocketHandler {
 
 
 			// 내 친구 리스트 생성
-			List<MemberFollowVo> friendList = Allrefresh(session, no);
+			List<MemberFollowVo> friendList = Allrefresh(session, no , 0);
+			
+			// 친구 추천 리스트 생성
+			List<MemberFollowVo> push_friend = Allrefresh(session, no, 1); 
 
 			// 유저가 접속한다 > 메시지가 서버에 전송된다. >내 친구중에 있는지 확인한다 > 있으면 갱신한다 > 갱신이 되었다면 나에게 보낸다.
 
@@ -339,10 +342,14 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 리스트 갱신 메소드
 	//////////////////////////////////////////////////////
 
-	public List<MemberFollowVo> Allrefresh(WebSocketSession session, int no) throws IOException {
+	public List<MemberFollowVo> Allrefresh(WebSocketSession session, int no, int type) throws IOException {
 		// [1]친구 리스트 생성 및 정렬 (친구번호 순) 코드 >> 추후 이름순으로 바꿀 예정
-
-		List<MemberFollowVo> friendList = followDao.myfriend(no);
+		List<MemberFollowVo> friendList =null;
+		if(type==0) {
+			friendList = followDao.myfriend(no);			
+		} else if (type==1){
+			friendList = followDao.myfriend(no);
+		}
 		Collections.sort(friendList, new Comparator<MemberFollowVo>() {
 			@Override
 			public int compare(MemberFollowVo o1, MemberFollowVo o2) {
@@ -395,7 +402,7 @@ public class MessengerServer extends TextWebSocketHandler {
 			// 세션 집합에서 친구만 뺀다 .
 			int no = (int) session.getAttributes().get("member_no");
 			// [1]이미 정렬 및 갱신된 친구 리스트
-			List<MemberFollowVo> friendList = Allrefresh(session, no);
+			List<MemberFollowVo> friendList = Allrefresh(session, no ,0);
 			// [2]전체 유저 저장시 항시 정렬 (일단 저장소를 Array리스트로 변환 ) >> 추후 이름순으로 바꿀 예정
 			List<WebSocketUser> connectFriend = new ArrayList<WebSocketUser>(userList);
 			// 정렬
