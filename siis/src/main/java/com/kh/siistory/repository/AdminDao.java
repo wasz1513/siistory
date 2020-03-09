@@ -41,4 +41,6 @@ public interface AdminDao {
 	int search_board_count(BoardSearchVo boardSearchVo);
 
 	List<AdminBoardVo> search_board(BoardSearchVo boardSearchVo);
+
+	void change_board_state(int board_no);
 }

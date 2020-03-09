@@ -203,8 +203,11 @@ $(function(){
 										<c:when test="${board.board_state==1}">
 											친구공개
 										</c:when>
-										<c:otherwise>
+										<c:when test="${board.board_state==2}">
 											비공개
+										</c:when>
+										<c:otherwise>
+											신고게시글
 										</c:otherwise>
 										</c:choose>
 									</td>

@@ -246,5 +246,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_state = '정지' where member_no = #{member_no}
 	</update>
 
-	
+<!-- 	게시글 신고 접수 -> 게시글상태 99로 바꾸기 -->
+	<update id="change-board-state" parameterType="int">
+		update board set board_state = 99 where board_no = #{board_no}
+	</update>
 </mapper>

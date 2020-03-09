@@ -98,4 +98,9 @@ public class AdminDaoImpl implements AdminDao{
 		return sqlSession.selectList("admin.search-board", boardSearchVo);
 	}
 
+	@Override
+	public void change_board_state(int board_no) {
+		sqlSession.update("admin.change-board-state", board_no);
+	}
+
 }

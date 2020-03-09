@@ -220,8 +220,10 @@ public class AdminController {
 			adminDao.warning_receipt(Integer.parseInt(req.getParameter("warning_no")));
 			if(adminDao.warning_check(Integer.parseInt(req.getParameter("member_no")))==0) {
 				adminDao.warning_count_newreceipt(Integer.parseInt(req.getParameter("member_no")));
+				adminDao.change_board_state(Integer.parseInt(req.getParameter("board_no")));
 			}else {
 				adminDao.warning_count_addreceipt(Integer.parseInt(req.getParameter("member_no")));
+				adminDao.change_board_state(Integer.parseInt(req.getParameter("board_no")));
 			}
 		}catch(Exception e) {
 			return false;
