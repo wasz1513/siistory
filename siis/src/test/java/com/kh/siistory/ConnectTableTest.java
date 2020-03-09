@@ -35,7 +35,7 @@ public class ConnectTableTest {
 		ConnectTableDto dto = new ConnectTableDto();
 //		LocalDate mydate = LocalDate.now();
 		
-		System.out.println(dto.getDT());
+
 		
 		sqlSession.update("connect.exitsession", dto);
 		

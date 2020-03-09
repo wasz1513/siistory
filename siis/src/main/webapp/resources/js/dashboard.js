@@ -1,4 +1,13 @@
 $(function(){
+	$(".replycontent").on("input", function() {
+		if($(this).val() != ''){
+			console.log($(this).val().length)
+			$(this).parents(".mb-3").find(".submit").prop("disabled", false)
+		} else {
+			$(this).parents(".mb-3").find(".submit").prop("disabled", true)
+		}
+	});
+	
 	// 댓글 쓰기 + 답글 쓰기 누르면 submit 전 정보 세팅 이벤트
 	$(document).on("click", ".replyadd", function(){
 		var writer = "@"+$(this).parents(".r").data("writer")+" ";

@@ -145,7 +145,7 @@ public class MemberController {
 		
 		warningService.insert(warningDto);
 		
-		System.out.println(warningDto);
+	
 		
 		return "redirect:warning?result=1";
 		

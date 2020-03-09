@@ -133,7 +133,7 @@ section {
 										class="btn btn-secondary my_button">
 										<i class="fas fa-camera"></i>
 									</button>
-									<button type="button" class="btn btn-primary upload">게시!!!!!!!!!!!!!!!!!</button>
+									<button type="button" class="btn btn-primary upload" disabled="disabled">게시!!!!!!!!!!!!!!!!!</button>
 									<input type="file" id="input_imgs" name="sel_files" multiple />
 								</div>
 							</div>
@@ -265,7 +265,7 @@ section {
 								<input type="text" class="form-control replycontent"
 									placeholder="댓글 달기..">
 								<div class="input-group-append">
-									<button class="btn btn-primary submit" type="button">게시</button>
+									<button class="btn btn-primary submit" type="button" disabled="disabled">게시</button>
 								</div>
 							</div>
 						</li>

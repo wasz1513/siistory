@@ -38,7 +38,7 @@ public class BoardDaoImpl implements BoardDao {
 		} else {
 			map.put("photo", 0);
 		}
-		
+
 		map.put("board_no", contentVo.getBoard_no());
 		sqlSession.insert("board.write", map);
 		return sqlSession.selectOne("board.getcontent", (int) map.get("board_no"));
@@ -79,10 +79,10 @@ public class BoardDaoImpl implements BoardDao {
 			String find = match.group();
 			if (find.startsWith("@")) {
 				String contenturl = find.substring(1, find.length());
-				match.appendReplacement(result, "<a href='/" + contenturl + "'>" + find + "</a>");
+				match.appendReplacement(result, "<a href='" + contenturl + "'>" + find + "</a>");
 			} else if (find.startsWith("#")) {
 				String contenturl = find.substring(1, find.length());
-				match.appendReplacement(result, "<a href='/" + contenturl + "'>" + find + "</a>");
+				match.appendReplacement(result, "<a href='" + contenturl + "'>" + find + "</a>");
 			}
 		}
 

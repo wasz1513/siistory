@@ -16,7 +16,7 @@ public class AlarmDaoImple implements AlarmDao{
 	
 	@Override
 	public void insert(AlarmDto alarmDto) {
-		System.out.println("dao 값 = = "+ alarmDto.getTarget_no());
+		
 		sqlSession.insert("alarm.insert", alarmDto);
 		
 	}

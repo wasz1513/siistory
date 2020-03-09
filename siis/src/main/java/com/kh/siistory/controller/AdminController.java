@@ -44,7 +44,6 @@ public class AdminController {
 	public String postManagement(@ModelAttribute AdminSearchVo adminSearchVo,
 			HttpServletRequest req,
 			Model model) {
-//		System.out.println("나이검색중우웅 =============== " + adminSearchVo.getMember_birth());
 		int pagesize = 10;
 		int navsize = 5;
 		int count = adminDao.search_member_count(adminSearchVo);
