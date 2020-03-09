@@ -35,7 +35,9 @@
 				<div>
 					<form action="login" method="post">
 						<div class="form-group">
-							<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
+							<a href="${pageContext.request.contextPath}">
+								<img src="${pageContext.request.contextPath}/resources/image/butterfly.svg" width="100%" height="200">
+							</a>
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Email address</label>
