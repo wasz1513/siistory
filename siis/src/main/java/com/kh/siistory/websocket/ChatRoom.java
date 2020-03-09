@@ -26,15 +26,15 @@ public class ChatRoom {
 	// 추가하는 메소드
 	public void add(WebSocketUser session, MemberDto memberDto) throws IOException {
 		int member_no = session.getMember_no();
-				System.out.println("챗 룸 member_no ==" + member_no);
-				System.out.println("챗 룸 session ==" + session);
+//				System.out.println("챗 룸 member_no ==" + member_no);
+//				System.out.println("챗 룸 session ==" + session);
 		userList.add(session);
 		
 		String member_name = memberDto.getMember_name();
 		
-		System.out.println("userList ==" + userList);
+//		System.out.println("userList ==" + userList);
 		
-		System.out.println("memberDto ==" + memberDto);
+//		System.out.println("memberDto ==" + memberDto);
 		// 뿌려주는 메소드 추가 예정(접속 메시지 뿌려주는 기능 )
 		ChatData chatdata = ChatData.builder().member_no(member_no)
 				.text("[" + member_name + "] 님이 접속했습니다.").status(0).build();

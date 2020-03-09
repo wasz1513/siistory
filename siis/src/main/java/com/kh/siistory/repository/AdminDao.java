@@ -2,7 +2,9 @@ package com.kh.siistory.repository;
 
 import java.util.List;
 
+import com.kh.siistory.vo.AdminBoardVo;
 import com.kh.siistory.vo.AdminSearchVo;
+import com.kh.siistory.vo.BoardSearchVo;
 import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
@@ -35,4 +37,8 @@ public interface AdminDao {
 	void delete_warning_count(int member_no);
 
 	void suspend_member(int member_no);
+
+	int search_board_count(BoardSearchVo boardSearchVo);
+
+	List<AdminBoardVo> search_board(BoardSearchVo boardSearchVo);
 }

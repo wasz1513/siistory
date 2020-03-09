@@ -19,6 +19,7 @@ import com.kh.siistory.repository.AdminDao;
 import com.kh.siistory.service.AdminChartService;
 import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
+import com.kh.siistory.vo.BoardSearchVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -425,4 +426,98 @@ public class AdminController {
 		model.addAttribute("max_value", max_value);
 		return "admin/statistics";
 	}
+	
+	@GetMapping("/boardmanagement")
+	public String getBoardmanagement() {
+		return "admin/boardmanagement";
+	}
+	
+	@PostMapping("/boardmanagement")
+	public String postBoardmanagement(@ModelAttribute BoardSearchVo boardSearchVo,
+			HttpServletRequest req,
+			Model model) {
+		int pagesize = 10;
+		int navsize = 5;
+		int count = adminDao.search_board_count(boardSearchVo);
+		int pno;
+		try {
+			pno = Integer.parseInt(req.getParameter("pno"));
+			if(pno<=0) throw new Exception();
+		}catch(Exception e) {
+			pno = 1;
+		}
+		int finish = pno * pagesize;
+		int start = finish - (pagesize - 1);
+		int pagecount = (count + pagesize) / pagesize;
+		int startBlock = (pno - 1) / navsize * navsize + 1;
+		int finishBlock = startBlock + (navsize - 1);
+		if(finishBlock > pagecount){
+			finishBlock = pagecount;
+		}
+		log.info("{}", boardSearchVo.getKeyword());
+		boardSearchVo.setStart(start);
+		boardSearchVo.setFinish(finish);
+		model.addAttribute("list", adminDao.search_board(boardSearchVo));
+		model.addAttribute("pagecount", pagecount);
+		model.addAttribute("startBlock", startBlock);
+		model.addAttribute("finishBlock", finishBlock);
+		model.addAttribute("pno", pno);
+		model.addAttribute("board_state", boardSearchVo.getBoard_state());
+		model.addAttribute("board_content", boardSearchVo.getBoard_content());
+		model.addAttribute("board_wdate", boardSearchVo.getBoard_wdate());
+		model.addAttribute("photo", boardSearchVo.getPhoto());
+		model.addAttribute("count", count);
+		model.addAttribute("type", boardSearchVo.getType());
+		model.addAttribute("keyword", boardSearchVo.getKeyword());
+		return "admin/boardmanagement";
+	}
+	
+	@GetMapping("boardlist")
+	public String getBoardlist(HttpServletRequest req,
+			Model model) {
+		BoardSearchVo boardSearchVo = BoardSearchVo.builder()
+														.type(req.getParameter("type"))
+														.keyword(req.getParameter("keyword"))
+														.board_state(Integer.parseInt(req.getParameter("board_state")))
+														.board_content(req.getParameter("board_content"))
+														.board_wdate(req.getParameter("board_wdate"))
+														.photo(Integer.parseInt(req.getParameter("photo")))
+													.build();
+		int pagesize = 10;
+		int navsize = 5;
+		int count = Integer.parseInt(req.getParameter("count"));
+		int pno;
+		try {
+			pno = Integer.parseInt(req.getParameter("pno"));
+			if(pno<=0) throw new Exception();
+		}catch(Exception e) {
+			pno = 1;
+		}
+		int finish = pno * pagesize;
+		int start = finish - (pagesize - 1);
+		int pagecount = (count + pagesize) / pagesize;
+		int startBlock = (pno - 1) / navsize * navsize + 1;
+		int finishBlock = startBlock + (navsize - 1);
+		if(finishBlock > pagecount){
+			finishBlock = pagecount;
+		}
+		log.info("{}", boardSearchVo.getKeyword());
+		boardSearchVo.setStart(start);
+		boardSearchVo.setFinish(finish);
+		model.addAttribute("list", adminDao.search_board(boardSearchVo));
+		model.addAttribute("pagecount", pagecount);
+		model.addAttribute("startBlock", startBlock);
+		model.addAttribute("finishBlock", finishBlock);
+		model.addAttribute("pno", pno);
+		model.addAttribute("board_state", boardSearchVo.getBoard_state());
+		model.addAttribute("board_content", boardSearchVo.getBoard_content());
+		model.addAttribute("board_wdate", boardSearchVo.getBoard_wdate());
+		model.addAttribute("photo", boardSearchVo.getPhoto());
+		model.addAttribute("count", count);
+		model.addAttribute("type", boardSearchVo.getType());
+		model.addAttribute("keyword", boardSearchVo.getKeyword());
+		return "admin/boardmanagement";
+	}
+	
+	
 }

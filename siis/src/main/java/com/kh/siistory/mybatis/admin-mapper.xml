@@ -12,6 +12,73 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_state='휴면' where last_login < sysdate-180 and where member_state='정상'
 		]]>
 	</update>
+	
+<!-- 	게시글 검색 -->
+	<select id="search-board" parameterType="boardSearchVo" resultType="adminBoardVo">
+		select * from (        
+		    select rownum r, BM.* from (
+		        select 
+		        	B.board_no,
+		            b.board_content,
+		            b.board_state,
+		            to_char(b.board_wdate, 'yyyy-mm-dd') board_wdate,
+		            b.board_writer,
+		            b.member_no,
+		            b.photo,
+		            M.email 
+		        from board B inner join member M on B.member_no = M.member_no order by board_no) BM
+		        where ${type} like '%'||#{keyword}||'%'
+		       	<if test="photo==0">
+		        and photo <![CDATA[>=]]> 0
+		       	</if>
+		       	<if test="photo==1">
+		       	and photo <![CDATA[>=]]> 1
+		       	</if>
+		        <if test="board_state!=-1">
+		        and board_state = #{board_state}
+		        </if>
+		        <if test="board_content!=''">
+		        and board_content like '%'||#{board_content}||'%'
+		        </if>
+		        <if test="board_wdate!=''">
+		        and board_wdate = #{board_wdate}
+		        </if>
+		    )
+		where r between #{start} and #{finish}
+	</select>
+	
+<!-- 	게시글검색 count -->
+	<select id="search-board-count" parameterType="boardSearchVo" resultType="int">
+		select count(*) from (        
+		    select rownum r, BM.* from (
+		        select 
+		        	B.board_no,
+		            b.board_content,
+		            b.board_state,
+		            to_char(b.board_wdate, 'yyyy-mm-dd') board_wdate,
+		            b.board_writer,
+		            b.member_no,
+		            b.photo,
+		            M.email 
+		        from board B inner join member M on B.member_no = M.member_no order by board_no) BM
+		        where ${type} like '%'||#{keyword}||'%'
+		        <if test="photo==0">
+		        and photo <![CDATA[>=]]> 0
+		       	</if>
+		       	<if test="photo==1">
+		       	and photo <![CDATA[>=]]> 1
+		       	</if>
+		        <if test="board_state!=''">
+		        and board_state = #{board_state}
+		        </if>
+		        <if test="board_content!=''">
+		        and board_content like '%'||#{board_content}||'%'
+		        </if>
+		        <if test="board_wdate!=''">
+		        and board_wdate = #{board_wdate}
+		        </if>
+		    )
+	</select>
 
 <!-- 	회원 검색 -->
 	<select id="search-member" parameterType="adminSearchVo" resultType="memberProfileVo">
