@@ -88,7 +88,7 @@ public class MainPageController {
 //		log.info("memberDto = {}",memberDto);
 		memberDao.regist(memberDto);
 		memberDao.regist_profile(memberDto);
-		memberDao.me(seqVo);
+//		memberDao.me(seqVo);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());

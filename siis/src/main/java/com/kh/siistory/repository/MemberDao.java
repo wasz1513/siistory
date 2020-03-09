@@ -2,6 +2,7 @@ package com.kh.siistory.repository;
 
 import java.util.List;
 
+import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberFollowVo;
@@ -50,4 +51,6 @@ public interface MemberDao {
 	int namecheck(String username);
 
 	void me(SeqVo seqVo);
+
+	List<BoardDto> search_tag(String keyword);
 }
