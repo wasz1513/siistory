@@ -33,7 +33,7 @@ $(function(){
 			success:function(resp){
 				console.log(resp);
 				if(resp){
-					state.parent().prev().prev().prev().prev().prev().text("접수");
+					state.parent().prev().prev().prev().prev().prev().prev().text("접수");
 					state.hide();
 					state.next().hide();
 				}
@@ -241,7 +241,11 @@ $(function(){
 									<td class="w-count">${warning.w_count}</td>
 									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
 									<td>${warning.content}</td>
-									<td>${warning.board_no}</td>
+									<td>
+										<a href="${pageContext.request.contextPath}/post/${warning.board_no}">
+											${warning.board_no}
+										</a>
+									</td>
 									<td>
 										<div class="member-no">${warning.target_no}</div>
 										<div class="warning-no">${warning.warning_no}</div>

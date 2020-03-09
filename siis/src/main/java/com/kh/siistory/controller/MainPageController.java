@@ -246,10 +246,7 @@ public class MainPageController {
 		 
 	}
 	
-	@GetMapping("{member}")
-	public String memberpage(@PathVariable("member") String member, Model model) {
-		return "member";
-	}
+
 }
 
 
