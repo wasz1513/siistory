@@ -144,6 +144,7 @@ public class MainPageController {
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("followingcount", followDao.check_followingcount(member_no));
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
 		

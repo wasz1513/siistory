@@ -86,6 +86,11 @@ public class FollowDaoImpl implements FollowDao{
 	public int refuse_follower(FollowDto followDto) {
 		return sqlSession.delete("follow.refuse-follower", followDto);
 	}
+
+	@Override
+	public int check_followingcount(int member_no) {
+		return sqlSession.selectOne("follow.followingcount", member_no);
+	}
 	
 	
 

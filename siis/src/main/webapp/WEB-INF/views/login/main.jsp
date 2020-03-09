@@ -68,6 +68,10 @@ section {
 .detail-list.detail-list:hover {
 	background-color: gray;
 }
+
+.new-friend{
+	color:orange;
+}
 </style>
 
 <article>
@@ -80,12 +84,22 @@ section {
 					class="list-group-item list-group-item-action detail-list">내
 					게시글</a>
 			</div>
-			<button class="list-group-item list-group-item-action dropdown">친구</button>
+			<button class="list-group-item list-group-item-action dropdown">
+				친구
+				<c:if test="${followingcount>=1}">
+						[<span class="new-friend">new</span>]
+				</c:if>
+			</button>
 			<div class="dropdown-list">
 				<a href="${pageContext.request.contextPath}/member/friend"
-					class="list-group-item list-group-item-action detail-list">친구관리</a>
+					class="list-group-item list-group-item-action detail-list">친구목록</a>
 				<a href="${pageContext.request.contextPath}/member/follow"
-					class="list-group-item list-group-item-action detail-list">친구요청</a>
+					class="list-group-item list-group-item-action detail-list">
+					친구요청
+					<c:if test="${followingcount>=1}">
+						[<span class="new-friend">${followingcount}</span>]
+					</c:if>
+				</a>
 			</div>
 			<button class="list-group-item list-group-item-action dropdown">설정</button>
 			<div class="dropdown-list">
