@@ -230,7 +230,7 @@ $(function(){
 						<tfoot>
 							<c:if test="${not empty pno}">
 							<tr>
-								<td colspan="9">
+								<td colspan="7">
 									<div>
 										<ul class="pagination">
 									

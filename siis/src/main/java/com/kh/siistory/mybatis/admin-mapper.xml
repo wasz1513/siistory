@@ -62,13 +62,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		            M.email 
 		        from board B inner join member M on B.member_no = M.member_no order by board_no) BM
 		        where ${type} like '%'||#{keyword}||'%'
-		        <if test="photo==0">
+		       	<if test="photo==0">
 		        and photo <![CDATA[>=]]> 0
 		       	</if>
 		       	<if test="photo==1">
 		       	and photo <![CDATA[>=]]> 1
 		       	</if>
-		        <if test="board_state!=''">
+		        <if test="board_state!=-1">
 		        and board_state = #{board_state}
 		        </if>
 		        <if test="board_content!=''">

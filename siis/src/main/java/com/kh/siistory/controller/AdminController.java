@@ -455,6 +455,7 @@ public class AdminController {
 			finishBlock = pagecount;
 		}
 		log.info("{}", boardSearchVo.getKeyword());
+		log.info("{}",count);
 		boardSearchVo.setStart(start);
 		boardSearchVo.setFinish(finish);
 		model.addAttribute("list", adminDao.search_board(boardSearchVo));
