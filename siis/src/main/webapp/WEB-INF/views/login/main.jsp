@@ -172,6 +172,9 @@ section {
 								<p>${content.board_content }</p>
 							</div>
 						</div>
+						
+						<button class="btn warningadd" data-target_no="${content.member_no}"
+											data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">신고하기	</button>
 
 
 						<c:choose>

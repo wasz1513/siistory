@@ -1,7 +1,5 @@
 package com.kh.siistory.controller;
 
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -27,7 +25,6 @@ import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
 import com.kh.siistory.vo.SeqVo;
-import com.kh.siistory.vo.WebSocketUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -245,7 +242,6 @@ public class MainPageController {
 		 getRequest(); req.setAttribute("user_count", count);
 		 
 	}
-	
 
 }
 
