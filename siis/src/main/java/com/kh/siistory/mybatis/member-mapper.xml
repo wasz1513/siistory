@@ -160,4 +160,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="withdraw" parameterType="int">
 		update member set member_state='탈퇴' where member_no=#{member_no}
 	</update>
+	
+<!-- 	자기자신 친구 -->
+	<insert id="me" parameterType="seqVo">
+		insert into friend_test values(friend_test_seq.nextval, #{seq_no}, #{seq_no}, 1, 1, 1)
+	</insert>	
 </mapper>

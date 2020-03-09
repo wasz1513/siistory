@@ -121,6 +121,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public int namecheck(String username) {
 		return sqlSession.selectOne("member.namecheck", username);
+	}
+
+	@Override
+	public void me(SeqVo seqVo) {
+		sqlSession.insert("member.me", seqVo);
 	}	
 
 }
