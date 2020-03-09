@@ -86,6 +86,7 @@ public class MainPageController {
 //		log.info("memberDto = {}",memberDto);
 		memberDao.regist(memberDto);
 		memberDao.regist_profile(memberDto);
+//		memberDao.me(seqVo);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());
@@ -141,6 +142,7 @@ public class MainPageController {
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("followingcount", followDao.check_followingcount(member_no));
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
 		
@@ -178,6 +180,12 @@ public class MainPageController {
 	@ResponseBody
 	public int idcheck(@RequestParam String email) {
 		return memberDao.idcheck(email);
+	}
+	
+	@GetMapping("/namecheck")
+	@ResponseBody
+	public int namecheck(@RequestParam String username) {
+		return memberDao.namecheck(username);
 	}
 	
 	@GetMapping("/findPw")
@@ -234,6 +242,7 @@ public class MainPageController {
 		 getRequest(); req.setAttribute("user_count", count);
 		 
 	}
+
 }
 
 

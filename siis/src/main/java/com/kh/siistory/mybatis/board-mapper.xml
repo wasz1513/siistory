@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				bb.board_no = rr.board_no
 			)
         where 
-        	rk <![CDATA[<]]> 3
+        	rk <![CDATA[<]]> 3 order by board_wdate desc
 	</select>
 	
 	<select id="getphotopost" parameterType="hashmap" resultMap="dashboardlist">

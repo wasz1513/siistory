@@ -1,154 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<script>
-	$(function() {
-
-		$(".dropdown-list").hide();
-
-		$(".dropdown").click(function() {
-			$(this).next().slideDown();
-			$(this).removeClass("dropdown");
-			$(this).addClass("updown");
-
-		});
-
-		$(".updown").click(function() {
-			$(this).next().slideUp();
-			$(this).removeClass("updown");
-			$(this).addClass("dropdown");
-		});
-
-	});
-</script>
-
 <style>
-article {
-	display: flex; /*바로안에있는것만적용됨*/
-	flex-wrap: wrap;
-	width: 80%;
-	margin: auto;
-}
-
-.left-aside {
-	/* 		background-color: EBFBFF; */
-	width: 20%;
-	margin-top: 150px;
-}
-
-section {
-	/* 		background-color: C8FFFF; */
-	width: 60%;
-	margin-top: 150px;
-}
-
-.right-aside {
-	/* 		background-color: BEEFFF; */
-	flex-grow: 1;
-	height: 750px;
-	margin-top: 150px;
-}
-
-.scroll-div {
+	article{
+		width:50%;
+        text-align:center;
+        align-items: center;
+        margin:auto;
+        margin-top:100px;
+	}
+	
+	.scroll-div {
 	overflow-y: scroll;
 	height: 750px;
-}
+	}
 
-.scroll-div::-webkit-scrollbar {
-	display: none;
-}
-
-.detail-list.detail-list {
-	background-color: black;
-}
-
-.detail-list.detail-list:hover {
-	background-color: gray;
-}
-
-.new-friend{
-	color:orange;
-}
+	.scroll-div::-webkit-scrollbar {
+		display: none;
+	}
 </style>
 
 <article>
-
-	<aside class="left-aside">
-		<div class="list-group">
-			<button class="list-group-item list-group-item-action dropdown">게시글</button>
-			<div class="dropdown-list">
-				<a href="member/myboard"
-					class="list-group-item list-group-item-action detail-list">내
-					게시글</a>
-			</div>
-			<button class="list-group-item list-group-item-action dropdown">
-				친구
-				<c:if test="${followingcount>=1}">
-						[<span class="new-friend">new</span>]
-				</c:if>
-			</button>
-			<div class="dropdown-list">
-				<a href="${pageContext.request.contextPath}/member/friend"
-					class="list-group-item list-group-item-action detail-list">친구목록</a>
-				<a href="${pageContext.request.contextPath}/member/follow"
-					class="list-group-item list-group-item-action detail-list">
-					친구요청
-					<c:if test="${followingcount>=1}">
-						[<span class="new-friend">${followingcount}</span>]
-					</c:if>
-				</a>
-			</div>
-			<button class="list-group-item list-group-item-action dropdown">설정</button>
-			<div class="dropdown-list">
-				<a href="${pageContext.request.contextPath}/member/modify"
-					class="list-group-item list-group-item-action detail-list">정보
-					변경</a> <a href="${pageContext.request.contextPath}/member/withdraw"
-					class="list-group-item list-group-item-action detail-list">회원탈퇴</a>
-			</div>
-		</div>
-
-	</aside>
-
-	<!-- 게시판 -->
+<!-- 게시판 -->
 	<section>
 		<div class="container scroll-div">
-
-			<!-- editor -->
-			<div class="card mb-3 editor">
-				<div class="media border p-3">
-					<img
-						src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}"
-						class="mr-3 mt-3 rounded-circle" style="width: 50px;">
-					<div class="media-body">
-						<h4>${sessionScope.member_name }</h4>
-						<textarea id="summernote" name="editordata"></textarea>
-						<form class="imgsupload" method="post"
-							enctype="multipart/form-data">
-							<div>
-								<div class="input_wrap">
-									<button type="button" onclick="fileUploadAction();"
-										class="btn btn-secondary my_button">
-										<i class="fas fa-camera"></i>
-									</button>
-									<button type="button" class="btn btn-primary upload" disabled="disabled">게시!!!!!!!!!!!!!!!!!</button>
-									<input type="file" id="input_imgs" name="sel_files" multiple />
-								</div>
-							</div>
-							<div>
-								<div class="imgs_wrap">
-									<img id="img" />
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<br> <br> <br>
-
+		
 			<!-- content -->
 			<c:forEach var="content" items="${dtolist }">
 				<div class="card mb-3">
@@ -172,9 +51,6 @@ section {
 								<p>${content.board_content }</p>
 							</div>
 						</div>
-						
-						<button class="btn warningadd" data-target_no="${content.member_no}"
-											data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">신고하기	</button>
 
 
 						<c:choose>
@@ -268,7 +144,7 @@ section {
 								<input type="text" class="form-control replycontent"
 									placeholder="댓글 달기..">
 								<div class="input-group-append">
-									<button class="btn btn-primary submit" type="button" disabled="disabled">게시</button>
+									<button class="btn btn-primary submit" type="button">게시</button>
 								</div>
 							</div>
 						</li>
@@ -277,17 +153,6 @@ section {
 			</c:forEach>
 		</div>
 	</section>
-
-	<aside class="right-aside">
-		<div class="card border-primary mb-3" style="max-width: 20rem;">
-			<div class="card-header" style="text-align: center">접속 리스트</div>
-
-			<div class="list-group friend-list"></div>
-
-		</div>
-	</aside>
-
 </article>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

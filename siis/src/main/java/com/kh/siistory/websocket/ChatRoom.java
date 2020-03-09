@@ -26,11 +26,9 @@ public class ChatRoom {
 	// 추가하는 메소드
 	public void add(WebSocketUser session, MemberDto memberDto) throws IOException {
 		int member_no = session.getMember_no();
-				
 		userList.add(session);
 		
 		String member_name = memberDto.getMember_name();
-		
 		
 		// 뿌려주는 메소드 추가 예정(접속 메시지 뿌려주는 기능 )
 		ChatData chatdata = ChatData.builder().member_no(member_no)

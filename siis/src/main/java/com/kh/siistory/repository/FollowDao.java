@@ -33,4 +33,6 @@ public interface FollowDao {
 	void refuse_following(FollowDto followDto);
 	
 	int refuse_follower(FollowDto followDto);
+
+	int check_followingcount(int member_no);
 }
