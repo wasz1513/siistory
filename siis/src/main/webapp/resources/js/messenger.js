@@ -50,6 +50,8 @@ $(function() {
 			}
 
 			else if (msg.status == 3) {
+								
+				$(".user-count").text("총 접속자 수 = " + msg.user_count);
 
 				/*
 				 * $(".showList").empty(); for ( var index in Friend.flist_data) {
@@ -63,10 +65,10 @@ $(function() {
 				 * .append(Fstate); } ;
 				 */
 				$(".friend-list").empty();
-				var room_no = 0;
 				var ul = $("<ul>").addClass("set-list");
 
 				for ( var index in msg.flist_data) {
+					var room_no = Math.floor(Math.random()*1000000+1);
 					var http = "http://" + host + context
 							+ "/messenger/chat?room_no=" + room_no
 							+ "&friend_no=" + msg.flist_data[index].member_no;
@@ -88,9 +90,11 @@ $(function() {
 					$(".friend-list").append(tag).append(room).append(friend).appendTo(
 							".friend-list");
 
-					room_no++;
+					
 				}
 				;
+				
+				
 
 			} // 3 일 때
 			// 새 창을 띄운다 > 해당 창에 로케이션을 정해진 주소로 변경시킨다 .
@@ -123,7 +127,13 @@ $(function() {
 			// Arefresh = 8;
 			else if (msg.status == 8) {
 				$(".dropdown-content").empty();
-
+				
+				if(msg.alarmList.length >0){
+					$(".badge-pill").empty();					
+				}
+				else if (msg.alarmList.length ==0){
+					$(".badge-pill").text("0");
+				}
 				// 누구누구 님이 게시글을 등록했습니다.
 				// 누구누구 님이 나의 어떤 게시글을 좋아합니다.
 				// 누구누구 님이 나의 글에 댓글을 등록했습니다.
@@ -162,10 +172,10 @@ $(function() {
 					console.log(msg[index]);
 					
 					
-					var text = "새로운 알림 메시지가 있습니다!!";
-					Hakademy.toast.push(text);
 
 				}
+				var text = "새로운 알림 메시지가 있습니다!!";
+				Hakademy.toast.push(text);
 
 			}
 			// setting = 9;
@@ -300,14 +310,54 @@ $(function() {
 	 */
 	// 좋아요 상태 값에 따라서 최초 출력 상태 표시(class)
 	// 좋아요 키는버튼
-	$(".good-onbtn").off().click(function() {
-		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
-	});
+	$(document).on("click",".good-btn", function(event){
+		var member_no = $(this).data(member_no).member_no;
+		var status = "???";
+		var target_no = $(this).data(target_no).target_no;
+		var pusher_no = $(this).data(pusher_no).pusher_no;
+		var content_no = $(this).data(content_no).content_no;
+		var content_type = $(this).data(content_type).content_type;
+		var content_play = $(this).data(content_play).content_play;
+		
+		if($(this).text()=="좋아요"){
+		
+		var i= $(this).next().next().text();
+		var num = parseInt(i)+1;	
+			
+		send_alarm(member_no, 4, target_no, pusher_no, content_no, content_type, content_play)  // 등록
+		$(this).attr("class","btn good-btn good-off").text("좋아요 취소");
 
-	// 좋아요 취소 버튼
-	$(".good-offbtn").off().click(function() {
-		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+		$(this).next().next().text(num)
+
+		} else if ($(this).text()=="좋아요 취소"){
+
+		var i= $(this).next().next().text();
+		var num = parseInt(i)-1;
+
+		send_alarm(member_no, 5, target_no, pusher_no, content_no, content_type, content_play)  // 취소
+		$(this).attr("class","btn good-btn good-on").text("좋아요");
+	
+		$(this).next().next().text(num)
+
+		}
+		
+		
+//		data-member_no="${member_no}" data-status="조건" data-target_no="${sessionScope.member_no}" data-pusher_no="${member_no}"
+//			data-content_no="${content.board_no}" data-content_type="board" data-content_play="good"
 	});
+	
+	
+	
+//	$(".good-onbtn").off().click(function() {
+//		send_alarm(member_no, 4, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-offbtn");
+//	});
+//
+//	// 좋아요 취소 버튼
+//	$(".good-offbtn").off().click(function() {
+//		send_alarm(member_no, 5, 24, member_no, 86, "board", "good")
+//		$(this).attr("class","good-onbtn");
+//	});
 
 	// 친구 요청 버튼
 	// $(".friend-add").off().click(function(){

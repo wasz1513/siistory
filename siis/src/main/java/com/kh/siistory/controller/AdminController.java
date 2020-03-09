@@ -19,7 +19,6 @@ import com.kh.siistory.repository.AdminDao;
 import com.kh.siistory.service.AdminChartService;
 import com.kh.siistory.vo.AdminChartVo;
 import com.kh.siistory.vo.AdminSearchVo;
-import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -257,8 +256,21 @@ public class AdminController {
 	public String getStiatismain(Model model,
 			HttpServletRequest req) {
 		List<AdminChartVo> list = adminChartService.day_visit();
+		if(req.getParameter("state")!=null) {
+			String param = (String)req.getParameter("state");
+			log.info("{}",param.equals("visit"));
+			if(param.equals("visit")) {
+				list = adminChartService.day_visit();
+			}
+			if(param.equals("regist")) {
+				list = adminChartService.day_regist();
+			}
+			if(param.equals("content")) {
+				list = adminChartService.day_content();
+			}			
+		}
 //		if((String)req.getParameter("state")=="visit") {
-//			
+//			list = adminChartService.day_visit();
 //		}else if((boolean)req.getParameter("state").equals("regist")) {
 //			list = adminChartService.day_regist();
 //		}else if((String)req.getParameter("state")=="content") {
@@ -288,6 +300,102 @@ public class AdminController {
 		model.addAttribute("max", max);
 		model.addAttribute("max_value", max_value);
 		return "admin/statismain";
+	}
+	
+	@GetMapping("/monthchart")
+	public String getMonthchart(Model model,
+			HttpServletRequest req) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+		String param = (String)req.getParameter("state");
+		log.info("{}",param.equals("visit"));
+		if(param.equals("visit")) {
+			list = adminChartService.month_visit();
+		}
+		if(param.equals("regist")) {
+			list = adminChartService.month_regist();
+		}
+		if(param.equals("content")) {
+			list = adminChartService.month_content();
+		}
+//		if((String)req.getParameter("state")=="visit") {
+//			list = adminChartService.day_visit();
+//		}else if((boolean)req.getParameter("state").equals("regist")) {
+//			list = adminChartService.day_regist();
+//		}else if((String)req.getParameter("state")=="content") {
+//			list = adminChartService.day_content();
+//		}
+		int max = list.get(0).getCount();
+		for(int i=0; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+			/*
+			 * if(list.get(i).getDt()==null) { list.get(i).setDt("셋팅 테스트"); }
+			 * if(list.get(i).getCount()<1) { list.get(i).setCount(0); }
+			 */
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/monthchart";
+	}
+	
+	@GetMapping("/yearchart")
+	public String getYearchart(Model model,
+			HttpServletRequest req) {
+		List<AdminChartVo> list = adminChartService.day_visit();
+		String param = (String)req.getParameter("state");
+		log.info("{}",param.equals("visit"));
+		if(param.equals("visit")) {
+			list = adminChartService.year_visit();
+		}
+		if(param.equals("regist")) {
+			list = adminChartService.year_regist();
+		}
+		if(param.equals("content")) {
+			list = adminChartService.year_content();
+		}
+//		if((String)req.getParameter("state")=="visit") {
+//			list = adminChartService.day_visit();
+//		}else if((boolean)req.getParameter("state").equals("regist")) {
+//			list = adminChartService.day_regist();
+//		}else if((String)req.getParameter("state")=="content") {
+//			list = adminChartService.day_content();
+//		}
+		int max = list.get(0).getCount();
+		for(int i=0; i<list.size(); i++) {
+			if(max < list.get(i).getCount()) {
+				max = list.get(i).getCount();
+			}
+			/*
+			 * if(list.get(i).getDt()==null) { list.get(i).setDt("셋팅 테스트"); }
+			 * if(list.get(i).getCount()<1) { list.get(i).setCount(0); }
+			 */
+		}
+		int max_value = max;
+		if(max<100) {
+			max = 100;
+		}else if(max<1000){
+			max = 1000;
+		}else if(max<5000) {
+			max = 5000;
+		}else if(max<10000) {
+			max = 10000;
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("max", max);
+		model.addAttribute("max_value", max_value);
+		return "admin/yearchart";
 	}
 	
 	@GetMapping("/statistics")

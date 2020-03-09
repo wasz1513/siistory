@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -15,13 +17,12 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.siistory.controller.MainPageController;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
-import com.kh.siistory.entity.ConnectTableDto;
 import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
 import com.kh.siistory.repository.BoardLikeDao;
-import com.kh.siistory.repository.ConnectTableDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.repository.ReplyLikeDao;
@@ -54,6 +55,9 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	// 채팅 요청이 들어왔을 때
 	public static final int chatconnect = 20;
+	
+	// 전체 유저 카운팅
+	public static final int user_count = 30;
 
 	// 계획
 	/*
@@ -98,6 +102,8 @@ public class MessengerServer extends TextWebSocketHandler {
 	@Autowired
 	private ReplyLikeDao replylikeDao;
 	
+	@Autowired
+	private HttpSession session0;
 
 	// 사용자 저장을 위한 set 저장소 생성
 	// Set<WebSocketSession> userList = new HashSet<>();
@@ -118,11 +124,10 @@ public class MessengerServer extends TextWebSocketHandler {
 			// 상태값을 변경한다. > 상태값 변경된 리스트를 받는다.
 			// 목록 리스트 구하는 메소드
 //		List<FriendDto> list = Allrefresh(session, no);
-			List<MemberFollowVo> list = Allrefresh(session, no);
+//			List<MemberFollowVo> list = Allrefresh(session, no);
 
 			// 나에게 리스트 전송하는 메소드 (FriendListData 클래스 형식에 맞춰서 진행)
-			FriendListData fdata = FriendListData.builder().member_no(no).status(0).text("friend_list").flist_data(list)
-					.build();
+			FriendListData fdata = FriendListData.builder().member_no(no).status(0).text("friend_list").build();
 
 			sendList(user, fdata);
 
@@ -141,8 +146,8 @@ public class MessengerServer extends TextWebSocketHandler {
 			String text = mapper.writeValueAsString(cdata);
 			TextMessage msg = new TextMessage(text);
 
-			session.sendMessage(msg);
-			System.out.println("접속이 전체에서 되는가?");
+			session.sendMessage(msg);		
+	
 		}
 	}
 
@@ -150,7 +155,7 @@ public class MessengerServer extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		if (message.getPayload() != null && session.getAttributes().get("member_no") != null) {
-
+			
 			String payload = message.getPayload();
 
 			MessengerData data = mapper.readValue(payload, MessengerData.class);
@@ -169,12 +174,6 @@ public class MessengerServer extends TextWebSocketHandler {
 					.content_no(data.getContent_no()).content_type(data.getContent_type())
 					.content_play(data.getContent_play()).build();
 
-			System.out.println("========보드 =======");
-			System.out.println(boardlikeDto);
-			System.out.println("========댓글 =======");
-			System.out.println(replylikeDto);
-			System.out.println("========알람 =======");
-			System.out.println(boardlikeDto);
 
 			// 내 친구 리스트 생성
 			List<MemberFollowVo> friendList = Allrefresh(session, no);
@@ -184,6 +183,7 @@ public class MessengerServer extends TextWebSocketHandler {
 			if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 3) {
 
 				for (MemberFollowVo fdto : friendList) {
+					System.out.println(fdto);
 					// 접속한 사람이 친구 중에 있는가?
 					if (fdto.getMember_no() == data.getMember_no()) {
 						// 있다면? 상태 값에 따라 갱신해라
@@ -201,7 +201,7 @@ public class MessengerServer extends TextWebSocketHandler {
 				// 갱신완료
 				// 나에게 보낸다.
 				// 갱신하여 나에게 리스트 보낸다 .
-				FriendListData fdata = FriendListData.builder().member_no(no).flist_data(friendList).status(3)
+				FriendListData fdata = FriendListData.builder().member_no(no).flist_data(friendList).user_count(userList.size()).status(3)
 						.text("refresh").build();
 
 				String text = mapper.writeValueAsString(fdata);
@@ -226,7 +226,7 @@ public class MessengerServer extends TextWebSocketHandler {
 					}
 					// 취소라면 ?
 				} else if (data.getStatus() == 5) {
-					System.out.println("==================="+data);
+					
 					if (data.getContent_type().equals("board")) {
 //					boardlikeDao.delete(boardlikeDto);
 						alarmDao.delete(alarmDto);
@@ -258,7 +258,7 @@ public class MessengerServer extends TextWebSocketHandler {
 				}
 				// 친구 추가 요청을 했다면?
 				else if (data.getStatus() == 10) {
-					System.out.println(alarmDto);
+					
 					alarmDao.insert(alarmDto);
 				}
 
@@ -316,7 +316,9 @@ public class MessengerServer extends TextWebSocketHandler {
 				}
 				// 나에게도 하나 보내야한다.(나도 새창을 띄워야하기 때문)
 				session.sendMessage(msg);
-
+				// 전체 유저 카운팅
+			} else if (data.getStatus()== 30) {
+				
 			}
 		}
 	}
@@ -542,4 +544,5 @@ public class MessengerServer extends TextWebSocketHandler {
 		user.getWs().sendMessage(msg);
 
 	}
+	
 }
