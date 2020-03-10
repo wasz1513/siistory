@@ -189,6 +189,8 @@ section {
 							</c:otherwise>
 						</c:choose>
 						<a>${content.board_like_count} 개</a> 
+					
+						
 					</div>
 
 					<!-- 여기서부터 댓글 -->
