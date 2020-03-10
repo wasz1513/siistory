@@ -113,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 	친구 추천 목록 -->
 	<select id="push-friend" parameterType="int" resultType="memberFollowVo">
-           		select 
+           		select distinct 
 		    M.member_no,
 		    M.email, 
 		    M.member_name ,
@@ -124,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        inner join (select * from (
-                select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no})
+                select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no}) and friend_state=1 
                 ) FF left outer join 
                 (
                 select friend_no fn,count(*) as count from

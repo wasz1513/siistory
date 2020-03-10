@@ -224,6 +224,7 @@ $(function() {
 					var following_state = $("<a>").addClass("following_state-push")
 							.hide().text(msg.flist_data[index].follo_state);
 
+					
 					$(".dropdown_push").append(alarm_message).append(
 											member_no1).append(target_no)
 											.append(member_name).append(
