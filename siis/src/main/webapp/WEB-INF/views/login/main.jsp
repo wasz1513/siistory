@@ -24,7 +24,7 @@
 			$(this).next().slideUp();
 			$(this).removeClass("updown");
 			$(this).addClass("dropdown");
-		});
+		});		
 
 	});
 </script>

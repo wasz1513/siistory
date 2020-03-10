@@ -52,6 +52,9 @@ public class MessengerServer extends TextWebSocketHandler {
 
 	// 친구추가 알람 상태값
 	public static final int addfriend = 10;
+	
+	// 친구 추천 알람 상태값
+	public static final int push_friend=11;
 
 	// 채팅 요청이 들어왔을 때
 	public static final int chatconnect = 20;
@@ -180,6 +183,8 @@ public class MessengerServer extends TextWebSocketHandler {
 			
 			// 친구 추천 리스트 생성
 			List<MemberFollowVo> push_friend = Allrefresh(session, no, 1); 
+			
+			System.out.println("친구 추천 리스트  = " + push_friend);
 
 			// 유저가 접속한다 > 메시지가 서버에 전송된다. >내 친구중에 있는지 확인한다 > 있으면 갱신한다 > 갱신이 되었다면 나에게 보낸다.
 
@@ -212,6 +217,14 @@ public class MessengerServer extends TextWebSocketHandler {
 				TextMessage msg = new TextMessage(text);
 
 				session.sendMessage(msg);
+				
+				//친구 추천 목록도 함께 보내준다
+				FriendListData pdata = FriendListData.builder().member_no(no).flist_data(push_friend).user_count(userList.size()).status(11)
+						.text("push_friend").build();
+				
+				String ptext = mapper.writeValueAsString(pdata);
+				TextMessage pmsg = new TextMessage(ptext);
+				session.sendMessage(pmsg);
 
 			} else if (data.getStatus() == 4 || data.getStatus() == 5 || data.getStatus() == 6 || data.getStatus() == 7
 					|| data.getStatus() == 8 || data.getStatus() == 10) {
@@ -291,6 +304,8 @@ public class MessengerServer extends TextWebSocketHandler {
 							}
 						}
 					}
+					
+					
 
 				}
 				// 채팅 초대 메시지 수신 시
@@ -348,7 +363,7 @@ public class MessengerServer extends TextWebSocketHandler {
 		if(type==0) {
 			friendList = followDao.myfriend(no);			
 		} else if (type==1){
-			friendList = followDao.myfriend(no);
+			friendList = followDao.push_friend(no);
 		}
 		Collections.sort(friendList, new Comparator<MemberFollowVo>() {
 			@Override

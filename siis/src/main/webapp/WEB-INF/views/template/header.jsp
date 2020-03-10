@@ -59,7 +59,7 @@
 
 /* Dropdown Button */
 
-.dropdown-content {
+.dropdown-content, .dropdown_push{
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -68,7 +68,8 @@
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
+.dropdown-content a,
+.dropdown_push a{
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -76,7 +77,8 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover,
+.dropdown_push a:hover {background-color: #f1f1f1}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
@@ -88,6 +90,10 @@
 	
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    function push() {
+        document.getElementById("push_Dropdown").classList.toggle("show");
     }
 
     window.onclick = function(event) {
@@ -102,7 +108,25 @@
           }
         }
       }
+      
+      
+      if (!event.target.matches('.dropbtn_push')) {
+
+          var dropdowns1 = document.getElementsByClassName("dropdown_push");
+          var p;
+          for (p = 0; p < dropdowns1.length; p++) {
+            var openDropdown1 = dropdowns1[p];
+            if (openDropdown1.classList.contains('show')) {
+              openDropdown1.classList.remove('show');
+            }
+          }
+        }  
+      
+ 
     }
+
+    
+
 	
 	</script>
 
@@ -143,7 +167,19 @@
 	      	</c:if>
 	      </li>
 	    </ul>
-          
+
+
+<ul class="list-group my-2 my-sm-0 mr-sm-5">
+  <li onclick="push()" class="btn btn-secondary my-2 my-sm-0 dropdown dropbtn_push">
+    추천 리스트
+    <div id="push_Dropdown" class="dropdown_push">
+         </div>
+    <span class="badge badge-primary badge-pill-push">0</span>
+  </li>
+  
+</ul>
+
+
 <ul class="list-group my-2 my-sm-0 mr-sm-5">
   <li onclick="myFunction()" class="btn btn-secondary my-2 my-sm-0 dropdown dropbtn">
     알람 리스트
@@ -154,7 +190,9 @@
   
 </ul>
 
+
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search" method="get">
+
 	      <select class="form-control" id="exampleSelect1" name="type">
 		    <option value="popular">Popular</option>
 		    <option value="email">Email</option>
