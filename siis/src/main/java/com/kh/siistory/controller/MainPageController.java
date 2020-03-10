@@ -236,13 +236,13 @@ public class MainPageController {
 		
 		int count = user_count;
 
-		
-		
 		 HttpServletRequest req =
 		 ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).
 		 getRequest(); req.setAttribute("user_count", count);
 		 
 	}
+
+	
 
 }
 

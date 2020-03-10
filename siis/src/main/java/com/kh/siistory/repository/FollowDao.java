@@ -35,4 +35,6 @@ int following(FollowDto followDto);
 	int refuse_follower(FollowDto followDto);
 
 	int check_followingcount(int member_no);
+
+	List<MemberFollowVo> push_friend(int member_no);
 }
