@@ -3,10 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.js"></script>
 
 <script>
 	$(function() {
@@ -89,7 +85,7 @@ section {
 		<div class="list-group">
 			<button class="list-group-item list-group-item-action dropdown">게시글</button>
 			<div class="dropdown-list">
-				<a href="member/myboard"
+				<a href="${pageContext.request.contextPath}/member/myboard"
 					class="list-group-item list-group-item-action detail-list">내
 					게시글</a>
 			</div>
