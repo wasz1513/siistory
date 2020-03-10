@@ -21,7 +21,7 @@ $(function() {
 		var host = location.host;
 		var context = context;
 		var uri = "ws://" + host + context + "/messengerserver";
-
+		var push_no = 0;
 		// 연결 예약 코드
 		window.socket = new WebSocket(uri);
 
@@ -170,12 +170,18 @@ $(function() {
 					
 					$(".badge-pill").text(msg.alarmList.length);
 					console.log(msg[index]);
-					
-					
-
+										
 				}
-				var text = "새로운 알림 메시지가 있습니다!!";
-				Hakademy.toast.push(text);
+				
+	
+				if (push_no==1){
+					var text = "새로운 알림 메시지가 있습니다!!";
+					Hakademy.toast.push(text);						
+				}
+				
+				push_no = 1;
+	
+				
 
 			}
 			// setting = 9;
@@ -195,6 +201,8 @@ $(function() {
 						function(event) {
 							console.log("컨텐츠 이동")
 
+							
+							
 							var target_no = $(this).next().next().text();
 							console.log(target_no)
 							var pusher_no = $(this).next().next().next().text();
@@ -211,9 +219,15 @@ $(function() {
 
 							send_alarm(member_no, 7, target_no, pusher_no,
 									content_no, content_type, content_play);
-
-							window.location.href = "http://" + host + context
-									+ "/member/follow";
+							
+							if(content_type== "friend"){
+								window.location.href = "http://" + host + context
+								+ "/member/follow";
+								
+							} else {
+								window.location.href = "http://" + host + context+ "/post/"+content_no;
+							}
+							
 
 						});
 
