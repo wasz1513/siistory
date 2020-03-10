@@ -50,7 +50,9 @@ public class ChatServer extends TextWebSocketHandler {
 		chatuserList.put(session,user);
 		
 		log.info("chat user list = {}", chatuserList);
+
 			}
+
 
 	// session을 제거한다 . > 해당 번호의 룸을 제거한다.(모두 나가면)
 	// 1.사용자가 페이지에 접속한다. (주소에 room값을 들고 온다 .)
@@ -67,7 +69,7 @@ public class ChatServer extends TextWebSocketHandler {
 		// chatdata 형식에 맞게 읽음 제이슨
 		ChatData chatdata = mapper.readValue(payload, ChatData.class);
 		
-		
+
 		// chatdata.get 스텟에 따라 필요한 명령문 실행
 		int room_no = chatdata.getRoom_no();
 		int member_no = chatdata.getMember_no();

@@ -244,7 +244,7 @@ $(function() {
 		
 		$(document).on("click",".push-friend",function(event){
 			var member_name = $(this).next().next().next().text();
-			window.location.href = "http://"+ host + context+"/search/?type=member_name&keyword="+member_name;
+			window.location.href = "http://"+ host + context+"/search?type=member_name&keyword="+member_name;
 			
 		});
 		

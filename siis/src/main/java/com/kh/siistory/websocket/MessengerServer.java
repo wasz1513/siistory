@@ -191,7 +191,7 @@ public class MessengerServer extends TextWebSocketHandler {
 			if (data.getStatus() == 0 || data.getStatus() == 1 || data.getStatus() == 3) {
 
 				for (MemberFollowVo fdto : friendList) {
-					
+
 					// 접속한 사람이 친구 중에 있는가?
 					if (fdto.getMember_no() == data.getMember_no()) {
 						// 있다면? 상태 값에 따라 갱신해라
@@ -329,7 +329,7 @@ public class MessengerServer extends TextWebSocketHandler {
 					if (user3.getMember_no() == target_no) {
 
 						user3.getWs().sendMessage(msg);
-						
+
 					}
 				}
 				// 나에게도 하나 보내야한다.(나도 새창을 띄워야하기 때문)
@@ -493,11 +493,9 @@ public class MessengerServer extends TextWebSocketHandler {
 	// 알람 멘트 가공 및 전송 메소드
 	public void sendAlarmData(WebSocketUser user) throws IOException {
 		int member_no = user.getMember_no();
-		
 
 		List<AlarmDto> alarmList = alarmDao.getList(member_no);
 
-	
 
 		// 1차 누구의 게시글인가
 		// 2차 게시글의 번호는 무엇인가

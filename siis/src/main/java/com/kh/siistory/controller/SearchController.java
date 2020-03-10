@@ -32,7 +32,7 @@ public class SearchController {
 	@Autowired
 	private FollowDao followDao;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String search(@RequestParam String type,
 			@RequestParam String keyword,
 			Model model,
@@ -41,20 +41,43 @@ public class SearchController {
 		MemberDto memberDto = MemberDto.builder()
 											.member_no(member_no)
 										.build();
+		int count = -1;
 		switch(type) {
-			case "popular": break;
+			case "popular": 
+				count=0;
+				break;
 			case "email":
 				memberDto.setEmail(keyword);
 				model.addAttribute("list", memberDao.getMember_Email(memberDto));
+				count=1;
 				break;
 			case "member_name":
 				memberDto.setMember_name(keyword);
 				model.addAttribute("list", memberDao.getMember_Name(memberDto));
+				count=2;
 				break;
-			case "tag": break;
-			case "location": break;
+			case "tag": 
+				model.addAttribute("dtolist", memberDao.search_tag(keyword));
+				count=3;
+				break;
+			case "location": 
+				count=4;
+				break;
 		}
-		return "search/search";
+		
+		if(count==0) {
+			return "search/search";			
+		}else if(count==1) {
+			return "search/search";	
+		}else if(count==2) {
+			return "search/search";	
+		}else if(count==3) {
+			return "search/searchtag";
+		}else if(count==4) {
+			return "search/search";
+		}else {
+			return "search/search";
+		}
 	}
 	
 	

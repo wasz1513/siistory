@@ -6,7 +6,7 @@ import com.kh.siistory.entity.FollowDto;
 import com.kh.siistory.vo.MemberFollowVo;
 
 public interface FollowDao {
-	int following(FollowDto followDto);
+int following(FollowDto followDto);
 	
 	void follower(FollowDto followDto);
 
@@ -30,9 +30,11 @@ public interface FollowDao {
 	
 	List<MemberFollowVo> myfriend(int member_no);
 	
-	List<MemberFollowVo> push_friend (int member_no);
-	
 	void refuse_following(FollowDto followDto);
 	
 	int refuse_follower(FollowDto followDto);
+
+	int check_followingcount(int member_no);
+
+	List<MemberFollowVo> push_friend(int member_no);
 }

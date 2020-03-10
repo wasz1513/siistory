@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.siistory.entity.BoardDto;
 import com.kh.siistory.entity.CertDto;
 import com.kh.siistory.entity.MemberDto;
 import com.kh.siistory.vo.MemberFollowVo;
@@ -116,6 +117,21 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void withdraw(int member_no) {
 		sqlSession.update("member.withdraw", member_no);
+	}
+
+	@Override
+	public int namecheck(String username) {
+		return sqlSession.selectOne("member.namecheck", username);
+	}
+
+	@Override
+	public void me(SeqVo seqVo) {
+		sqlSession.insert("member.me", seqVo);
+	}
+
+	@Override
+	public List<BoardDto> search_tag(String keyword) {
+		return sqlSession.selectList("member.search-tag", keyword);
 	}	
 
 }

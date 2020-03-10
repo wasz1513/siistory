@@ -1,8 +1,6 @@
 package com.kh.siistory.repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,9 +90,8 @@ public class FollowDaoImpl implements FollowDao{
 		return sqlSession.selectList("push-friend", member_no);
 	}
 	
-	
+	public int check_followingcount(int member_no) {
+		return sqlSession.selectOne("follow.followingcount", member_no);
 
-
-
-
+	}
 }

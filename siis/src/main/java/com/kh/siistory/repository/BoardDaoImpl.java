@@ -79,7 +79,7 @@ public class BoardDaoImpl implements BoardDao {
 			String find = match.group();
 			if (find.startsWith("@")) {
 				String contenturl = find.substring(1, find.length());
-				match.appendReplacement(result, "<a href='" + contenturl + "'>" + find + "</a>");
+				match.appendReplacement(result, "<a href='member/" + contenturl + "'>" + find + "</a>");
 			} else if (find.startsWith("#")) {
 				String contenturl = find.substring(1, find.length());
 				match.appendReplacement(result, "<a href='" + contenturl + "'>" + find + "</a>");

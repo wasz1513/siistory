@@ -19,21 +19,23 @@ $(function(){
 	
 	$(".warning-no").hide();
 	$(".member-no").hide();
+	$(".board-no").hide();
 	
 	$(".receipt").click(function(e){
 		e.preventDefault();
 		
 		var warning_no = $(this).prev().text();
 		var member_no = $(this).prev().prev().text();
+		var board_no = $(this).prev().prev().prev().text();
 		var state = $(this);
 		
 		$.ajax({
-			url : "receipt?warning_no="+warning_no+"&member_no="+member_no,
+			url : "receipt?warning_no="+warning_no+"&member_no="+member_no+"&board_no="+board_no,
 			type : "get",
 			success:function(resp){
 				console.log(resp);
 				if(resp){
-					state.parent().prev().prev().prev().prev().prev().text("접수");
+					state.parent().prev().prev().prev().prev().prev().prev().text("접수");
 					state.hide();
 					state.next().hide();
 				}
@@ -54,7 +56,7 @@ $(function(){
 			success:function(resp){
 				console.log(resp);
 				if(resp){
-					state.parent().prev().prev().prev().prev().prev().text("보류");
+					state.parent().prev().prev().prev().prev().prev().prev().text("보류");
 					state.hide();
 				}
 			}
@@ -241,17 +243,22 @@ $(function(){
 									<td class="w-count">${warning.w_count}</td>
 									<td>${warning.pusher_email}[${warning.pusher_name}]</td>
 									<td>${warning.content}</td>
-									<td>${warning.board_no}</td>
 									<td>
+										<a href="${pageContext.request.contextPath}/post/${warning.board_no}">
+											${warning.board_no}
+										</a>
+									</td>
+									<td>
+										<div class="board-no">${warning.board_no}</div>
 										<div class="member-no">${warning.target_no}</div>
 										<div class="warning-no">${warning.warning_no}</div>
 										<c:if test="${empty warning.state}">
-											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">[접수]</a> 
+											<a href="receipt?warning_no=${warning.warning_no}&board_no=${warning.board_no}" class="receipt">[접수]</a> 
 											<a href="hold?warning_no=${warning.warning_no}" class="hold">[보류]</a>
 										</c:if>
 										<c:if test="${warning.state == '접수' }"></c:if>
 										<c:if test="${warning.state == '보류' }">
-											<a href="receipt?warning_no=${warning.warning_no}" class="receipt">[접수]</a>
+											<a href="receipt?warning_no=${warning.warning_no}&board_no=${warning.board_no}" class="receipt">[접수]</a>
 										</c:if>
 									</td>						
 								</tr>

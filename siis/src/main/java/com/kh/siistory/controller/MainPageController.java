@@ -1,7 +1,5 @@
 package com.kh.siistory.controller;
 
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -27,7 +25,6 @@ import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.EmailService;
 import com.kh.siistory.service.RandomCertService;
 import com.kh.siistory.vo.SeqVo;
-import com.kh.siistory.vo.WebSocketUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,6 +86,7 @@ public class MainPageController {
 //		log.info("memberDto = {}",memberDto);
 		memberDao.regist(memberDto);
 		memberDao.regist_profile(memberDto);
+//		memberDao.me(seqVo);
 		session.setAttribute("email", memberDto.getEmail());
 		session.setAttribute("member_no", seqVo.getSeq_no());
 		session.setAttribute("member_name", memberDto.getMember_name());
@@ -104,10 +102,11 @@ public class MainPageController {
 	public String postLogin(@ModelAttribute MemberDto memberDto,
 			HttpSession session) {
 		MemberDto login = memberDao.login(memberDto);
-//		log.info("member_pw = {}", memberDto.getMember_pw());
-//		log.info("login = {}", login);
+		log.info("member_pw = {}", memberDto.getMember_pw());
+		log.info("login = {}", login);
 		if(login != null){
 			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
+			log.info("correct = {}", correct);
 			if(correct) {
 				String url = "";
 				session.setAttribute("email", login.getEmail());
@@ -144,6 +143,7 @@ public class MainPageController {
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model) {
 		int member_no = (int) session.getAttribute("member_no");
+		model.addAttribute("followingcount", followDao.check_followingcount(member_no));
 		model.addAttribute("myfriend", followDao.myfriend(member_no));
 		model.addAttribute("dtolist", boardDao.dashboardlist(session));
 		
@@ -181,6 +181,12 @@ public class MainPageController {
 	@ResponseBody
 	public int idcheck(@RequestParam String email) {
 		return memberDao.idcheck(email);
+	}
+	
+	@GetMapping("/namecheck")
+	@ResponseBody
+	public int namecheck(@RequestParam String username) {
+		return memberDao.namecheck(username);
 	}
 	
 	@GetMapping("/findPw")
@@ -235,11 +241,9 @@ public class MainPageController {
 		 getRequest(); req.setAttribute("user_count", count);
 		 
 	}
+
 	
-//	@GetMapping("{member}")
-//	public String memberpage(@PathVariable("member") String member, Model model) {
-//		return "member";
-//	}
+
 }
 
 

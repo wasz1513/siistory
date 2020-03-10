@@ -69,6 +69,25 @@
         });
         
         $(function(){
+        	$("#inputDefault").on("blur", function(){
+        		var username = $("#inputDefault").val();
+        		$.ajax({
+        			url:"namecheck?username="+username,
+        			type:"get",
+        			success:function(data){
+        				if(data==1){
+        					$("#inputDefault").next().text("이미 사용중인 닉네임 입니다");
+        					$("#registSubmit").prop("disabled", true);
+        				}else{
+        					$("#inputDefault").next().text("사용가능한 닉네임 입니다");
+        					$("#registSubmit").prop("disabled", false);
+        				}
+        			}
+        		});
+        	});
+        });
+        
+        $(function(){
         	$("#exampleInputPassword1").on("blur", function(){
 				var password = 	$("#exampleInputPassword1").val();
 				var passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
@@ -113,6 +132,7 @@
 	                <div class="form-group">
 						<label for="inputDefault">User name</label>
 	                    <input type="text" name="member_name" placeholder="User name" required class="form-control" id="inputDefault">
+	                    <small class="form-text text-muted"></small>
 	                </div>
 	                <div class="form-group">
 				      <label for="exampleInputPassword1">Password</label>

@@ -55,6 +55,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		        inner join (select * from friend_test where member_no=#{member_no} and follower=1 and friend_state is null) F on M.member_no = F.friend_no
 		order by F.seq_no desc
 	</select>	
+	
+<!-- 	나한테 친구신청한 회원 목록 count -->
+	<select id="followingcount" parameterType="int" resultType="int">
+		select
+		    count(*)
+		from 
+		    member M
+		        inner join (select * from friend_test where member_no=#{member_no} and follower=1 and friend_state is null) F on M.member_no = F.friend_no
+		order by F.seq_no desc
+	</select>
 
 	<update id="follower_ok" parameterType="followDto">
 		update friend_test set following=1, friend_state=1 where member_no=#{member_no} and follower=1 and friend_no=#{friend_no}

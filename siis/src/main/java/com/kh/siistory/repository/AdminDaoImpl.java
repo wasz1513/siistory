@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.siistory.vo.AdminBoardVo;
 import com.kh.siistory.vo.AdminSearchVo;
+import com.kh.siistory.vo.BoardSearchVo;
 import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.WarningVo;
 
@@ -84,6 +86,21 @@ public class AdminDaoImpl implements AdminDao{
 	@Override
 	public void suspend_member(int member_no) {
 		sqlSession.update("admin.suspend-member", member_no);
+	}
+
+	@Override
+	public int search_board_count(BoardSearchVo boardSearchVo) {
+		return sqlSession.selectOne("admin.search-board-count", boardSearchVo);
+	}
+
+	@Override
+	public List<AdminBoardVo> search_board(BoardSearchVo boardSearchVo) {
+		return sqlSession.selectList("admin.search-board", boardSearchVo);
+	}
+
+	@Override
+	public void change_board_state(int board_no) {
+		sqlSession.update("admin.change-board-state", board_no);
 	}
 
 }
