@@ -25,9 +25,6 @@ $(function(){
 		
 	});
 	
-	
-	
-	
 	$(".replycontent").on("input", function() {
 		if($(this).val() != ''){
 			console.log($(this).val().length)
@@ -130,8 +127,24 @@ $(function(){
 			}
 		});			
 	});
-});
 	
+	$(document).on("change",".private_option", function(event){
+		
+		var board_no = $(this).data(board_no).board_no;
+		var board_state = $(this).val();
+		console.log(board_state);
+		console.log(board_no);
+		
+		$.ajax({
+			url:"/siistory/post/private",
+			type:"post",
+			dataType:"JSON",
+			data:{'board_no':board_no,'board_state':board_state},
+			context:this
+		});				
+	});
+});
+
 	
 // 댓글 추가하면 jsp에 댓글 생성해주는 태그 함수
 function replyadd(data){
