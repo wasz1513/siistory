@@ -207,6 +207,7 @@ section {
 
 					<!-- 여기서부터 댓글 -->
 					<c:forEach var="reply" items="${content.replylist }">
+						<c:if test="${not empty reply.reply_writer}">
 						<ul class="list-group list-group-flush r"
 							data-seq="${reply.reply_no }"
 							data-writer="${reply.reply_writer }">
@@ -253,6 +254,7 @@ section {
 								</div>
 							</li>
 						</ul>
+						</c:if>
 					</c:forEach>
 					<!-- 여기까지 댓글 -->
 

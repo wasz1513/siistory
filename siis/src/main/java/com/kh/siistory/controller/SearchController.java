@@ -32,7 +32,7 @@ public class SearchController {
 	@Autowired
 	private FollowDao followDao;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String search(@RequestParam String type,
 			@RequestParam String keyword,
 			Model model,
