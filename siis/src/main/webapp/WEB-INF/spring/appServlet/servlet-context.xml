@@ -79,13 +79,13 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	
-	<interceptors>
-	<!--	인터셉터 -->
+<!-- 	<interceptors>
+		인터셉터
 		<interceptor>
 			<mapping path="/**"/>
 			<exclude-mapping path="/test*"/>
 			<beans:bean class="com.kh.siistory.interceptor.LoginInterceptor"></beans:bean>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 	
 </beans:beans>
