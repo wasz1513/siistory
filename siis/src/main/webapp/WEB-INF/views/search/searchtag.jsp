@@ -83,6 +83,7 @@
 
 					<!-- 여기서부터 댓글 -->
 					<c:forEach var="reply" items="${content.replylist }">
+						<c:if test="${reply.reply_writer !=null}">
 						<ul class="list-group list-group-flush r"
 							data-seq="${reply.reply_no }"
 							data-writer="${reply.reply_writer }">
@@ -129,6 +130,7 @@
 								</div>
 							</li>
 						</ul>
+						</c:if>
 					</c:forEach>
 					<!-- 여기까지 댓글 -->
 
