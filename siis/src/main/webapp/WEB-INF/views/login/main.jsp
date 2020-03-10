@@ -206,6 +206,7 @@ section {
 					</div>
 
 					<!-- 여기서부터 댓글 -->
+					<c:if test="${!empty content.replylist }">
 					<c:forEach var="reply" items="${content.replylist }">
 						<ul class="list-group list-group-flush r"
 							data-seq="${reply.reply_no }"
@@ -254,6 +255,7 @@ section {
 							</li>
 						</ul>
 					</c:forEach>
+					</c:if>
 					<!-- 여기까지 댓글 -->
 
 					<c:if test="${content.board_reply_count > 2 }">
