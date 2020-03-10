@@ -18,10 +18,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			HttpServletResponse resp = (HttpServletResponse)response;
 			String email = (String)req.getSession().getAttribute("email");
 			boolean login = email!=null;
-			
+			log.info("로그인 체크 = {}", login);
 			if(login) {
 				return true;
 			}else {
+				response.sendRedirect(request.getContextPath() + "/login");
 				return false;
 			}
 			

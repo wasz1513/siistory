@@ -102,10 +102,11 @@ public class MainPageController {
 	public String postLogin(@ModelAttribute MemberDto memberDto,
 			HttpSession session) {
 		MemberDto login = memberDao.login(memberDto);
-//		log.info("member_pw = {}", memberDto.getMember_pw());
-//		log.info("login = {}", login);
+		log.info("member_pw = {}", memberDto.getMember_pw());
+		log.info("login = {}", login);
 		if(login != null){
 			boolean correct = encoder.matches(memberDto.getMember_pw(), login.getMember_pw());
+			log.info("correct = {}", correct);
 			if(correct) {
 				String url = "";
 				session.setAttribute("email", login.getEmail());
