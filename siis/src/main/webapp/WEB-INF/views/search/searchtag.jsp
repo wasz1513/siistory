@@ -26,6 +26,19 @@
 <article>
 <!-- 게시판 -->
 	<section>
+	
+		<c:if test="${empty dtolist}">
+		<div class="container">
+			<div class="row">
+				<div class="col-md">
+					<div>
+						<h1>검색결과가 없습니다</h1>
+					</div>		
+				</div>
+			</div>	
+		</div>
+		</c:if>
+	
 		<div class="container scroll-div">
 		
 			<!-- content -->

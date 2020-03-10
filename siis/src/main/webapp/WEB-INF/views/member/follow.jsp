@@ -93,6 +93,19 @@ $(function(){
 
 <article>
 	<section>
+	
+		<c:if test="${empty list}">
+		<div class="container">
+			<div class="row">
+				<div class="col-md">
+					<div>
+						<h1>친구요청이 없습니다</h1>
+					</div>		
+				</div>
+			</div>	
+		</div>
+		</c:if>
+	
 		<table class="table table-hover">
 			<tbody>
 				<c:forEach var="memberFollowVo" items="${list}">
