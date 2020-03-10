@@ -3,6 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.js"></script>
 
 <script>
 	$(function() {
@@ -20,7 +24,7 @@
 			$(this).next().slideUp();
 			$(this).removeClass("updown");
 			$(this).addClass("dropdown");
-		});
+		});		
 
 	});
 </script>
@@ -72,6 +76,11 @@ section {
 .new-friend{
 	color:orange;
 }
+
+.r * {
+	font-size:0.8rem;
+}
+
 </style>
 
 <article>
@@ -151,7 +160,7 @@ section {
 
 			<!-- content -->
 			<c:forEach var="content" items="${dtolist }">
-				<div class="card mb-3">
+				<div class="card mb-3 ${content.member_no }">
 					<div class="card-body" data-seq="${content.board_no }">
 						<!-- 본문관련 -->
 						<div class="media p-3">
@@ -159,9 +168,25 @@ section {
 								src="${pageContext.request.contextPath }/util/download?member_no=${content.member_no}"
 								class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 							<div class="media-body">
+								<div class="d-flex">
+								<div class="p-2">
 								<h4>${content.board_writer }
 									<small><i>Posted on February 19, 2016</i></small>
 								</h4>
+								</div>
+								<div class="p-2 ml-auto">
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    <i class="fas fa-ellipsis-h"></i>
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<button class="btn warningadd dropdown-item" data-target_no="${content.member_no}"
+											data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">게시물 신고</button>
+									<button class="btn dropdown-item following">친구 취소</button>
+									</div>
+								</div>
+								</div>
+								</div>
 								<c:if test="${content.photo == 1 }">
 									<a href="post/${content.board_no }"> <img
 										src="${pageContext.request.contextPath }/post/image/${content.board_no }"
@@ -173,10 +198,6 @@ section {
 							</div>
 						</div>
 						
-						<button class="btn warningadd" data-target_no="${content.member_no}"
-											data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">신고하기	</button>
-
-
 						<c:choose>
 							<c:when test="${content.board_like != sessionScope.member_no}">
 								<button class="btn good-btn good-on"
@@ -196,17 +217,11 @@ section {
 									data-content_no="${content.board_no}" data-content_type="board"
 									data-content_play="good"><a href="#">좋아요 취소</a></button>
 							</c:otherwise>
-
-
 						</c:choose>
-						<a>(좋아요  total = </a>
-										<a>${content.board_like_count}</a> 
-										<a>개 )</a>	
-
+						<a>${content.board_like_count} 개</a> 
 					</div>
 
 					<!-- 여기서부터 댓글 -->
-					<c:if test="${!empty content.replylist }">
 					<c:forEach var="reply" items="${content.replylist }">
 						<c:if test="${not empty reply.reply_writer}">
 						<ul class="list-group list-group-flush r"
@@ -242,9 +257,7 @@ section {
 										</c:otherwise>
 										
 										</c:choose>
-										<a>(좋아요  total = </a>
-										<a>${reply.reply_like_count}</a> 
-										<a>개 )</a>	
+										<a>${reply.reply_like_count} 개</a> 
 										
 										<button class="btn replyadd">답글달기</button>	
 										<button class="btn commentview">답글 보기(??개)</button>
@@ -257,7 +270,6 @@ section {
 						</ul>
 						</c:if>
 					</c:forEach>
-					</c:if>
 					<!-- 여기까지 댓글 -->
 
 					<c:if test="${content.board_reply_count > 2 }">
@@ -292,6 +304,5 @@ section {
 	</aside>
 
 </article>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

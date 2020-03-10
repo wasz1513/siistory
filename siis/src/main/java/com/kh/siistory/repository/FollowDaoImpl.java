@@ -86,7 +86,12 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
+	public List<MemberFollowVo> push_friend(int member_no) {
+		return sqlSession.selectList("push-friend", member_no);
+	}
+	
 	public int check_followingcount(int member_no) {
 		return sqlSession.selectOne("follow.followingcount", member_no);
+
 	}
 }
