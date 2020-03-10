@@ -6,7 +6,7 @@ import com.kh.siistory.entity.FollowDto;
 import com.kh.siistory.vo.MemberFollowVo;
 
 public interface FollowDao {
-	int following(FollowDto followDto);
+int following(FollowDto followDto);
 	
 	void follower(FollowDto followDto);
 
