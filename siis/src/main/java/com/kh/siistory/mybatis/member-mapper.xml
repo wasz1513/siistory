@@ -163,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 <!-- 	자기자신 친구 -->
 	<insert id="me" parameterType="seqVo">
-		insert into friend_test values(friend_test_seq.nextval, #{seq_no}, #{seq_no}, 1, 1, 1)
+		insert into friend_test values(friend_test_seq.nextval, #{seq_no}, 1, 1, 1, 1)
 	</insert>	
 	
 <!-- 	태그 검색 -->
