@@ -103,17 +103,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 	친구 추천 목록 -->
 	<select id="push-friend" parameterType="int" resultType="memberFollowVo">
-		select
-		    M.member_no, 
+           		select 
+		    M.member_no,
 		    M.email, 
 		    M.member_name ,
 		    F.follower,
 		    F.following,
-		    F.friend_state
+		    F.friend_state,
+            f.count
 		from 
 		    member M
-		        inner join (select * from friend_test where member_no=#{member_no} and friend_state=1) F on M.member_no = F.friend_no
-		where M.member_state='정상' order by F.seq_no desc
+		        inner join (select * from (
+                select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no})
+                ) FF left outer join 
+                (
+                select friend_no fn,count(*) as count from
+ (select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no}) and friend_state =1) group by friend_no
+ ) FC on  FF.friend_no = fc.fn) F on M.member_no= F.friend_no
+		where M.member_state='정상' and F.friend_no != #{member_no} and F.friend_no not in (select friend_no from friend_test where member_no=#{member_no}) order by count desc
 	</select>	
 	
 	

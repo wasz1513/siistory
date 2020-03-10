@@ -89,7 +89,7 @@ public class FollowDaoImpl implements FollowDao{
 
 	@Override
 	public List<MemberFollowVo> push_friend(int member_no) {
-		return sqlSession.selectList("follow.myfriend", member_no);
+		return sqlSession.selectList("push-friend", member_no);
 	}
 	
 	

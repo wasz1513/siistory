@@ -169,7 +169,7 @@ $(function() {
 													content_play).append(total_count);
 					
 					$(".badge-pill").text(msg.alarmList.length);
-					console.log(msg[index]);
+					
 										
 				}
 				
@@ -184,17 +184,74 @@ $(function() {
 				
 
 			}
-			// setting = 9;
+//			 setting = 9;
 			else if (msg.status == 9) {
 				send_alarm(member_no, 8);
 
 			}//
+			// 친구 추천 목록 
+			else if (msg.status == 11){
+				$(".dropdown_push").empty();
+				
+				for ( var index in msg.flist_data) {
+//					var http = "http://" + host + context
+//							+ "/messenger/chat?room_no=" + room_no
+//							+ "&friend_no=" + msg.flist_data[index].member_no;
+					console.log(msg.flist_data)
+					var ment = ""
+							+msg.flist_data[index].count+" 명의 친구가" 
+							+ msg.flist_data[index].member_name + " 님을 함께 알고 있습니다. 친구를 맺어보아요~^^"
+					
+				
+					var btn = $("<button>").attr("type", "button").attr(
+							"class",
+							"btn btn-dark btn-lg btn-block push-friend");
 
-			console.log(e.data);
+					var alarm_message = btn.text(ment);
+					var member_no1 = $("<a>").addClass("member_no-push").hide()
+							.text(member_no);
+					var target_no = $("<a>").addClass("target_no-push").hide()
+							.text(msg.flist_data[index].member_no);
+					var member_name = $("<a>").addClass("member_name-push").hide()
+							.text(msg.flist_data[index].member_name);
+					var count = $("<a>").addClass("count-push").hide()
+					.text(msg.flist_data[index].count);
+					
+					var follower = $("<a>").addClass("follower-push")
+							.hide().text(msg.flist_data[index].follower)
+					var following = $("<a>").addClass("following-push")
+							.hide().text(msg.flist_data[index].following);
+					var following_state = $("<a>").addClass("following_state-push")
+							.hide().text(msg.flist_data[index].follo_state);
+
+					$(".dropdown_push").append(alarm_message).append(
+											member_no1).append(target_no)
+											.append(member_name).append(
+													count).append(
+															follower).append(
+																	following).append(following_state);
+					
+					$(".badge-pill-push").text(msg.flist_data.length);
+
+				}
+				
+				
+			}//
+
+	
 		};
 
+		
+		$(document).on("click",".push-friend",function(event){
+			var member_name = $(this).next().next().next().text();
+			window.location.href = "http://"+ host + context+"/search/?type=member_name&keyword="+member_name;
+			
+		});
+		
+
+		
+		
 		$(document)
-				.off()
 				.on(
 						"click",
 						".go-content",
@@ -233,6 +290,12 @@ $(function() {
 
 	}// connect
 	;
+	
+
+	
+	
+	
+	
 
 	// 메시지 받고 출력하는 코드
 

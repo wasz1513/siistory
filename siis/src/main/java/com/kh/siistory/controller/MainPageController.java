@@ -230,18 +230,16 @@ public class MainPageController {
 		
 		int count = user_count;
 
-		
-		
 		 HttpServletRequest req =
 		 ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).
 		 getRequest(); req.setAttribute("user_count", count);
 		 
 	}
 	
-	@GetMapping("{member}")
-	public String memberpage(@PathVariable("member") String member, Model model) {
-		return "member";
-	}
+//	@GetMapping("{member}")
+//	public String memberpage(@PathVariable("member") String member, Model model) {
+//		return "member";
+//	}
 }
 
 
