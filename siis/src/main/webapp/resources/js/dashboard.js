@@ -112,6 +112,24 @@ $(function(){
 		});
 	});
 	
+	$(".following").click(function(){
+		var url = "util/follow";
+		var method = "post";
+		
+		var member_no = $(this).prev(".warningadd").data("pusher_no");
+		var friend_no = $(this).prev(".warningadd").data("target_no");
+		
+		$.ajax({
+			url : url,
+			type : method,
+			data : {'member_no':member_no, 'friend_no':friend_no, 'following':0},
+			context: this,
+			success:function(resp){
+				console.log("성공");
+				$("."+friend_no).hide();
+			}
+		});			
+	});
 });
 	
 	

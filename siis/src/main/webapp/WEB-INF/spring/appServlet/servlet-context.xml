@@ -79,6 +79,7 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	
+
 	<!--	인터셉터 -->
 	<interceptors>
 <!-- 		로그인 -->
