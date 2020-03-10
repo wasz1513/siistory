@@ -365,17 +365,31 @@ public class MessengerServer extends TextWebSocketHandler {
 		} else if (type==1){
 			friendList = followDao.push_friend(no);
 		}
-		Collections.sort(friendList, new Comparator<MemberFollowVo>() {
-			@Override
-			public int compare(MemberFollowVo o1, MemberFollowVo o2) {
-				return o1.getMember_name().charAt(0) - o2.getMember_name().charAt(0);
-			}
-		});
+		
+		if(type==0) {
+			Collections.sort(friendList, new Comparator<MemberFollowVo>() {
+				@Override
+				public int compare(MemberFollowVo o1, MemberFollowVo o2) {
+					return o1.getMember_name().charAt(0) - o2.getMember_name().charAt(0);
+				}
+			});
+			
+		} else if (type==1) {
+			
+			Collections.sort(friendList, new Comparator<MemberFollowVo>() {
+				@Override
+				public int compare(MemberFollowVo o1, MemberFollowVo o2) {
+					return -(o1.getCount() - o2.getCount());
+				}
+			});
+		}
 
 		// [2]전체 유저 저장시 항시 정렬 (일단 저장소를 Array리스트로 변환 ) >> 추후 이름순으로 바꿀 예정
 		List<WebSocketUser> connectUser = new ArrayList<WebSocketUser>(userList);
 		// 정렬
-
+		if(type==0) {
+			
+		
 		Collections.sort(connectUser, new Comparator<WebSocketUser>() {
 
 			@Override
@@ -406,6 +420,7 @@ public class MessengerServer extends TextWebSocketHandler {
 
 				}
 			}
+		}
 		}
 		return friendList;
 	}
