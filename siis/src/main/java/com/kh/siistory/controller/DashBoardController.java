@@ -87,6 +87,7 @@ public class DashBoardController {
 	}
 
 	@PostMapping("/private")
+	@ResponseBody
 	public void boardPrivate(@ModelAttribute BoardDto boardDto, HttpSession session) {
 		boardDao.setPrivate(boardDto);
 	}
