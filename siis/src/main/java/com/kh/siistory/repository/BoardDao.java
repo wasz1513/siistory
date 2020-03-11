@@ -15,5 +15,7 @@ public interface BoardDao {
 	void setPrivate(BoardDto boardDto);
 	BoardDto getphotopost(int boardno, Map<String, Integer> paging);
 	void deletepost(int board_no);
+	List<BoardDto> getfriendlist(String member, int member_no);
+
 }
 
