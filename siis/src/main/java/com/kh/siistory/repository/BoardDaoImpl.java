@@ -30,9 +30,10 @@ public class BoardDaoImpl implements BoardDao {
 
 		map.put("member_no", (int) session.getAttribute("member_no"));
 		map.put("board_writer", (String) session.getAttribute("member_name"));
-
 		map.put("board_content", patternconvert(contentVo.getBoard_content()));
+		map.put("board_state", contentVo.getBoard_state());
 		map.put("piclist", contentVo.getBoard_pic_no());
+		
 		if (contentVo.getBoard_pic_no() != null) {
 			map.put("photo", 1);
 		} else {
@@ -40,6 +41,7 @@ public class BoardDaoImpl implements BoardDao {
 		}
 
 		map.put("board_no", contentVo.getBoard_no());
+		
 		sqlSession.insert("board.write", map);
 		return sqlSession.selectOne("board.getcontent", (int) map.get("board_no"));
 	}
@@ -93,6 +95,11 @@ public class BoardDaoImpl implements BoardDao {
 		}
 
 		return match.appendTail(result).toString();
+	}
+
+	@Override
+	public void deletepost(int board_no) {
+		sqlSession.delete("board.deletepost", board_no);
 	}
 
 }

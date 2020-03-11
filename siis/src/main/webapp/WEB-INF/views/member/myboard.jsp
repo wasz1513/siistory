@@ -143,19 +143,31 @@ section {
 								src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}"
 								class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 							<div class="media-body">
-								<div class="d-flex">
-								<div class="p-2">
-								<h4>${content.board_writer }
-									<small><i>Posted on February 19, 2016</i></small>
-								</h4>
-								</div>
-								<div class="p-2 ml-auto">
-								    <select class="custom-select private_option" data-board_no="${content.board_no}">
-									    <option value="0" <c:if test="${content.board_state==0}">selected</c:if>>전체공개</option>
-										<option value="1" <c:if test="${content.board_state==1}">selected</c:if>>친구공개</option>
-										<option value="2" <c:if test="${content.board_state==2}">selected</c:if>>비공개</option>
-								    </select>
-								</div>
+								<div class="d-flex mp-3">
+									<div class="p-2 mr-auto">
+									<h4>${content.board_writer }
+										<small><i>Posted on February 19, 2016</i></small>
+									</h4>
+									</div>
+									<div class="p-2">
+									    <select class="custom-select private_option" data-board_no="${content.board_no}">
+										    <option value="0" <c:if test="${content.board_state==0}">selected</c:if>>전체공개</option>
+											<option value="1" <c:if test="${content.board_state==1}">selected</c:if>>친구공개</option>
+											<option value="2" <c:if test="${content.board_state==2}">selected</c:if>>비공개</option>
+									    </select>
+									</div>
+									<div class="p-2">
+										<div class="dropdown">
+											<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											    <i class="fas fa-ellipsis-h"></i>
+											</button>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<button class="btn dropdown-item" data-target_no="${content.member_no}"
+													data-pusher_no="${member_no}" data-board_no="${content.board_no}" data-board_writer="${content.board_writer }">수정하기</button>
+											<button class="btn dropdown-item deletepost" data-board_no="${content.board_no}">삭제하기</button>
+											</div>
+										</div>
+									</div>
 								</div>
 								<c:if test="${content.photo == 1 }">
 									<a href="post/${content.board_no }"> <img

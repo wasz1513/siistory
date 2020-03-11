@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select board_seq.nextval as board_no from dual
 		</selectKey>
 		insert all
-			into board(board_no, board_content, member_no, board_writer, photo) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer}, #{photo})
+			into board(board_no, board_content, member_no, board_writer, board_state, photo) values(#{board_no}, #{board_content}, #{member_no}, #{board_writer}, #{board_state}, #{photo})
 		<if test="piclist != null">
 			<foreach collection="piclist" item="pic" separator=" ">
 				into bpconnect(bpconnect_seq, board_no, board_pic_no) values(getbp_seq(), #{board_no}, #{pic})
@@ -89,6 +89,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where 
 			rk between #{start} and #{end}
 	</select>
+	
+	<delete id="deletepost">
+		delete from board where board_no = #{board_no}
+	</delete>
 
 	
 </mapper>

@@ -94,10 +94,15 @@ public class DashBoardController {
 	
 	@GetMapping("{postno}")
 	public String getphotopost(@PathVariable("postno") int boardno, @RequestParam Map<String, Integer> paging, Model model) {
-		log.info("dto = {}", boardDao.getphotopost(boardno, paging) );
 		model.addAttribute("photolist", fileService.getphotolist(boardno));
 		model.addAttribute("photopost", boardDao.getphotopost(boardno, paging));
 		return "post";
+	}
+	
+	@GetMapping("/delete")
+	@ResponseBody
+	public void deletepost(@RequestParam int board_no) {
+		boardDao.deletepost(board_no);
 	}
 
 }
