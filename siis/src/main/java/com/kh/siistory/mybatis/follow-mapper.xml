@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        inner join (select * from friend_test where member_no=#{member_no} and friend_state=1) F on M.member_no = F.friend_no
-		where M.member_state='정상' order by F.seq_no desc
+		where M.member_state='정상' and M.member_no!=1 order by F.seq_no desc
 	</select>	
 	
 <!-- 	친구요청 거절 -->
@@ -124,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from 
 		    member M
 		        inner join (select * from (
-                select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no}) and friend_state=1 
+                select * from friend_test where member_no in (select friend_no from friend_test where member_no=#{member_no} and friend_no!=1) and friend_state=1
                 ) FF left outer join 
                 (
                 select friend_no fn,count(*) as count from

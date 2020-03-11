@@ -129,16 +129,21 @@ section {
 						class="mr-3 mt-3 rounded-circle" style="width: 50px;">
 					<div class="media-body">
 						<h4>${sessionScope.member_name }</h4>
-						<textarea id="summernote" name="editordata"></textarea>
+						<textarea id="summernote" name="editordata" required="required"></textarea>
+						<button type="button" onclick="fileUploadAction();"
+										class="btn btn-secondary my_button">
+										사진추가
+									</button>
+									<select class="custom-select private_option" data-board_no="${content.board_no}">
+									    <option value="0" <c:if test="${content.board_state==0}">selected</c:if>>전체공개</option>
+										<option value="1" <c:if test="${content.board_state==1}">selected</c:if>>친구공개</option>
+										<option value="2" <c:if test="${content.board_state==2}">selected</c:if>>비공개</option>
+								    </select>
+									<button type="button" class="btn btn-primary upload" disabled="disabled">게시!!!!!!!!!!!!!!!!!</button>
 						<form class="imgsupload" method="post"
 							enctype="multipart/form-data">
 							<div>
 								<div class="input_wrap">
-									<button type="button" onclick="fileUploadAction();"
-										class="btn btn-secondary my_button">
-										<i class="fas fa-camera"></i>
-									</button>
-									<button type="button" class="btn btn-primary upload" disabled="disabled">게시!!!!!!!!!!!!!!!!!</button>
 									<input type="file" id="input_imgs" name="sel_files" multiple />
 								</div>
 							</div>
