@@ -225,7 +225,7 @@ $(function(){
 									</td>
 									<td>
 									<a href="${pageContext.request.contextPath}/post/${board.board_no}">[상세보기]</a> 
-									<a href="#">[삭제]</a> 
+									<a href="${pageContext.request.contextPath}/post/delete?board_no=${board.board_no}">[삭제]</a> 
 									</td>
 								</tr>
 							</c:forEach>
