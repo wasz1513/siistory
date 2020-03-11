@@ -23,27 +23,28 @@ $(function() {
 
 	// textarea 전송
 	$(".upload").click(function(e) {
-				var contentVo = {
-					'board_content' : $("#summernote").val(),
-					'board_pic_no' : $("#summernote").data("boardpicno")
-				};
+		var contentVo = {
+			'board_content' : $("#summernote").val(),
+			'board_pic_no' : $("#summernote").data("boardpicno"),
+			'board_state' : $(".open").val()
+		};
 
-				$.ajax({
-					url : 'post/addcontent',
-					type : 'post',
-					data : JSON.stringify(contentVo),
-					contentType : "application/json",
-					context : this,
-					success : function(data) {
-						$('#summernote').summernote('reset');
-						sel_files = [];
-						$(".imgs_wrap").empty();
-						$(this).parents(".scroll-div").find(".editor").after(
-								addcontent(data));
-					}
+		$.ajax({
+			url : 'post/addcontent',
+			type : 'post',
+			data : JSON.stringify(contentVo),
+			contentType : "application/json",
+			context : this,
+			success : function(data) {
+				$('#summernote').summernote('reset');
+				sel_files = [];
+				$(".imgs_wrap").empty();
+				$(this).parents(".scroll-div").find(".editor").after(addcontent(data));
+				$(".open option:eq(0)").prop("selected", true);
+			}
 
-				})
-			});
+		})
+	});
 });
 
 function handleImgFileSelect(e) {

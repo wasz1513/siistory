@@ -52,7 +52,7 @@ $(function(){
 		var replyseq = $(this).parent().prev(".replycontent").data("replyseq");
 		
 		$.ajax({
-			url:"post/replyinsert",
+			url:"/siistory/post/replyinsert",
 			type:"post",
 			data:{'board_no':boardseq, 'super_no':replyseq, 'reply_content':content},
 			dataType:"JSON",
@@ -77,7 +77,7 @@ $(function(){
 		var count = $(this).data("click");
 
 		$.ajax({
-			url:"post/morereply",
+			url:"/sisstory/post/morereply",
 			type:"get",
 			data:{'board_no':board_no, 'start':(count*10)+1, 'end':(count*10)+10},
 			context:this,
@@ -97,7 +97,7 @@ $(function(){
 		var board_no = $(this).parents(".mb-3").find(".card-body").data("seq");
 		
 		$.ajax({
-			url:"post/commentview?super_no="+super_no+"&board_no="+board_no,
+			url:"/siistory/post/commentview?super_no="+super_no+"&board_no="+board_no,
 			type:"get",
 			context:this,
 			success:function(data){
@@ -110,7 +110,7 @@ $(function(){
 	});
 	
 	$(".following").click(function(){
-		var url = "util/follow";
+		var url = "/siistory/util/follow";
 		var method = "post";
 		
 		var member_no = $(this).prev(".warningadd").data("pusher_no");
@@ -143,6 +143,20 @@ $(function(){
 			context:this
 		});				
 	});
+	
+	$(document).on("click", ".deletepost", function(){
+		var board_no = $(this).data("board_no");
+		
+		$.ajax({
+			url : "/siistory/post/delete?board_no="+board_no,
+			type : "get",
+			context : this,
+			success : function(){
+				console.log("성공")
+				$(this).parents(".mb-3").remove();
+			}
+		});
+	});
 });
 
 	
@@ -152,7 +166,7 @@ function replyadd(data){
 	html += '<ul class="list-group list-group-flush r" data-seq="'+data.reply_no+'" data-writer="'+data.reply_writer+'">';
 	html += '<li class="list-group-item rr">';
 	html += '<div class="media p-3">';
-	html += '<img src="util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
+	html += '<img src="/siistory/util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body" id="'+data.reply_no+'">';
 	html += '<h4>'+data.reply_writer+' <small><i>Posted on ?? days ago</i></small></h4>';
 	html += '<p>'+data.reply_content+'</p>';
@@ -171,7 +185,7 @@ function replyadd(data){
 function commentadd(data){
 	var html = "";
 	html += '<div class="media p-3">';
-	html += '<img src="util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
+	html += '<img src="/siistory/util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body" id="'+data.reply_no+'">';
 	html += '<h4>'+data.reply_writer+' <small><i>Posted on ?? days ago</i></small></h4>';
 	html += '<p>'+data.reply_content+'</p>';
