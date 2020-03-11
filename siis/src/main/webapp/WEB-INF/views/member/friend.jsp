@@ -55,6 +55,11 @@
 					${myfriend.member_name}
 					</div>
 				</a>
+				<a href="${pageContext.request.contextPath}/member/${myfriend.member_name}">
+					<div class="myfriend-board">
+					게시글 보기					
+					</div>
+				</a>
 			</div>
 		</c:forEach>
 	</section>

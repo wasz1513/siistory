@@ -267,6 +267,11 @@ $(function(){
 					</c:choose>
 			      </th>
 			    </tr>
+			    <tr>
+			    	<th colspan="3">
+			    	<a href="${pageContext.request.contextPath}/member/${memberInfo.member_name}" class="btn btn-outline-success follow-btn">게시글 보기</a>
+			    	</th>
+			    </tr>
 		  	</tbody>
 		</table> 
 

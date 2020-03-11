@@ -176,8 +176,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/{member}")
-	public String memberpage(@PathVariable("member") String member, Model model) {
-		
+	public String memberpage(@PathVariable("member") String member, Model model,HttpSession session) {
+		int member_no = (int)session.getAttribute("member_no");
+		model.addAttribute("dtolist",boardDao.getfriendlist(member, member_no));
 		return "member";
 	}
 	
