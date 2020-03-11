@@ -67,7 +67,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 (select * from reply where depth = 0) r left outer join (select * from reply_like where member_no = #{member_no}) rl  on r.reply_no = rl.reply_no) rr
             on bb.board_no = rr.board_no
 			)
-			where board_writer= #{member_name} and board_state  <![CDATA[<]]> 2 order by board_wdate desc
+			where board_writer= #{member_name} and board_state  
+			<if test="member_no!=1">
+			<![CDATA[<]]> 2 
+			</if>
+			<if test="member_no==1">
+			<![CDATA[<]]> 100
+			</if>
+			order by board_wdate desc
 
 	</select>
 	
