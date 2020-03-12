@@ -194,11 +194,11 @@
 	    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/search" method="get">
 
 	      <select class="form-control" id="exampleSelect1" name="type">
-		    <option value="popular">Popular</option>
+		   
 		    <option value="email">Email</option>
 		    <option value="member_name">Name</option>
 		    <option value="tag">Tag</option>
-		    <option value="location">Location</option>
+		    
 	      </select>
 	      <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword">
 	      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
