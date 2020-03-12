@@ -17,15 +17,12 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.siistory.controller.MainPageController;
 import com.kh.siistory.entity.AlarmDto;
 import com.kh.siistory.entity.BoardLikeDto;
 import com.kh.siistory.entity.ReplyLikeDto;
 import com.kh.siistory.repository.AlarmDao;
-import com.kh.siistory.repository.BoardLikeDao;
 import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
-import com.kh.siistory.repository.ReplyLikeDao;
 import com.kh.siistory.vo.AlarmData;
 import com.kh.siistory.vo.FriendListData;
 import com.kh.siistory.vo.MemberFollowVo;
@@ -99,12 +96,6 @@ public class MessengerServer extends TextWebSocketHandler {
 	@Autowired
 	private MemberDao memberDao;
 
-	@Autowired
-	private BoardLikeDao boardlikeDao;
-
-	@Autowired
-	private ReplyLikeDao replylikeDao;
-	
 	@Autowired
 	private HttpSession session0;
 
@@ -234,22 +225,18 @@ public class MessengerServer extends TextWebSocketHandler {
 					// 정보를 담았다 .
 					if (data.getContent_type().equals("board")) {
 //					게시글 좋아요 테이블DB + 알람 DB 저장
-//					boardlikeDao.insert(boardlikeDto);
 						alarmDao.insert(alarmDto);
 					} else if (data.getContent_type().equals("reply")) {
-//					replylikeDao.insert(replylikeDto);
 						alarmDao.insert(alarmDto);
 					}
 					// 취소라면 ?
 				} else if (data.getStatus() == 5) {
 					
 					if (data.getContent_type().equals("board")) {
-//					boardlikeDao.delete(boardlikeDto);
 						alarmDao.delete(alarmDto);
 
 						// 삭제했으니 갱신하도록 다시 메시지 뿌려라
 					} else if (data.getContent_type().equals("reply")) {
-//					replylikeDao.delete(replylikeDto);
 						alarmDao.delete(alarmDto);
 					} else if (data.getContent_type().equals("friend")) {
 						alarmDao.delete(alarmDto);

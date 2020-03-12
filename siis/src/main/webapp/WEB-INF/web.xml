@@ -33,6 +33,27 @@
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 	
+<!-- 	에러 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error?code=403</location>	
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error?code=403</location>	
+	</error-page>
+	
+	<error-page>
+		<error-code>405</error-code>
+		<location>/error?code=403</location>	
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error?code=403</location>	
+	</error-page>
+	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

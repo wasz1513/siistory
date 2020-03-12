@@ -45,7 +45,7 @@ $(function(){
   <button class="list-group-item list-group-item-action dropdown">게시글</button>
   <div class="dropdown-list">
   	<a href="${pageContext.request.contextPath}/admin/boardmanagement" class="list-group-item list-group-item-action detail-list">게시글검색</a>
-  	<a href="#" class="list-group-item list-group-item-action detail-list">신고관리</a>
+  	<a href="${pageContext.request.contextPath}/admin/threeout" class="list-group-item list-group-item-action detail-list">신고관리</a>
   </div>
   <button class="list-group-item list-group-item-action dropdown">통계분석</button>
   <div class="dropdown-list">
