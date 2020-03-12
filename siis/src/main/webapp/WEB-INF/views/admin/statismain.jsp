@@ -186,6 +186,9 @@ series.columns.template.adapter.add("fill", function(fill, target) {
 			<div class="row form-group">
 				<div id="chartdiv"></div>
 			</div>
+			<div class="row form-group">
+				<h5 class = user-count></h5>
+			</div>
 		</div>
 	</section>
 	

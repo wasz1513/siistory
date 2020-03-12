@@ -95,7 +95,7 @@ function previewImage(target){
 					    <th scope="row">전화번호</th>
 					    <td>
 					    	<div class="form-group">
-							  <input type="text" name="member_phone" value="${memberVo.member_phone}" class="form-control" id="inputDefault">
+							  <input type="text" name="member_phone" value="${memberVo.member_phone}" class="form-control" id="inputDefault" placeholder="ex)01087947897">
 							</div>
 					    </td>
 				    </tr>

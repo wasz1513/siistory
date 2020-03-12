@@ -175,7 +175,14 @@ public class AdminController {
 	@GetMapping("/warninglist")
 	public String warninglist(HttpServletRequest req,
 			Model model) {
-		WarningVo warningVo = WarningVo.builder().build();
+		WarningVo warningVo = WarningVo.builder()
+											.target_type(req.getParameter("target_type"))
+											.pusher_type(req.getParameter("pusher_type"))
+											.target_keyword(req.getParameter("target_keyword"))
+											.pusher_keyword(req.getParameter("pusher_keyword"))
+											.content_keyword(req.getParameter("content_keyword"))
+											.state(req.getParameter("state"))
+										.build();
 		
 		int pagesize = 10;
 		int navsize = 5;
