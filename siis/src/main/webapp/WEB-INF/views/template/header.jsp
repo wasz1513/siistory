@@ -53,6 +53,14 @@
 		min-height: 600px;
 		margin-top:250px;
 		margin-buttom:100px;
+	}
+	
+	.member {
+		color : #1a75ff;
+	}
+	
+	.writer {
+		color : #737373;
 	}	
 	
 	
