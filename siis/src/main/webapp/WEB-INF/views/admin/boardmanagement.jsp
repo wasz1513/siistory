@@ -119,6 +119,7 @@ $(function(){
 												<option value=0>전체공개</option>
 												<option value=1>친구공개</option>
 												<option value=2>비공개</option>
+												<option value=99>정지글</option>
 											</select>
 										</div>
 									</td>
