@@ -45,7 +45,7 @@ section {
 								<c:if test="${content.photo == 1 }">
 									<a href="post/${content.board_no }"> <img
 										src="${pageContext.request.contextPath }/post/image/${content.board_no }"
-										width="100%">
+										width="500px">
 									</a>
 
 								</c:if>

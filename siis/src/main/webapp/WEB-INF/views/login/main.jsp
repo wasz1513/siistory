@@ -169,7 +169,7 @@ section {
 							<div class="media-body">
 								<div class="d-flex">
 								<div class="p-2">
-								<h4>${content.board_writer }
+								<h4><a class='writer' href='/siistory/member/${content.board_writer }'>${content.board_writer }</a>
 									<small><i>Posted on February 19, 2016</i></small>
 								</h4>
 								</div>
@@ -189,7 +189,7 @@ section {
 								<c:if test="${content.photo == 1 }">
 									<a href="post/${content.board_no }"> <img
 										src="${pageContext.request.contextPath }/post/image/${content.board_no }"
-										width="100%">
+										width="500px">
 									</a>
 
 								</c:if>
@@ -232,7 +232,7 @@ section {
 										src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}"
 										class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 									<div class="media-body" id="${reply.reply_no }">
-										<h4>${reply.reply_writer }
+										<h4><a class='writer' href='/siistory/member/${reply.reply_writer }'>${reply.reply_writer }</a>
 											<small><i>Posted on ?? days ago</i></small>
 										</h4>
 										<p>${reply.reply_content }</p>
