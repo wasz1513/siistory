@@ -51,7 +51,7 @@ $(function() {
 
 			else if (msg.status == 3) {
 								
-				$(".user-count").text("총 접속자 수 = " + msg.user_count);
+				$(".user-count").text("현재 접속자 수 = " + msg.user_count);
 
 				/*
 				 * $(".showList").empty(); for ( var index in Friend.flist_data) {
