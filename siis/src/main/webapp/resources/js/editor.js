@@ -124,7 +124,7 @@ function addcontent(data) {
 			+ ' <small><i>Posted on February 19, 2016</i></small></h4>';
 	if (data.photo == 1) {
 		html += '<a href="post/' + data.board_no + '">';
-		html += '<img src="post/image/' + data.board_no + '" width="100%">';
+		html += '<img src="post/image/' + data.board_no + '" width="500px">';
 		html += '</a>';
 	}
 	html += '<p>' + data.board_content + '</p>';
