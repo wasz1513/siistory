@@ -102,6 +102,7 @@ public class BoardDaoImpl implements BoardDao {
 		sqlSession.delete("board.deletepost", board_no);
 	}
 
+
 	@Override
 	public List<BoardDto> getfriendlist(String member, int member_no) {
 		Map<String, Object> map = new HashMap<>();
