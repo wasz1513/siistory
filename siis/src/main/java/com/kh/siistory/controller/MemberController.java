@@ -25,6 +25,7 @@ import com.kh.siistory.repository.FollowDao;
 import com.kh.siistory.repository.MemberDao;
 import com.kh.siistory.service.FileService;
 import com.kh.siistory.service.WarningService;
+import com.kh.siistory.vo.MemberProfileVo;
 import com.kh.siistory.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +67,7 @@ public class MemberController {
 			Model model,
 			@RequestParam int member_no) {
 		int my_member_no = (int) session.getAttribute("member_no");
-		model.addAttribute("memberInfo", memberDao.memberInfo(my_member_no, member_no));
+		model.addAttribute("memberInfo",memberDao.memberInfo(my_member_no, member_no));
 		log.info("my = {}",my_member_no);
 		log.info("you = {}", member_no);
 		log.info("dto = {}",memberDao.memberInfo(my_member_no, member_no));
@@ -176,8 +177,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/{member}")
-	public String memberpage(@PathVariable("member") String member, Model model) {
-		
+	public String memberpage(@PathVariable("member") String member, Model model,HttpSession session) {
+		int member_no = (int)session.getAttribute("member_no");
+		model.addAttribute("dtolist",boardDao.getfriendlist(member, member_no));
 		return "member";
 	}
 	

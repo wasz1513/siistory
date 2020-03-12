@@ -13,4 +13,5 @@ public class ContentVo {
 	private String board_content;
 	private int board_no;
 	private int[] board_pic_no;
+	private int board_state;
 }
