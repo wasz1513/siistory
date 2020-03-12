@@ -168,11 +168,11 @@ function replyadd(data){
 	html += '<div class="media p-3">';
 	html += '<img src="/siistory/util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body" id="'+data.reply_no+'">';
-	html += '<h4><a class="writer" href="/siistory/member/'+data.reply_writer+'">'+data.reply_writer+'</a> <small><i>Posted on ?? days ago</i></small></h4>';
+	html += '<h4><a class="writer" href="/siistory/member/'+data.reply_writer+'">'+data.reply_writer+'</a> <small><i></i></small></h4>';
 	html += '<p>'+data.reply_content+'</p>';
 	html += '<button class="btn">좋아요 ??개</button>';
 	html += '<button class="btn replyadd">답글달기</button>';
-	html += '<button class="btn commentview">답글 보기(??개)</button>';
+	html += '<button class="btn commentview">답글 보기</button>';
 	html += '</div>';
 	html += '</div>';
 	html += '</li>';
@@ -187,7 +187,7 @@ function commentadd(data){
 	html += '<div class="media p-3">';
 	html += '<img src="/siistory/util/download?member_no='+data.writer_no+'" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body" id="'+data.reply_no+'">';
-	html += '<h4><a class="writer" href="/siistory/member/'+data.reply_writer+'">'+data.reply_writer+'</a> <small><i>Posted on ?? days ago</i></small></h4>';
+	html += '<h4><a class="writer" href="/siistory/member/'+data.reply_writer+'">'+data.reply_writer+'</a> <small><i></i></small></h4>';
 	html += '<p>'+data.reply_content+'</p>';
 	html += '<button class="btn">좋아요 ??개</button>';
 	html += '<button class="btn replyadd">답글달기</button>';

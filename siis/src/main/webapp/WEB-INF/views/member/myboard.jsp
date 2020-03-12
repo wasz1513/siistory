@@ -125,7 +125,7 @@ section {
 				<div class="media p-3">
 				  <img src="${pageContext.request.contextPath }/util/download?member_no=${sessionScope.member_no}" class="mr-3 mt-3 rounded-circle" style="width:100px;">
 				  <div class="media-body">
-				    <h4>${member_name } <small><i>Posted on February 19, 2016</i></small></h4>
+				    <h4>${member_name } <small><i></i></small></h4>
 				    <p>Lorem ipsum...</p>
 				  </div>
 				</div>
@@ -145,8 +145,8 @@ section {
 							<div class="media-body">
 								<div class="d-flex mp-3">
 									<div class="p-2 mr-auto">
-									<h4>${content.board_writer }
-										<small><i>Posted on February 19, 2016</i></small>
+									<h4><a class='writer' href='/siistory/member/${content.board_writer }'>${content.board_writer }</a>
+										<small><i></i></small>
 									</h4>
 									</div>
 									<div class="p-2">
@@ -216,8 +216,8 @@ section {
 										src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}"
 										class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 									<div class="media-body" id="${reply.reply_no }">
-										<h4>${reply.reply_writer }
-											<small><i>Posted on ?? days ago</i></small>
+										<h4><a class='writer' href='/siistory/member/${reply.reply_writer }'>${reply.reply_writer }</a>
+											<small><i></i></small>
 										</h4>
 										<p>${reply.reply_content }</p>
 										
@@ -243,7 +243,7 @@ section {
 										<a>${reply.reply_like_count} 개</a> 
 										
 										<button class="btn replyadd">답글달기</button>	
-										<button class="btn commentview">답글 보기(??개)</button>
+										<button class="btn commentview">답글 보기</button>
 
 										<!-- 답글(대댓글) 추가하면 뜨는 곳 -->
 									</div>

@@ -45,8 +45,7 @@ public class DashBoardController {
 
 	@PostMapping("/uploadimage")
 	@ResponseBody
-	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session)
-			throws IllegalStateException, IOException {
+	public Map<String, Object> uploadimage(@RequestParam List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
 		return fileService.Boarduploadimage(sel_files, session);
 	}
 
