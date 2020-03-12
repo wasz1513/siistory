@@ -99,8 +99,8 @@ article {
 											src="${pageContext.request.contextPath }/util/download?member_no=${photopost.member_no}"
 											class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 										<div class="media-body">
-											<h4>${photopost.board_writer }
-												<small><i>Posted on February 19, 2016</i></small>
+											<h4><a class='writer' href='/siistory/member/${photopost.board_writer }'>${photopost.board_writer }</a>
+												<small><i></i></small>
 											</h4>
 											<p>${photopost.board_content}</p>
 										</div>
@@ -112,13 +112,13 @@ article {
 														src="${pageContext.request.contextPath }/util/download?member_no=${reply.writer_no}"
 														class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 													<div class="media-body" id="${reply.reply_no }">
-														<h4>${reply.reply_writer }
-															<small><i>Posted on ?? days ago</i></small>
+														<h4><a class='writer' href='/siistory/member/${reply.reply_writer }'>${reply.reply_writer }</a>
+															<small><i></i></small>
 														</h4>
 														<p>${reply.reply_content}</p>
 														<button class="btn">좋아요 ??개</button>
 														<button class="btn replyadd">답글달기</button>
-														<button class="btn commentview">답글 보기(??개)</button>
+														<button class="btn commentview">답글 보기</button>
 
 														<!-- 답글(대댓글) 추가하면 뜨는 곳 -->
 													</div>
