@@ -170,7 +170,7 @@ section {
 								<div class="d-flex">
 								<div class="p-2">
 								<h4><a class='writer' href='/siistory/member/${content.board_writer }'>${content.board_writer }</a>
-									<small><i>Posted on February 19, 2016</i></small>
+									<small><i></i></small>
 								</h4>
 								</div>
 								<div class="p-2 ml-auto">
@@ -233,7 +233,7 @@ section {
 										class="mr-3 mt-3 rounded-circle" style="width: 30px;">
 									<div class="media-body" id="${reply.reply_no }">
 										<h4><a class='writer' href='/siistory/member/${reply.reply_writer }'>${reply.reply_writer }</a>
-											<small><i>Posted on ?? days ago</i></small>
+											<small><i></i></small>
 										</h4>
 										<p>${reply.reply_content }</p>
 										
@@ -259,7 +259,7 @@ section {
 										<a>${reply.reply_like_count} 개</a> 
 										
 										<button class="btn replyadd">답글달기</button>	
-										<button class="btn commentview">답글 보기(??개)</button>
+										<button class="btn commentview">답글 보기</button>
 
 										<!-- 답글(대댓글) 추가하면 뜨는 곳 -->
 									</div>

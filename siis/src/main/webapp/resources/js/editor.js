@@ -57,48 +57,52 @@ function handleImgFileSelect(e) {
 	var filesArr = Array.prototype.slice.call(files);
 
 	var index = 0;
-	filesArr
-			.forEach(function(f) {
-				if (!f.type.match("image.*")) {
-					alert("확장자는 이미지 확장자만 가능합니다.");
-					return;
+	filesArr.forEach(function(f) {
+		if (!f.type.match("image.*")) {
+			alert("확장자는 이미지 확장자만 가능합니다.");
+			return;
+		}
+
+		var form = $(".imgsupload")[0];
+		var data = new FormData(form);
+		
+		
+		$.ajax({
+			url : 'post/uploadimage',
+			type : 'post',
+			data : data,
+			contentType : false,
+			processData : false,
+			success : function(data) {
+				
+				$("#summernote").data("boardpicno", data.board_pic_no);
+				sel_files.push(f);
+		
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("
+							+ index
+							+ ")\" id=\"img_id_"
+							+ index
+							+ "\"><img src=\""
+							+ e.target.result
+							+ "\" data-file='"
+							+ f.name
+							+ "' class='selProductFile' title='Click to remove' style='width: 200px'></a>";
+					$(".imgs_wrap").append(html);
+					index++;
+		
 				}
-
-				var form = $(".imgsupload")[0];
-				var data = new FormData(form);
-
-				$
-						.ajax({
-							url : 'post/uploadimage',
-							type : 'post',
-							data : data,
-							contentType : false,
-							processData : false,
-							success : function(data) {
-								$("#summernote").data("boardpicno",
-										data.board_pic_no);
-								sel_files.push(f);
-
-								var reader = new FileReader();
-								reader.onload = function(e) {
-									var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("
-											+ index
-											+ ")\" id=\"img_id_"
-											+ index
-											+ "\"><img src=\""
-											+ e.target.result
-											+ "\" data-file='"
-											+ f.name
-											+ "' class='selProductFile' title='Click to remove' style='width: 200px'></a>";
-									$(".imgs_wrap").append(html);
-									index++;
-
-								}
-								reader.readAsDataURL(f);
-							}
-
-						});
-			});
+				reader.readAsDataURL(f);
+			},
+			
+			error : function(err) {
+				console.log(err); 
+//				alert("alert 테스트");
+			}
+			
+		});
+	});
 }
 
 function fileUploadAction() {
@@ -121,7 +125,7 @@ function addcontent(data) {
 			+ '" class="mr-3 mt-3 rounded-circle" style="width: 30px;">';
 	html += '<div class="media-body">';
 	html += '<h4>' + data.board_writer
-			+ ' <small><i>Posted on February 19, 2016</i></small></h4>';
+			+ ' <small><i></i></small></h4>';
 	if (data.photo == 1) {
 		html += '<a href="post/' + data.board_no + '">';
 		html += '<img src="post/image/' + data.board_no + '" width="500px">';
