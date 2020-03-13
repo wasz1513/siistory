@@ -13,10 +13,10 @@ $(function(){
 		var board_no = $(this).data(board_no).board_no;
 		var board_writer=$(this).data(board_writer).board_writer;
 		
-		console.log = (target_no);
-		console.log = (pusher_no);
-		console.log = (board_no);
-		console.log = (board_writer);
+//		console.log = (target_no);
+//		console.log = (pusher_no);
+//		console.log = (board_no);
+//		console.log = (board_writer);
 	
 		window.open(origin+"/"+context+"/member/warning?target_no="+target_no+"&pusher_no="+pusher_no+"&board_no="+board_no+"&board_writer="+board_writer+"",
  				 	"신고 페이지",
@@ -27,7 +27,7 @@ $(function(){
 	
 	$(".replycontent").on("input", function() {
 		if($(this).val() != ''){
-			console.log($(this).val().length)
+//			console.log($(this).val().length)
 			$(this).parents(".mb-3").find(".submit").prop("disabled", false)
 		} else {
 			$(this).parents(".mb-3").find(".submit").prop("disabled", true)
@@ -41,7 +41,7 @@ $(function(){
 		var replyseq = $(this).parents(".r").data("seq");
 		$(this).parents(".mb-3").find(".replycontent").data("replyseq", replyseq);
 		
-		console.log(location.host)
+//		console.log(location.host)
 	});
 	
 	// 댓글 입력 전송 이벤트
@@ -122,7 +122,7 @@ $(function(){
 			data : {'member_no':member_no, 'friend_no':friend_no, 'following':0},
 			context: this,
 			success:function(resp){
-				console.log("성공");
+//				console.log("성공");
 				$("."+friend_no).hide();
 			}
 		});			
@@ -132,8 +132,8 @@ $(function(){
 		
 		var board_no = $(this).data(board_no).board_no;
 		var board_state = $(this).val();
-		console.log(board_state);
-		console.log(board_no);
+//		console.log(board_state);
+//		console.log(board_no);
 		
 		$.ajax({
 			url:"/siistory/post/private",
@@ -152,7 +152,7 @@ $(function(){
 			type : "get",
 			context : this,
 			success : function(){
-				console.log("성공")
+//				console.log("성공")
 				$(this).parents(".mb-3").remove();
 			}
 		});

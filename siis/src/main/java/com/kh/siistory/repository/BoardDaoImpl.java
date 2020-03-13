@@ -54,8 +54,8 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public List<BoardDto> myboardList(HttpSession session) {
 		List<BoardDto> test = sqlSession.selectList("myboard.getlist", (int) session.getAttribute("member_no"));
-		System.out.println("==========testtestsets===============");
-		System.out.println(test);
+//		System.out.println("==========testtestsets===============");
+//		System.out.println(test);
 		
 				
 				
