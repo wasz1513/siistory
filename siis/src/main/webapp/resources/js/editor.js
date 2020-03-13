@@ -54,8 +54,9 @@ function handleImgFileSelect(e) {
 	$(".imgs_wrap").empty();
 
 	var files = e.target.files;
+	var count = 0;
 	var filesArr = Array.prototype.slice.call(files);
-
+	
 	var index = 0;
 	filesArr.forEach(function(f) {
 		if (!f.type.match("image.*")) {
@@ -97,12 +98,18 @@ function handleImgFileSelect(e) {
 			},
 			
 			error : function(err) {
-				console.log(err); 
-//				alert("alert 테스트");
+				count++
+				if(files.length == count ){
+					alert("사진용량이 초과하였습니다. 10MB 이하로 업로드해주세요");
+				}
 			}
 			
 		});
+		
+		
 	});
+	
+	
 }
 
 function fileUploadAction() {
