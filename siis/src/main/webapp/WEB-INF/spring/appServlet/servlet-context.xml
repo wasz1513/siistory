@@ -83,19 +83,12 @@
 	<!--	인터셉터 -->
 	<interceptors>
 <!-- 		로그인 -->
-		<interceptor>
-			<mapping path="/**"/>
-			<exclude-mapping path="/*"/>
-			<exclude-mapping path="/login"/>
-			<exclude-mapping path="/resources/**"/>
-			<exclude-mapping path="/messenger/**"/>
-			<beans:bean class="com.kh.siistory.interceptor.LoginInterceptor"></beans:bean>
-		</interceptor>
 <!-- 		관리자 -->
 		<interceptor>
 			<mapping path="/admin/*"/>
 			<beans:bean class="com.kh.siistory.interceptor.AdminInterceptor"></beans:bean>
 		</interceptor>
+		
 	</interceptors>
 	
 </beans:beans>

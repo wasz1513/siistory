@@ -26,10 +26,4 @@ public class MessengerController {
 
 	}
 	
-	@GetMapping("/messenger/alarm")
-	public String alarm() {
-		return "alarm";
-	}
-	
-
 }

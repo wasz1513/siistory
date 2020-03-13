@@ -78,8 +78,7 @@ public class FileServiceImpl implements FileService {
 
 	// 게시판 사진 업로드
 	@Override
-	public Map<String, Object> Boarduploadimage(List<MultipartFile> sel_files, HttpSession session)
-			throws IllegalStateException, IOException {
+	public Map<String, Object> Boarduploadimage(List<MultipartFile> sel_files, HttpSession session) throws IllegalStateException, IOException {
 
 		// 디렉토리 생성
 		File dir = new File("D:/upload/kh2f/" + "m" + String.valueOf(session.getAttribute("member_no")));
@@ -116,8 +115,6 @@ public class FileServiceImpl implements FileService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("board_pic_no", returnseq);
 
-		log.info("returnseq = {}", returnseq);
-
 		return map;
 	}
 
@@ -140,7 +137,8 @@ public class FileServiceImpl implements FileService {
 
 	// 사진 게시물 이미지 불러오기
 	@Override
-	public void getimageall(int pic, int member, HttpServletResponse resp) throws UnsupportedEncodingException, IOException {
+	public void getimageall(int pic, int member, HttpServletResponse resp)
+			throws UnsupportedEncodingException, IOException {
 		PhotoVo photoVo = boardpicDao.getimageall(pic);
 
 		File target = new File("D:/upload/kh2f/" + "m" + member, photoVo.getBoard_pic_store());
