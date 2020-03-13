@@ -126,8 +126,11 @@ $(function(){
 			      <td colspan="2">${memberVo.member_job}</td>
 			    </tr>
 			    <tr class="table-dark">
-			      <th scope="row" colspan="4">
+			      <th scope="row" colspan="2">
 			      	<a href="modify"><button class="btn btn-outline-info">프로필수정</button></a>
+			      </th>
+			      <th scope="row" colspan="2">
+			      	<a href="${pageContext.request.contextPath}/changePw?email=${memberVo.email}"><button class="btn btn-outline-info">비밀번호 변경</button></a>
 			      </th>
 			    </tr>
 		  	</tbody>
