@@ -47,7 +47,7 @@
 				
 				else if (data.status==2){
 					
-					console.log(data)
+// 					console.log(data)
 					appendMessage(data)
 					
 					
@@ -67,7 +67,7 @@
 			
 
 				me.avatar = "${pageContext.request.contextPath}/util/download?member_no="+data.member_no;
-				console.log (me.avatar)
+// 				console.log (me.avatar)
 				
 				insertChat("me", data.text, 0);
 				
@@ -76,7 +76,7 @@
 			} else {
 		
 				you.avatar = "${pageContext.request.contextPath}/util/download?member_no="+data.member_no;
-				console.log (you.avatar)
+// 				console.log (you.avatar)
 				insertChat("you", data.text, 0);
 			}
 
@@ -195,7 +195,7 @@
 		$(".send-btn").click(function(){
 			
 			var text = $(".user-input").val();
-			console.log(text);
+// 			console.log(text);
 			if(!text) return;
 			
 			send(2,text);

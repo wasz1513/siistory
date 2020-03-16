@@ -197,7 +197,7 @@ $(function() {
 //					var http = "http://" + host + context
 //							+ "/messenger/chat?room_no=" + room_no
 //							+ "&friend_no=" + msg.flist_data[index].member_no;
-					console.log(msg.flist_data)
+//					console.log(msg.flist_data)
 					var ment = ""
 							+msg.flist_data[index].count+" 명의 친구가" 
 							+ msg.flist_data[index].member_name + " 님을 함께 알고 있습니다. 친구를 맺어보아요~^^"
@@ -257,23 +257,23 @@ $(function() {
 						"click",
 						".go-content",
 						function(event) {
-							console.log("컨텐츠 이동")
+//							console.log("컨텐츠 이동")
 
 							
 							
 							var target_no = $(this).next().next().text();
-							console.log(target_no)
+//							console.log(target_no)
 							var pusher_no = $(this).next().next().next().text();
-							console.log(pusher_no)
+//							console.log(pusher_no)
 							var content_no = $(this).next().next().next()
 									.next().text();
-							console.log(content_no)
+//							console.log(content_no)
 							var content_type = $(this).next().next().next()
 									.next().next().text();
-							console.log(content_type)
+//							console.log(content_type)
 							var content_play = $(this).next().next().next()
 									.next().next().next().text();
-							console.log(content_play)
+//							console.log(content_play)
 
 							send_alarm(member_no, 7, target_no, pusher_no,
 									content_no, content_type, content_play);
@@ -364,15 +364,15 @@ $(function() {
 	// 접속 주소 , 방번호 , 상대방 넘버
 	// 1:1 채팅을 시도하면 상대방에게 주소를 보낸다.
 	$(document).on("click", ".invite-chat", function(event) {
-		console.log("채팅 초대")
+//		console.log("채팅 초대")
 		event.preventDefault();
 		var location = $(this).attr("href");
 		var room_no = $(this).next().text();
 		var target_no = $(this).next().next().text();
 		
-		console.log(target_no);
+//		console.log(target_no);
 
-		console.log(room_no);
+//		console.log(room_no);
 
 		send(member_no, location, 20, target_no, room_no);
 
@@ -444,7 +444,7 @@ $(function() {
 
 	// if($(".follow-btn").text()=="팔로우"){
 	$(".follow-btn").off().click(function() {
-		console.log($(".follow-btn").text());
+//		console.log($(".follow-btn").text());
 		var target_no = $(this).prev().val();
 		var member_no = $(this).prev().prev().val();
 		if ($(".follow-btn").text() == "팔로우") {

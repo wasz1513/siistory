@@ -175,7 +175,7 @@ public class MessengerServer extends TextWebSocketHandler {
 			// 친구 추천 리스트 생성
 			List<MemberFollowVo> push_friend = Allrefresh(session, no, 1); 
 			
-			System.out.println("친구 추천 리스트  = " + push_friend);
+//			System.out.println("친구 추천 리스트  = " + push_friend);
 
 			// 유저가 접속한다 > 메시지가 서버에 전송된다. >내 친구중에 있는지 확인한다 > 있으면 갱신한다 > 갱신이 되었다면 나에게 보낸다.
 

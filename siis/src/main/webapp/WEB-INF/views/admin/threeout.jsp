@@ -33,7 +33,7 @@ $(function(){
 			url : "receipt?warning_no="+warning_no+"&member_no="+member_no+"&board_no="+board_no,
 			type : "get",
 			success:function(resp){
-				console.log(resp);
+// 				console.log(resp);
 				if(resp){
 					state.parent().prev().prev().prev().prev().prev().prev().text("접수");
 					state.hide();
@@ -54,7 +54,7 @@ $(function(){
 			url : "hold?warning_no="+warning_no,
 			type : "get",
 			success:function(resp){
-				console.log(resp);
+// 				console.log(resp);
 				if(resp){
 					state.parent().prev().prev().prev().prev().prev().prev().text("보류");
 					state.hide();
